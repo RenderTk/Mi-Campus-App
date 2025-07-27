@@ -1,0 +1,106 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:usap_mobile/models/user.dart';
+import 'package:usap_mobile/providers/auth_provider.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
+import 'package:usap_mobile/widgets/degree_progress_widget.dart';
+
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
+
+    Widget buildLoadingState() =>
+        const Scaffold(body: Center(child: CircularProgressIndicator()));
+
+    Widget buildErrorState() => const Scaffold(
+      body: Center(
+        child: Text(
+          "Ocurrio un error al cargar los datos de su cuenta. Intente mas tarde.",
+        ),
+      ),
+    );
+
+    Widget buildSuccessState(User user) {
+      final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+      return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await ref.read(authProvider.notifier).closeSession();
+              },
+              icon: const Icon(FontAwesomeIcons.bell),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: Image(
+                  image: NetworkImage(
+                    isDarkMode
+                        ? "https://ui-avatars.com/api/?rounded=true&name=${user.name}&background=1E293B&color=CBD5E1"
+                        : "https://ui-avatars.com/api/?rounded=true&name=${user.name}&background=E2E8F0&color=1E293B",
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text(
+                  user.name,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                subtitle: Text(
+                  user.id,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                trailing: IconButton(
+                  onPressed: () async {
+                    await ref.read(authProvider.notifier).closeSession();
+                  },
+                  icon: const Icon(FontAwesomeIcons.rightFromBracket),
+                ),
+              ),
+              DegreeProgressWidget(user: user),
+            ],
+          ),
+        ),
+
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(color: Colors.blue),
+                child: Text('Menu'),
+              ),
+              ListTile(
+                title: const Text('Cerrar Sesión'),
+                onTap: () async {
+                  await ref.read(authProvider.notifier).closeSession();
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return user.when(
+      data: (user) => buildSuccessState(user),
+      error: (error, stackTrace) => buildErrorState(),
+      loading: () => buildLoadingState(),
+    );
+  }
+}

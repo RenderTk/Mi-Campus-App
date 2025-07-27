@@ -102,7 +102,7 @@ class AppTheme {
               ), // Disabled background
               disabledForegroundColor: const Color(0xFF9E9E9E), // Disabled text
               elevation: 3,
-              shadowColor: primaryBlue.withOpacity(0.3),
+              shadowColor: primaryBlue.withValues(alpha: 0.3),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               minimumSize: const Size(88, 48), // Minimum button size
               shape: RoundedRectangleBorder(
@@ -123,8 +123,8 @@ class AppTheme {
                   return primaryBlueDark; // Darker when pressed
                 }
                 if (states.contains(WidgetState.hovered)) {
-                  return primaryBlue.withOpacity(
-                    0.9,
+                  return primaryBlue.withValues(
+                    alpha: 0.9,
                   ); // Slightly transparent on hover
                 }
                 return primaryBlue; // Default background
@@ -171,10 +171,10 @@ class AppTheme {
             ).copyWith(
               backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
                 if (states.contains(WidgetState.pressed)) {
-                  return primaryBlue.withOpacity(0.1);
+                  return primaryBlue.withValues(alpha: 0.1);
                 }
                 if (states.contains(WidgetState.hovered)) {
-                  return primaryBlue.withOpacity(0.05);
+                  return primaryBlue.withValues(alpha: 0.05);
                 }
                 return Colors.transparent;
               }),
@@ -206,10 +206,10 @@ class AppTheme {
             ).copyWith(
               backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
                 if (states.contains(WidgetState.pressed)) {
-                  return primaryBlue.withOpacity(0.1);
+                  return primaryBlue.withValues(alpha: 0.1);
                 }
                 if (states.contains(WidgetState.hovered)) {
-                  return primaryBlue.withOpacity(0.05);
+                  return primaryBlue.withValues(alpha: 0.05);
                 }
                 return Colors.transparent;
               }),
@@ -255,7 +255,7 @@ class AppTheme {
         elevation: 8,
         backgroundColor: Colors.white,
         surfaceTintColor: primaryBlue,
-        indicatorColor: primaryBlue.withOpacity(0.1),
+        indicatorColor: primaryBlue.withValues(alpha: 0.1),
         labelTextStyle: WidgetStateTextStyle.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return GoogleFonts.inter(
@@ -310,7 +310,7 @@ class AppTheme {
       // Chip Theme
       chipTheme: ChipThemeData(
         backgroundColor: surfaceBlue,
-        selectedColor: primaryBlue.withOpacity(0.1),
+        selectedColor: primaryBlue.withValues(alpha: 0.1),
         disabledColor: const Color(0xFFE0E0E0),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -477,7 +477,7 @@ class AppTheme {
               ), // Disabled background
               disabledForegroundColor: const Color(0xFF9E9E9E), // Disabled text
               elevation: 4,
-              shadowColor: primaryBlueLight.withOpacity(0.3),
+              shadowColor: primaryBlueLight.withValues(alpha: 0.3),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               minimumSize: const Size(88, 48),
               shape: RoundedRectangleBorder(
@@ -497,7 +497,7 @@ class AppTheme {
                   return primaryBlue; // Darker blue when pressed
                 }
                 if (states.contains(WidgetState.hovered)) {
-                  return primaryBlueLight.withOpacity(0.9);
+                  return primaryBlueLight.withValues(alpha: 0.9);
                 }
                 return primaryBlueLight; // Default background
               }),
@@ -543,10 +543,10 @@ class AppTheme {
             ).copyWith(
               backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
                 if (states.contains(WidgetState.pressed)) {
-                  return primaryBlueLight.withOpacity(0.1);
+                  return primaryBlueLight.withValues(alpha: 0.1);
                 }
                 if (states.contains(WidgetState.hovered)) {
-                  return primaryBlueLight.withOpacity(0.05);
+                  return primaryBlueLight.withValues(alpha: 0.05);
                 }
                 return Colors.transparent;
               }),
@@ -578,10 +578,10 @@ class AppTheme {
             ).copyWith(
               backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
                 if (states.contains(WidgetState.pressed)) {
-                  return primaryBlueLight.withOpacity(0.1);
+                  return primaryBlueLight.withValues(alpha: 0.1);
                 }
                 if (states.contains(WidgetState.hovered)) {
-                  return primaryBlueLight.withOpacity(0.05);
+                  return primaryBlueLight.withValues(alpha: 0.05);
                 }
                 return Colors.transparent;
               }),
@@ -628,7 +628,7 @@ class AppTheme {
         elevation: 8,
         backgroundColor: const Color(0xFF121212),
         surfaceTintColor: primaryBlueLight,
-        indicatorColor: primaryBlueLight.withOpacity(0.2),
+        indicatorColor: primaryBlueLight.withValues(alpha: 0.2),
         labelTextStyle: WidgetStateTextStyle.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return GoogleFonts.inter(
@@ -683,7 +683,7 @@ class AppTheme {
       // Chip Theme
       chipTheme: ChipThemeData(
         backgroundColor: const Color(0xFF2D2D2D),
-        selectedColor: primaryBlueLight.withOpacity(0.2),
+        selectedColor: primaryBlueLight.withValues(alpha: 0.2),
         disabledColor: const Color(0xFF424242),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

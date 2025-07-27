@@ -36,6 +36,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_riverpod: ^2.6.1
   google_fonts: ^6.2.1
+  jwt_decoder: ^2.0.1
+  copy_with_extension: ^6.0.1
+  json_annotation: ^4.9.0
+  dio: ^5.8.0+1
+  logger: ^2.6.1
+  flutter_secure_storage: ^9.2.4
+  font_awesome_flutter: ^10.8.0
+  fl_chart: ^1.0.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +56,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  build_runner: ^2.6.0
+  json_serializable: ^6.10.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
