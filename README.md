@@ -1,16 +1,52 @@
-# usap_mobile
+# 📱 SIGA USAP App (No oficial)
 
-A new Flutter project.
+Aplicación móvil no oficial para acceder a los servicios del sistema académico [SIGA](https://siga.usap.edu/) de la Universidad de San Pedro Sula (USAP).  
+Construida mediante ingeniería inversa a la API utilizada por el sistema web, esta app ofrece una experiencia moderna, rápida y nativa para estudiantes.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ✨ Características
 
-A few resources to get you started if this is your first Flutter project:
+- 🔐 Inicio de sesión con biometría (huella / Face ID)
+- 📚 Consulta de clases y horarios
+- 📝 Visualización de calificaciones
+- 💰 Consulta de cuotas y pagos pendientes *(solo visualización, pagos deben realizarse en la web oficial)*
+- 📅 Calendario académico integrado *(en desarrollo)*
+- 🔔 Notificaciones personalizadas *(en desarrollo)*
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tecnologías
+
+- **Flutter**: UI nativa para Android & iOS
+- **Dart**: Lenguaje de programación principal
+- **Riverpod**: Manejo de estado
+- **Dio**: Cliente HTTP para consumir la API
+- **Local Auth**: Autenticación biométrica
+- **Material Design / Cupertino**: Estilo nativo por plataforma
+
+---
+
+## 📸 Capturas de pantalla
+
+> *(Próximamente)*
+
+---
+
+## ⚠️ Descargo de responsabilidad
+
+Esta aplicación es **no oficial** y **no está afiliada** con la Universidad de San Pedro Sula (USAP).  
+Su desarrollo tiene fines educativos, personales y de experimentación técnica.
+
+---
+
+
+---
+
+## 🧠 Inspiración
+
+- SIGA Web oficial: [siga.usap.edu](https://siga.usap.edu/)
+- Necesidad real de acceso móvil nativo para estudiantes
+
+---
+
