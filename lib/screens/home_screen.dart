@@ -5,6 +5,8 @@ import 'package:usap_mobile/models/user.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/widgets/degree_progress_widget.dart';
+import 'package:usap_mobile/widgets/quick_access_widget.dart';
+import 'package:usap_mobile/widgets/upcoming_class_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -29,6 +31,12 @@ class HomeScreen extends ConsumerWidget {
 
       return Scaffold(
         appBar: AppBar(
+          title: Image.asset(
+            isDarkMode
+                ? "assets/usap_logo_small_dark.webp"
+                : "assets/usap_logo_small_light.webp",
+            height: 50,
+          ),
           actions: [
             IconButton(
               onPressed: () async {
@@ -52,11 +60,15 @@ class HomeScreen extends ConsumerWidget {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 0,
+                ),
                 title: Text(
                   user.name,
                   style: Theme.of(context).textTheme.titleMedium,
@@ -73,6 +85,8 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
               DegreeProgressWidget(user: user),
+              const QuickAccessWidget(),
+              const UpcomingClassWidget(),
             ],
           ),
         ),
@@ -93,6 +107,23 @@ class HomeScreen extends ConsumerWidget {
               ),
             ],
           ),
+        ),
+        bottomNavigationBar: NavigationBar(
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined, size: 30),
+              label: 'Inicio',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.calendar_month_outlined, size: 30),
+              label: 'Calendario',
+            ),
+
+            NavigationDestination(
+              icon: Icon(Icons.person_outline, size: 30),
+              label: 'Perfil',
+            ),
+          ],
         ),
       );
     }

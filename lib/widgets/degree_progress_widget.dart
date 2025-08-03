@@ -56,15 +56,13 @@ class DegreeProgressWidget extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 230,
-
+      height: 220,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 5,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(user.carrera, style: Theme.of(context).textTheme.titleSmall),
@@ -73,7 +71,7 @@ class DegreeProgressWidget extends StatelessWidget {
                 "Progreso de la carrera",
                 style: Theme.of(context).textTheme.bodySmall,
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 30),
               Center(child: buildDegreeProgressChart(user.progresoCarrera)),
             ],
           ),
