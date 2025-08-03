@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/token.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/services/auth_service.dart';
 import 'package:usap_mobile/services/dio_service.dart';
 import 'package:usap_mobile/services/token_secure_storage_service.dart';
@@ -16,6 +15,8 @@ class AuthNotifier extends AsyncNotifier<Token?> {
   }
 
   Future<void> login(String email, String password) async {
+    state = const AsyncValue.loading();
+
     if (email.isEmpty || password.isEmpty) return;
     final dio = dioService.getDio();
 
@@ -31,33 +32,38 @@ class AuthNotifier extends AsyncNotifier<Token?> {
     state = await AsyncValue.guard(() async {
       await TokenSecureStorageService.clearToken();
       ref.read(isLoggedInProvider.notifier).setLoggedOut();
-
       return null;
     });
   }
 
   Future<void> refreshToken() async {
+    state = const AsyncValue.loading();
+
     late Token token;
     try {
       final dio = dioService.getDio();
 
-      final currentToken = state.valueOrNull?.token;
+      final currentToken = state.valueOrNull;
       if (currentToken == null) throw Exception('No token available');
 
       dio.options.headers['Authorization'] = 'Bearer $currentToken';
 
-      final user = ref.watch(userProvider).valueOrNull;
+      final payload = currentToken.decode();
+      final user = payload?['user'] as String?;
+
       if (user == null) {
         throw Exception('User not found');
       }
       token = await authService.refreshToken(dio, user);
     } catch (e) {
+      await TokenSecureStorageService.clearToken();
       ref.read(isLoggedInProvider.notifier).setLoggedOut();
       return;
     }
 
     state = await AsyncValue.guard(() async {
       await TokenSecureStorageService.setToken(token);
+      ref.read(isLoggedInProvider.notifier).setLoggedIn();
       return token;
     });
   }
@@ -70,29 +76,14 @@ final authProvider = AsyncNotifierProvider<AuthNotifier, Token?>(
 class IsLoggedInNotifier extends Notifier<bool> {
   @override
   bool build() {
-    final token = ref.watch(authProvider);
-    if (token.isLoading) {
-      return false;
-    }
-    if (token.valueOrNull == null) {
-      return false;
-    }
-    try {
-      final isExpired = token.value!.isExpired;
-      if (isExpired) {
-        return false;
-      }
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return false;
   }
 
-  void setLoggedIn() async {
+  void setLoggedIn() {
     state = true;
   }
 
-  void setLoggedOut() async {
+  void setLoggedOut() {
     state = false;
   }
 }

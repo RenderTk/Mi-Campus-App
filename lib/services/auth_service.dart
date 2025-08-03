@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:usap_mobile/models/token.dart';
-import 'package:usap_mobile/models/user.dart';
 
 const String tokenUrl = "generar_token";
 const String renovarTokenUrl = "renovar_token";
@@ -32,14 +31,14 @@ class AuthService {
     return Token.fromJson(request.data);
   }
 
-  Future<Token> refreshToken(Dio dio, User user) async {
+  Future<Token> refreshToken(Dio dio, String user) async {
     final request = await dio.post(
       renovarTokenUrl,
-      data: {"username": user.id, "sucursal": 1},
+      data: {"username": user, "sucursal": 1},
     );
 
     if (request.statusCode != 200) {
-      throw Exception(request.data);
+      throw Exception("Error al iniciar sesión. Ingresa tus credenciales.");
     }
 
     String token = request.data;

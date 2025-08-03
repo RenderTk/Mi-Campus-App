@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
+import 'package:usap_mobile/services/local_auth_service.dart';
+import 'package:usap_mobile/services/token_secure_storage_service.dart';
 import 'package:usap_mobile/utils/email_validator.dart';
 import 'package:usap_mobile/utils/error_helper.dart';
 import 'package:usap_mobile/utils/snackbar_helper.dart';
@@ -16,6 +18,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _globalKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final localAuthService = LocalAuthService();
+  bool showBiometricButton = false;
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -69,6 +74,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               return;
             }
             try {
+              setState(() {
+                isLoading = true;
+              });
               final email = emailController.text.trim().split('@')[0];
               await ref
                   .read(authProvider.notifier)
@@ -80,11 +88,68 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 type: SnackbarType.error,
                 message: "Error al iniciar sesión.",
               );
+            } finally {
+              setState(() {
+                isLoading = false;
+              });
             }
           },
-          child: const Text("Iniciar sesión"),
+          child: isLoading
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text("Iniciando sesión..."),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
+                  ],
+                )
+              : const Text("Iniciar sesión"),
         ),
       ),
+    );
+  }
+
+  Widget _buildBiometricLoginButton() {
+    return IconButton(
+      icon: const Icon(Icons.fingerprint, size: 60),
+      onPressed: () async {
+        try {
+          setState(() {
+            isLoading = true;
+          });
+          final isAuthenticated = await localAuthService.authenticate();
+          // final isAuthenticated = await _authenticateWithBiometrics();
+          if (!isAuthenticated) {
+            throw Exception();
+          }
+
+          final token = await TokenSecureStorageService.getToken();
+          if (token == null) {
+            throw Exception();
+          }
+
+          await ref.read(authProvider.notifier).refreshToken();
+        } catch (e) {
+          if (!mounted) return;
+          SnackbarHelper.showCustomSnackbar(
+            context: context,
+            type: SnackbarType.warning,
+            message: "No se pudo iniciar sesión con biometría.",
+          );
+        } finally {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      },
     );
   }
 
@@ -106,33 +171,46 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     });
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: _globalKey,
-          child: Column(
-            children: [
-              Image.asset("assets/usap_logo_big.png"),
-              const SizedBox(height: 30),
-              Text(
-                "¡Bienvenido a USAP móvil!",
-                style: Theme.of(context).textTheme.titleLarge,
+    return FutureBuilder(
+      future: localAuthService.canUseBiometrics(),
+      builder: (context, snapshot) {
+        showBiometricButton = snapshot.data ?? false;
+
+        if (snapshot.error != null) {
+          showBiometricButton = false;
+        }
+
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: Form(
+              key: _globalKey,
+              child: Column(
+                children: [
+                  Image.asset("assets/usap_logo_big.png"),
+                  const SizedBox(height: 30),
+                  Text(
+                    "¡Bienvenido a USAP móvil!",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 35),
+                  _buildEmailTextFormField(),
+                  const SizedBox(height: 50),
+                  _buildPasswordTextFormField(),
+                  const SizedBox(height: 30),
+                  _buildLoginButton(),
+                  const SizedBox(height: 30),
+                  if (showBiometricButton) _buildBiometricLoginButton(),
+                  const SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text("¿Olvidaste tu contraseña?"),
+                  ),
+                ],
               ),
-              const SizedBox(height: 35),
-              _buildEmailTextFormField(),
-              const SizedBox(height: 50),
-              _buildPasswordTextFormField(),
-              const SizedBox(height: 30),
-              _buildLoginButton(),
-              const SizedBox(height: 30),
-              TextButton(
-                onPressed: () {},
-                child: const Text("¿Olvidaste tu contraseña?"),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

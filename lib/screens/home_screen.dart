@@ -39,9 +39,7 @@ class HomeScreen extends ConsumerWidget {
           ),
           actions: [
             IconButton(
-              onPressed: () async {
-                await ref.read(authProvider.notifier).closeSession();
-              },
+              onPressed: () {},
               icon: const Icon(FontAwesomeIcons.bell),
             ),
             Padding(
@@ -78,8 +76,8 @@ class HomeScreen extends ConsumerWidget {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 trailing: IconButton(
-                  onPressed: () async {
-                    await ref.read(authProvider.notifier).closeSession();
+                  onPressed: () {
+                    ref.read(isLoggedInProvider.notifier).setLoggedOut();
                   },
                   icon: const Icon(FontAwesomeIcons.rightFromBracket),
                 ),

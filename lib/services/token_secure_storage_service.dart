@@ -2,7 +2,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:usap_mobile/models/token.dart';
 
 class TokenSecureStorageService {
-  static const _storage = FlutterSecureStorage();
+  static const _storage = FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
+  );
   static const tokenKey = 'token';
 
   static Future<void> setToken(Token token) async {
