@@ -6,20 +6,13 @@ class User {
   final String name;
   final String email;
   final String carrera;
-  final int progresoCarrera;
 
   User({
     required this.id,
     required this.name,
     required this.email,
     required this.carrera,
-    required this.progresoCarrera,
   });
 
-  User.empty()
-    : id = '',
-      name = '',
-      email = '',
-      carrera = '',
-      progresoCarrera = 0;
+  User.empty() : id = '', name = '', email = '', carrera = '';
 }

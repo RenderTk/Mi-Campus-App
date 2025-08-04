@@ -1,10 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/user.dart';
+import 'package:usap_mobile/models/student.dart';
 
 class DegreeProgressWidget extends StatelessWidget {
-  const DegreeProgressWidget({super.key, required this.user});
-  final User user;
+  const DegreeProgressWidget({super.key, required this.student});
+  final Student student;
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +65,17 @@ class DegreeProgressWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(user.carrera, style: Theme.of(context).textTheme.titleSmall),
+              Text(
+                student.user.carrera,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
               const SizedBox(height: 10),
               Text(
                 "Progreso de la carrera",
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 30),
-              Center(child: buildDegreeProgressChart(user.progresoCarrera)),
+              Center(child: buildDegreeProgressChart(student.progresoCarrera)),
             ],
           ),
         ),

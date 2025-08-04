@@ -41,8 +41,6 @@ Su desarrollo tiene fines educativos, personales y de experimentación técnica.
 ---
 
 
----
-
 ## 🧠 Inspiración
 
 - SIGA Web oficial: [siga.usap.edu](https://siga.usap.edu/)

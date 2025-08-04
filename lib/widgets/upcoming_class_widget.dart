@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:usap_mobile/models/seccion_curso.dart';
+import 'package:usap_mobile/models/student.dart';
 
 class UpcomingClassWidget extends StatelessWidget {
-  const UpcomingClassWidget({super.key});
+  const UpcomingClassWidget({super.key, required this.student});
+  final Student student;
 
   @override
   Widget build(BuildContext context) {
-    Widget buidlClassCard() {
+    Widget buidlClassCard(Student student) {
+      final proximaClaseInfo = SeccionCurso.obtenerInfoProximaClase(
+        student.secciones,
+      );
+      final seccion = proximaClaseInfo?["seccion"] as SeccionCurso;
+      final tiempoRestante = proximaClaseInfo?["tiempoRestante"] as String;
+
       return Card(
         elevation: 5,
         child: Container(
@@ -16,22 +25,29 @@ class UpcomingClassWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 5),
               Text(
-                "GEOMETRÍA Y TRIGONOMETRÍA",
+                seccion.descripcionCurso ??
+                    "No se pudo cargar el nombre del curso.",
                 style: Theme.of(
                   context,
-                ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
                   Text(
-                    "DAE-0702",
+                    seccion.codigoCurso ??
+                        "No se pudo cargar el codigo del curso.",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  Text(
+                    " - ${seccion.grupo}",
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const Spacer(),
                   Text(
-                    "En 30 min",
+                    tiempoRestante,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -40,7 +56,7 @@ class UpcomingClassWidget extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                "Aula LI-001  2:30PM-4:00PM",
+                "Aula ${seccion.aula} - ${seccion.dia?.trim()} - ${seccion.inicio} a ${seccion.fin}",
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
@@ -60,7 +76,7 @@ class UpcomingClassWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
-          buidlClassCard(),
+          buidlClassCard(student),
         ],
       ),
     );
