@@ -24,8 +24,13 @@ class QuickAccessWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(icon, size: 30, color: iconColor),
-                const SizedBox(height: 5),
-                Text(title, style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 10),
+                Text(
+                  title,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                ),
               ],
             ),
           ),
@@ -72,7 +77,7 @@ class QuickAccessWidget extends StatelessWidget {
               child: buildQuickAccessCard(
                 "Materias",
                 Icons.library_books_outlined,
-                const Color.fromARGB(255, 238, 219, 54),
+                const Color.fromARGB(255, 206, 188, 26),
                 () {},
               ),
             ),

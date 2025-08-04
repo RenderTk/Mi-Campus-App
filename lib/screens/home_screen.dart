@@ -30,11 +30,18 @@ class HomeScreen extends ConsumerWidget {
               isDarkMode
                   ? "assets/usap_logo_small_dark.webp"
                   : "assets/usap_logo_small_light.webp",
-              height: 180,
+              height: 120,
+              width: 400,
             ),
           ),
           const SizedBox(height: 20),
-          Text("Cargando...", style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            "Cargando...",
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
           const SizedBox(height: 25),
           const Center(child: CircularProgressIndicator()),
         ],
@@ -65,18 +72,11 @@ class HomeScreen extends ConsumerWidget {
               onPressed: () {},
               icon: const Icon(FontAwesomeIcons.bell),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                child: Image(
-                  image: NetworkImage(
-                    isDarkMode
-                        ? "https://ui-avatars.com/api/?rounded=true&name=${student.user.name}&background=1E293B&color=CBD5E1"
-                        : "https://ui-avatars.com/api/?rounded=true&name=${student.user.name}&background=E2E8F0&color=1E293B",
-                  ),
-                ),
-              ),
+            IconButton(
+              onPressed: () {
+                ref.invalidate(studentProvider);
+              },
+              icon: const Icon(FontAwesomeIcons.arrowsRotate),
             ),
           ],
         ),
@@ -112,23 +112,6 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
 
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Text('Menu'),
-              ),
-              ListTile(
-                title: const Text('Cerrar Sesión'),
-                onTap: () async {
-                  await ref.read(authProvider.notifier).closeSession();
-                },
-              ),
-            ],
-          ),
-        ),
         bottomNavigationBar: NavigationBar(
           destinations: const [
             NavigationDestination(
