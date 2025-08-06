@@ -48,6 +48,7 @@ dependencies:
   biometric_storage: ^5.0.1
   local_auth_darwin: ^1.5.0
   local_auth_android: ^1.0.50
+  url_launcher: ^6.3.2
   
 
 dev_dependencies:

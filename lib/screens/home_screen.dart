@@ -6,6 +6,7 @@ import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/widgets/degree_progress_widget.dart';
+import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/quick_access_widget.dart';
 import 'package:usap_mobile/widgets/upcoming_class_widget.dart';
 
@@ -14,39 +15,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final student = ref.watch(studentProvider);
-
-    Widget buildLoadingState() => Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
-            ),
-            child: Image.asset(
-              isDarkMode
-                  ? "assets/usap_logo_small_dark.webp"
-                  : "assets/usap_logo_small_light.webp",
-              height: 120,
-              width: 400,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            "Cargando...",
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 25),
-          const Center(child: CircularProgressIndicator()),
-        ],
-      ),
-    );
 
     Widget buildErrorState() => const Scaffold(
       body: Center(
@@ -143,7 +112,7 @@ class HomeScreen extends ConsumerWidget {
 
         return buildErrorState();
       },
-      loading: () => buildLoadingState(),
+      loading: () => const LoadingStateWidget(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:usap_mobile/screens/horarios_screen.dart';
 
 class QuickAccessWidget extends StatelessWidget {
   const QuickAccessWidget({super.key});
@@ -57,7 +58,14 @@ class QuickAccessWidget extends StatelessWidget {
                 "Horarios",
                 Icons.calendar_month_outlined,
                 Colors.blue,
-                () {},
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HorariosScreen(),
+                    ),
+                  );
+                },
               ),
             ),
             Expanded(
