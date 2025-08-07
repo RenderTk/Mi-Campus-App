@@ -8,6 +8,7 @@ import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/selected_day_of_the_week_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/widgets/days_of_the_week_filter_button.dart';
+import 'package:usap_mobile/widgets/labeled_badge.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 
 class HorariosScreen extends ConsumerWidget {
@@ -44,42 +45,6 @@ class HorariosScreen extends ConsumerWidget {
           .toList();
     }
 
-    Widget buildTextOnContainer(
-      String msg,
-      Color foregroundColor,
-      Color backgroundColor, {
-      IconData? icon,
-    }) {
-      return Container(
-        height: 25,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: backgroundColor.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: icon == null
-            ? Text(
-                msg,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelSmall?.copyWith(color: foregroundColor),
-              )
-            : Row(
-                children: [
-                  Icon(icon, size: 25, color: foregroundColor),
-                  const SizedBox(width: 8),
-                  Text(
-                    msg,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelSmall?.copyWith(color: foregroundColor),
-                  ),
-                ],
-              ),
-      );
-    }
-
     Widget buildErrorState() => const Scaffold(
       body: Center(
         child: Text(
@@ -98,10 +63,10 @@ class HorariosScreen extends ConsumerWidget {
             ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const Spacer(),
-          buildTextOnContainer(
-            seccion.estado?.trim() ?? "",
-            Colors.green,
-            Colors.green,
+          LabeledBadge(
+            msg: seccion.estado?.trim() ?? "",
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.green,
           ),
         ],
       );
@@ -116,16 +81,24 @@ class HorariosScreen extends ConsumerWidget {
         children: [
           const Icon(Icons.calendar_month, size: 20),
           const SizedBox(width: 10),
-          buildTextOnContainer(dias[0], Colors.deepPurple, Colors.deepPurple),
+          LabeledBadge(
+            msg: dias[0],
+            backgroundColor: Colors.deepPurple,
+            foregroundColor: Colors.deepPurple,
+          ), //buildTextOnContainer(dias[0], Colors.deepPurple, Colors.deepPurple),
           if (dias.length > 1) ...[
             const SizedBox(width: 5),
-            buildTextOnContainer(dias[1], Colors.deepPurple, Colors.deepPurple),
+            LabeledBadge(
+              msg: dias[1],
+              backgroundColor: Colors.deepPurple,
+              foregroundColor: Colors.deepPurple,
+            ), //buildTextOnContainer(dias[1], Colors.deepPurple, Colors.deepPurple),
           ],
           const Spacer(),
-          buildTextOnContainer(
-            tiempoRestante,
-            Colors.deepPurple,
-            Colors.deepPurple,
+          LabeledBadge(
+            msg: tiempoRestante,
+            backgroundColor: Colors.deepPurple,
+            foregroundColor: Colors.deepPurple,
           ),
         ],
       );
@@ -155,10 +128,10 @@ class HorariosScreen extends ConsumerWidget {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          buildTextOnContainer(
-            seccion.grupo?.trim() ?? "",
-            Colors.red,
-            Colors.red,
+          LabeledBadge(
+            msg: seccion.grupo?.trim() ?? "",
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.red,
           ),
           const Spacer(),
           InkWell(
@@ -169,10 +142,10 @@ class HorariosScreen extends ConsumerWidget {
                     LaunchMode.externalApplication, // Opens in external browser
               );
             },
-            child: buildTextOnContainer(
-              "Enlace del curso",
-              Colors.blueAccent,
-              Colors.blueAccent,
+            child: const LabeledBadge(
+              msg: "Enlace del curso",
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.blueAccent,
               icon: Icons.link,
             ),
           ),

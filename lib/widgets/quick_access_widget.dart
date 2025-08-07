@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:usap_mobile/screens/calificaciones_screen.dart';
 import 'package:usap_mobile/screens/horarios_screen.dart';
 
 class QuickAccessWidget extends StatelessWidget {
@@ -73,7 +74,14 @@ class QuickAccessWidget extends StatelessWidget {
                 "Calificaciones",
                 Icons.checklist_outlined,
                 Colors.green,
-                () {},
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CalificacionesScreen(),
+                    ),
+                  );
+                },
               ),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/models/seccion_curso.dart';
 import 'package:usap_mobile/models/user.dart';
 
@@ -7,10 +8,12 @@ class Student {
   User user;
   int progresoCarrera;
   List<SeccionCurso> secciones;
+  List<CalificacionCurso> calificaciones;
 
   Student({
     required this.user,
     required this.progresoCarrera,
     required this.secciones,
+    required this.calificaciones,
   });
 }

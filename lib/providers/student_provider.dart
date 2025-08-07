@@ -15,6 +15,9 @@ class StudentNotifier extends AsyncNotifier<Student> {
     final user = await ref.read(userProvider.future);
     final progresoCarrera = await studentDataService.getDegreeProgress(user.id);
     final secciones = await studentDataService.getStudentsSchedule(user.id);
+    final calificaciones = await studentDataService.getStudentCalifications(
+      user.id,
+    );
 
     // Ordenar las secciones por día y hora
     final seccionesOrdenadas = _ordenarSecciones(secciones);
@@ -23,6 +26,7 @@ class StudentNotifier extends AsyncNotifier<Student> {
       user: user,
       progresoCarrera: progresoCarrera,
       secciones: seccionesOrdenadas,
+      calificaciones: calificaciones,
     );
   }
 
