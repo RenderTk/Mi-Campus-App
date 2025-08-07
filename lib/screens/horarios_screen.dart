@@ -7,6 +7,7 @@ import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/selected_day_of_the_week_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
+import 'package:usap_mobile/utils/app_providers.dart';
 import 'package:usap_mobile/widgets/days_of_the_week_filter_button.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/labeled_badge.dart';
@@ -278,6 +279,7 @@ class HorariosScreen extends ConsumerWidget {
           return SessionExpiredWidget(
             onLogin: () {
               ref.read(isLoggedInProvider.notifier).setLoggedOut();
+              AppProviders.invalidateAllProviders(ref);
             },
           );
         }

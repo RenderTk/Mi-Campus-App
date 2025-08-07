@@ -4,9 +4,12 @@ import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/screens/home_screen.dart';
 import 'package:usap_mobile/screens/login_screen.dart';
 import 'package:usap_mobile/themes/app_theme.dart';
+import 'package:usap_mobile/utils/app_providers.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(observers: [AppProviderObservers()], child: const MyApp()),
+  );
 }
 
 class MyApp extends ConsumerWidget {

@@ -5,6 +5,7 @@ import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
+import 'package:usap_mobile/utils/app_providers.dart';
 import 'package:usap_mobile/widgets/degree_progress_widget.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
@@ -64,6 +65,7 @@ class HomeScreen extends ConsumerWidget {
                 trailing: IconButton(
                   onPressed: () {
                     ref.read(isLoggedInProvider.notifier).setLoggedOut();
+                    AppProviders.invalidateAllProviders(ref);
                   },
                   icon: const Icon(FontAwesomeIcons.rightFromBracket),
                 ),
@@ -104,6 +106,7 @@ class HomeScreen extends ConsumerWidget {
           return SessionExpiredWidget(
             onLogin: () {
               ref.read(isLoggedInProvider.notifier).setLoggedOut();
+              AppProviders.invalidateAllProviders(ref);
             },
           );
         }
