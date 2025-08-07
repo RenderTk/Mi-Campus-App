@@ -6,8 +6,10 @@ import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/widgets/degree_progress_widget.dart';
+import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/quick_access_widget.dart';
+import 'package:usap_mobile/widgets/session_expired_widget.dart';
 import 'package:usap_mobile/widgets/upcoming_class_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -16,14 +18,6 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final student = ref.watch(studentProvider);
-
-    Widget buildErrorState() => const Scaffold(
-      body: Center(
-        child: Text(
-          "Ocurrio un error al cargar los datos de su cuenta. Intente mas tarde.",
-        ),
-      ),
-    );
 
     Widget buildSuccessState(Student student) {
       final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -107,10 +101,19 @@ class HomeScreen extends ConsumerWidget {
         // si se intento refrescar el token y no se pudo, se cierra la sesion
         // y se redirige al login
         if (error is TokenRefreshFailedException) {
-          ref.read(isLoggedInProvider.notifier).setLoggedOut();
+          return SessionExpiredWidget(
+            onLogin: () {
+              ref.read(isLoggedInProvider.notifier).setLoggedOut();
+            },
+          );
         }
 
-        return buildErrorState();
+        return ErrorStateWidget(
+          errorMessage:
+              "Ocurrio un error al cargar los datos de su cuenta. Intente mas tarde.",
+          onRetry: () => ref.invalidate(studentProvider),
+          showExitButton: true,
+        );
       },
       loading: () => const LoadingStateWidget(),
     );

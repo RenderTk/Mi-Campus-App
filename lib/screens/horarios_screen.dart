@@ -8,8 +8,10 @@ import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/selected_day_of_the_week_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/widgets/days_of_the_week_filter_button.dart';
+import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/labeled_badge.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
+import 'package:usap_mobile/widgets/session_expired_widget.dart';
 
 class HorariosScreen extends ConsumerWidget {
   const HorariosScreen({super.key});
@@ -44,14 +46,6 @@ class HorariosScreen extends ConsumerWidget {
           .where((seccion) => codigosCursosDelDia.contains(seccion.codigoCurso))
           .toList();
     }
-
-    Widget buildErrorState() => const Scaffold(
-      body: Center(
-        child: Text(
-          "Ocurrio un error al cargar los horarios. Intente mas tarde.",
-        ),
-      ),
-    );
 
     Widget buildClassNameText(SeccionCurso seccion) {
       return Row(
@@ -281,10 +275,19 @@ class HorariosScreen extends ConsumerWidget {
         // si se intento refrescar el token y no se pudo, se cierra la sesion
         // y se redirige al login
         if (error is TokenRefreshFailedException) {
-          ref.read(isLoggedInProvider.notifier).setLoggedOut();
+          return SessionExpiredWidget(
+            onLogin: () {
+              ref.read(isLoggedInProvider.notifier).setLoggedOut();
+            },
+          );
         }
 
-        return buildErrorState();
+        return ErrorStateWidget(
+          errorMessage:
+              "Ocurrio un error al cargar los horarios. Intente mas tarde.",
+          onRetry: () => ref.invalidate(studentProvider),
+          showExitButton: true,
+        );
       },
       loading: () => const LoadingStateWidget(),
     );

@@ -6,9 +6,11 @@ import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
+import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/labeled_badge.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
+import 'package:usap_mobile/widgets/session_expired_widget.dart';
 
 class CalificacionesScreen extends ConsumerStatefulWidget {
   const CalificacionesScreen({super.key});
@@ -21,13 +23,6 @@ class CalificacionesScreen extends ConsumerStatefulWidget {
 class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
   String selectedEstatus = "Todas";
 
-  Widget _buildErrorState() => const Scaffold(
-    body: Center(
-      child: Text(
-        "Ocurrio un error al cargar las calificaciones. Intente mas tarde.",
-      ),
-    ),
-  );
   Color _getEstatusCalificacionColor(EstatusCalificacion estatus) {
     switch (estatus) {
       case EstatusCalificacion.aprobada:
@@ -369,10 +364,19 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
         // si se intento refrescar el token y no se pudo, se cierra la sesion
         // y se redirige al login
         if (error is TokenRefreshFailedException) {
-          ref.read(isLoggedInProvider.notifier).setLoggedOut();
+          return SessionExpiredWidget(
+            onLogin: () {
+              ref.read(isLoggedInProvider.notifier).setLoggedOut();
+            },
+          );
         }
 
-        return _buildErrorState();
+        return ErrorStateWidget(
+          errorMessage:
+              "Ocurrio un error al cargar las calificaciones. Intente mas tarde.",
+          onRetry: () => ref.invalidate(studentProvider),
+          showExitButton: true,
+        );
       },
       loading: () => const LoadingStateWidget(),
     );
