@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/models/seccion_curso.dart';
 import 'package:usap_mobile/models/student.dart';
+import 'package:usap_mobile/models/user.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/services/student_data_service.dart';
 
@@ -27,6 +29,35 @@ class StudentNotifier extends AsyncNotifier<Student> {
       progresoCarrera: progresoCarrera,
       secciones: seccionesOrdenadas,
       calificaciones: calificaciones,
+    );
+  }
+
+  Future<void> updateSchedule() async {
+    final student = _makeDeepCopyOfState();
+
+    state = await AsyncValue.guard(() async {
+      final user = await ref.read(userProvider.future);
+      final refreshedSecciones = await studentDataService.getStudentsSchedule(
+        user.id,
+      );
+
+      student.secciones = refreshedSecciones;
+
+      return student;
+    });
+  }
+
+  //create a deep copy of the state
+  Student _makeDeepCopyOfState() {
+    return Student(
+      user: state.value!.user.copyWith(),
+      progresoCarrera: state.value!.progresoCarrera,
+      secciones: state.value!.secciones
+          .map((seccion) => seccion.copyWith())
+          .toList(),
+      calificaciones: state.value!.calificaciones
+          .map((calificacion) => calificacion.copyWith())
+          .toList(),
     );
   }
 

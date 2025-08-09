@@ -51,11 +51,16 @@ class HorariosScreen extends ConsumerWidget {
     Widget buildClassNameText(SeccionCurso seccion) {
       return Row(
         children: [
-          Text(
-            seccion.descripcionCurso ?? "",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+          SizedBox(
+            width: 260,
+            child: Text(
+              seccion.descripcionCurso ?? "",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
           ),
           const Spacer(),
           LabeledBadge(

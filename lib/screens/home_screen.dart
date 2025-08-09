@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
+import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/utils/app_providers.dart';
 import 'package:usap_mobile/widgets/degree_progress_widget.dart';
@@ -13,11 +14,25 @@ import 'package:usap_mobile/widgets/quick_access_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
 import 'package:usap_mobile/widgets/upcoming_class_widget.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() async {
+      await ref.read(matriculaProvider.future);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final student = ref.watch(studentProvider);
 
     Widget buildSuccessState(Student student) {
@@ -38,6 +53,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             IconButton(
               onPressed: () {
+                ref.invalidate(matriculaProvider);
                 ref.invalidate(studentProvider);
               },
               icon: const Icon(FontAwesomeIcons.arrowsRotate),

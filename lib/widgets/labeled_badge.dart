@@ -7,11 +7,13 @@ class LabeledBadge extends StatelessWidget {
     required this.foregroundColor,
     required this.backgroundColor,
     this.icon,
+    this.iconSize = 25,
   });
   final String msg;
   final Color foregroundColor;
   final Color backgroundColor;
   final IconData? icon;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class LabeledBadge extends StatelessWidget {
             )
           : Row(
               children: [
-                Icon(icon, size: 25, color: foregroundColor),
+                Icon(icon, size: iconSize, color: foregroundColor),
                 const SizedBox(width: 8),
                 Text(
                   msg,

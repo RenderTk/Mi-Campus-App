@@ -56,7 +56,7 @@ class UpcomingClassWidget extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                "Aula ${seccion.aula} - ${seccion.dia?.trim()} - ${seccion.inicio} a ${seccion.fin}",
+                "Aula ${seccion.aulaNormalizada} - ${seccion.dia?.trim()} - ${seccion.inicio} a ${seccion.fin}",
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],

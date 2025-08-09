@@ -300,8 +300,24 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Mis Calificaciones")),
-      body: grupos.isEmpty
-          ? Center(
+      body: grupos.isNotEmpty
+          ? Column(
+              children: [
+                _buildCalificacionEstatusFilter(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: grupos.length,
+                    itemBuilder: (context, index) {
+                      final calificaciones = grupos[index];
+                      return _buildCalifcacionesCardsInExpansionTile(
+                        calificaciones,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
+          : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -320,22 +336,6 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
                   ),
                 ],
               ),
-            )
-          : Column(
-              children: [
-                _buildCalificacionEstatusFilter(),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: grupos.length,
-                    itemBuilder: (context, index) {
-                      final calificaciones = grupos[index];
-                      return _buildCalifcacionesCardsInExpansionTile(
-                        calificaciones,
-                      );
-                    },
-                  ),
-                ),
-              ],
             ),
       bottomSheet: SafeArea(
         child: Container(
