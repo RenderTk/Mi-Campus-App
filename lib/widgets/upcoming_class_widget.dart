@@ -16,7 +16,9 @@ class UpcomingClassWidget extends StatelessWidget {
       final tiempoRestante = proximaClaseInfo?["tiempoRestante"] as String;
 
       return Card(
-        elevation: 5,
+        color: Theme.of(
+          context,
+        ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
         child: Container(
           alignment: Alignment.topLeft,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

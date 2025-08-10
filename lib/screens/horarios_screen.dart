@@ -176,6 +176,9 @@ class HorariosScreen extends ConsumerWidget {
       final tiempoRestante = SeccionCurso.calcularTiempoRestante(seccion);
 
       return Card(
+        color: Theme.of(
+          context,
+        ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           margin: const EdgeInsets.only(bottom: 10),

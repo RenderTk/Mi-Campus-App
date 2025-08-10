@@ -58,7 +58,9 @@ class DegreeProgressWidget extends StatelessWidget {
       width: double.infinity,
       height: 220,
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        color: Theme.of(
+          context,
+        ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
         elevation: 5,
         child: Padding(
           padding: const EdgeInsets.all(12.0),

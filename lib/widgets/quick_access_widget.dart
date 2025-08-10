@@ -18,7 +18,9 @@ class QuickAccessWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         onTap: onTap,
         child: Card(
-          elevation: 5,
+          color: Theme.of(
+            context,
+          ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
           margin: const EdgeInsets.all(8),
           child: Container(
             height: 85,

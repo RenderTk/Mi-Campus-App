@@ -1,9 +1,12 @@
 import 'package:usap_mobile/models/calificacion_curso.dart';
+import 'package:usap_mobile/models/carrera.dart';
 import 'package:usap_mobile/models/matricula.dart';
 import 'package:usap_mobile/models/seccion_curso.dart';
 import 'package:usap_mobile/services/dio_service.dart';
 
 const String degreeProgressUrl = "obtenerporcentajecarrera/{codigo_alumno}";
+const String degreeTotalClasesUrl =
+    "actividades_coprogramaticas/planes/{codigo_alumno}/2";
 const String scheduleUrl =
     "Horariosalumno/obtener_horarios_alumno/{codigo_alumno}";
 const String calificationsUrl = "historial/informacion/{codigo_alumno}/140";
@@ -14,6 +17,9 @@ const String ofertaMatriculaOptativaUrl =
     "matricula/oferta_optativa/{codigo_alumno1}/{id_seccion}/1/{codigo_alumno2}";
 
 const String addOrRemoveClassUrl = "matricula";
+
+const String puntosCoProgramaticosUrl =
+    "actividades_coprogramaticas/alumno/historial/{3210411}/140";
 
 enum AccionClase { agregar, quitar }
 
@@ -31,6 +37,42 @@ class StudentDataService {
     if (data != null && data.isNotEmpty) {
       final int progress = (data[0]['PORCENTAJE'] as num).toInt();
       return progress;
+    } else {
+      throw Exception('Empty, null or invalid response data');
+    }
+  }
+
+  Future<int> getPuntosCoProgramaticos(String codigoAlumno) async {
+    final url = puntosCoProgramaticosUrl.replaceFirst(
+      "{3210411}",
+      codigoAlumno,
+    );
+    final dio = await _dioService.getDioWithAutoRefresh();
+    final response = await dio.get<List<dynamic>>(url);
+    final data = response.data;
+    if (data != null && data.isNotEmpty) {
+      int puntos = 0;
+      for (var item in data) {
+        puntos += (item['PUNTAJE'] as num).toInt();
+      }
+      return puntos;
+    } else {
+      throw Exception('Empty, null or invalid response data');
+    }
+  }
+
+  Future<Carrera> getDegree(String codigoAlumno) async {
+    final url = degreeTotalClasesUrl.replaceFirst(
+      "{codigo_alumno}",
+      codigoAlumno,
+    );
+    final dio = await _dioService.getDioWithAutoRefresh();
+    final response = await dio.get<List<dynamic>>(url);
+    final data = response.data;
+    if (data != null && data.isNotEmpty) {
+      final int totalClases = (data[0]['TOTAL_CURSOS_PLAN'] as num).toInt();
+      final String nombreCarrera = data[0]['DESCRIPCION_PLAN'];
+      return Carrera(nombre: nombreCarrera, totalClases: totalClases);
     } else {
       throw Exception('Empty, null or invalid response data');
     }

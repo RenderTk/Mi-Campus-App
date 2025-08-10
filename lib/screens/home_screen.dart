@@ -7,12 +7,12 @@ import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/utils/app_providers.dart';
-import 'package:usap_mobile/widgets/degree_progress_widget.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
+import 'package:usap_mobile/widgets/home_body_widgets/calendar_widget.dart';
+import 'package:usap_mobile/widgets/home_body_widgets/dashboard_widget.dart';
+import 'package:usap_mobile/widgets/home_body_widgets/perfil_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
-import 'package:usap_mobile/widgets/quick_access_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
-import 'package:usap_mobile/widgets/upcoming_class_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +22,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  int selectedIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -60,40 +61,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 0,
-                ),
-                title: Text(
-                  student.user.name,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                subtitle: Text(
-                  student.user.id,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    ref.read(isLoggedInProvider.notifier).setLoggedOut();
-                    AppProviders.invalidateAllProviders(ref);
-                  },
-                  icon: const Icon(FontAwesomeIcons.rightFromBracket),
-                ),
-              ),
-              DegreeProgressWidget(student: student),
-              const QuickAccessWidget(),
-              UpcomingClassWidget(student: student),
-            ],
-          ),
+        body: IndexedStack(
+          index: selectedIndex,
+          children: const [DashboardWidget(), CalendarWidget(), PerfilWidget()],
         ),
 
         bottomNavigationBar: NavigationBar(
+          selectedIndex: selectedIndex,
+          onDestinationSelected: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
           destinations: const [
             NavigationDestination(
               icon: Icon(Icons.home_outlined, size: 30),

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/calificacion_curso.dart';
+import 'package:usap_mobile/models/carrera.dart';
 import 'package:usap_mobile/models/seccion_curso.dart';
 import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/models/user.dart';
@@ -16,6 +17,9 @@ class StudentNotifier extends AsyncNotifier<Student> {
 
     final user = await ref.read(userProvider.future);
     final progresoCarrera = await studentDataService.getDegreeProgress(user.id);
+    final puntosCoProgramaticos = await studentDataService
+        .getPuntosCoProgramaticos(user.id);
+    final carrera = await studentDataService.getDegree(user.id);
     final secciones = await studentDataService.getStudentsSchedule(user.id);
     final calificaciones = await studentDataService.getStudentCalifications(
       user.id,
@@ -27,6 +31,8 @@ class StudentNotifier extends AsyncNotifier<Student> {
     return Student(
       user: user,
       progresoCarrera: progresoCarrera,
+      puntosCoProgramaticos: puntosCoProgramaticos,
+      carrera: carrera,
       secciones: seccionesOrdenadas,
       calificaciones: calificaciones,
     );
@@ -52,6 +58,8 @@ class StudentNotifier extends AsyncNotifier<Student> {
     return Student(
       user: state.value!.user.copyWith(),
       progresoCarrera: state.value!.progresoCarrera,
+      puntosCoProgramaticos: state.value!.puntosCoProgramaticos,
+      carrera: state.value!.carrera.copyWith(),
       secciones: state.value!.secciones
           .map((seccion) => seccion.copyWith())
           .toList(),

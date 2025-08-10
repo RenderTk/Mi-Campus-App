@@ -228,6 +228,9 @@ class _MateriaCardState extends State<MateriaCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Theme.of(
+        context,
+      ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
 
