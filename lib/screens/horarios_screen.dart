@@ -217,30 +217,10 @@ class HorariosScreen extends ConsumerWidget {
           ),
           actions: const [DaysOfTheWeekFilterButton()],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: filteredSecciones.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.hourglass_empty,
-                        size: 100,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "No hay cursos disponibles",
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : ListView.builder(
+        body: filteredSecciones.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
+                child: ListView.builder(
                   itemCount: filteredSecciones.length,
                   itemBuilder: (context, index) {
                     final seccion = filteredSecciones[index];
@@ -255,7 +235,27 @@ class HorariosScreen extends ConsumerWidget {
                     );
                   },
                 ),
-        ),
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.school,
+                      size: 100,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "No hay clases disponibles",
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
         bottomSheet: SafeArea(
           child: Container(
             height: 50,

@@ -5,7 +5,7 @@ import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/services/student_data_service.dart';
 import 'package:usap_mobile/utils/snackbar_helper.dart';
-import 'package:usap_mobile/widgets/materia_card.dart';
+import 'package:usap_mobile/widgets/cards/materia_card.dart';
 import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
 
 class MateriasDetailScreen extends ConsumerStatefulWidget {
@@ -290,42 +290,51 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
             ),
         ],
       ),
-      body: Column(
-        children: [
-          _buildModalidadesFilter(),
-          Expanded(
-            child: filteredMatriculas.isNotEmpty
-                ? ListView.builder(
-                    itemCount: filteredMatriculas.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final matricula = filteredMatriculas[index];
-                      return MateriaCard(
-                        matricula: matricula,
-                        isSelected: selectedIndexes.contains(index),
-                        onTap: () async {
-                          // an item is already selected, and it is not the selected item
-                          if (selectedIndexes.isNotEmpty &&
-                              !selectedIndexes.contains(index)) {
-                            SnackbarHelper.showCustomSnackbar(
-                              context: context,
-                              message: "Ya tienes esta clase seleccionada.",
-                              type: SnackbarType.warning,
-                            );
-                            return;
-                          }
-                          final AccionClase accion =
-                              selectedIndexes.contains(index)
-                              ? AccionClase.quitar
-                              : AccionClase.agregar;
-                          await _onTap(matricula, index, accion);
-                        },
-                      );
-                    },
-                  )
-                : Center(
+      body: filteredMatriculas.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 25),
+              child: Column(
+                children: [
+                  _buildModalidadesFilter(),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: filteredMatriculas.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final matricula = filteredMatriculas[index];
+                        return MateriaCard(
+                          matricula: matricula,
+                          isSelected: selectedIndexes.contains(index),
+                          onTap: () async {
+                            // an item is already selected, and it is not the selected item
+                            if (selectedIndexes.isNotEmpty &&
+                                !selectedIndexes.contains(index)) {
+                              SnackbarHelper.showCustomSnackbar(
+                                context: context,
+                                message: "Ya tienes esta clase seleccionada.",
+                                type: SnackbarType.warning,
+                              );
+                              return;
+                            }
+                            final AccionClase accion =
+                                selectedIndexes.contains(index)
+                                ? AccionClase.quitar
+                                : AccionClase.agregar;
+                            await _onTap(matricula, index, accion);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : Column(
+              children: [
+                _buildModalidadesFilter(),
+                Expanded(
+                  child: Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
                           Icons.school,
@@ -334,16 +343,16 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          "No hay clases para mostrar",
+                          "No hay clases disponibles",
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
-          ),
-        ],
-      ),
+                ),
+              ],
+            ),
       bottomSheet: SafeArea(
         child: Container(
           height: 50,

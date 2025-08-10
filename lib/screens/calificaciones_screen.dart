@@ -6,11 +6,10 @@ import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
+import 'package:usap_mobile/screens/calificaciones_detail_screen.dart';
 import 'package:usap_mobile/utils/app_providers.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
-import 'package:usap_mobile/widgets/labeled_badge.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
-import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
 
 class CalificacionesScreen extends ConsumerStatefulWidget {
@@ -22,235 +21,32 @@ class CalificacionesScreen extends ConsumerStatefulWidget {
 }
 
 class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
-  String selectedEstatus = "Todas";
-
-  Color _getEstatusCalificacionColor(EstatusCalificacion estatus) {
-    switch (estatus) {
-      case EstatusCalificacion.aprobada:
-        return Colors.green;
-      case EstatusCalificacion.reprobada:
-        return Colors.red;
-      case EstatusCalificacion.cursando:
-        return Colors.blue;
-      case EstatusCalificacion.retiro:
-        return Colors.orange;
-    }
-  }
-
-  String _labelForEstatus(EstatusCalificacion estatus) {
-    switch (estatus) {
-      case EstatusCalificacion.aprobada:
-        return "Aprobadas";
-      case EstatusCalificacion.reprobada:
-        return "Reprobadas";
-      case EstatusCalificacion.cursando:
-        return "Cursando";
-      case EstatusCalificacion.retiro:
-        return "Retiradas";
-    }
-  }
-
-  String _toTitleCase(String text) {
-    if (text.isEmpty) return text;
-
-    return text
-        .toLowerCase()
-        .split(' ')
-        .map(
-          (word) => word.isNotEmpty
-              ? '${word[0].toUpperCase()}${word.substring(1)}'
-              : '',
-        )
-        .join(' ');
-  }
-
-  List<EstatusCalificacion> _mapPluralStatusToEnum(String selectedEstatus) {
-    switch (selectedEstatus.toLowerCase()) {
-      case 'aprobadas':
-        return [EstatusCalificacion.aprobada];
-      case 'reprobadas':
-        return [EstatusCalificacion.reprobada];
-      case 'retiradas':
-        return [EstatusCalificacion.retiro];
-      case 'cursando':
-        return [EstatusCalificacion.cursando];
-      case 'todas':
-      default:
-        return EstatusCalificacion.values;
-    }
-  }
-
-  List<List<CalificacionCurso>> _groupByAnios(
-    List<CalificacionCurso> calificaciones,
-  ) {
-    final anios = calificaciones
-        .map((calificacion) => calificacion.anio)
-        .toSet()
-        .toList();
-    final grupos = <List<CalificacionCurso>>[];
-
-    anios.sort((a, b) => b.compareTo(a));
-
-    for (final anio in anios) {
-      final calificacionesAnio = calificaciones
-          .where((calificacion) => calificacion.anio == anio)
-          .toList();
-      grupos.add(calificacionesAnio);
-    }
-
-    return grupos;
-  }
-
-  void orderCalificaciones(List<CalificacionCurso> calificaciones) {
-    calificaciones.sort((a, b) {
-      final anioCompare = b.anio.compareTo(a.anio);
-      if (anioCompare != 0) return anioCompare;
-
-      final periodoCompare = int.parse(
-        b.periodo,
-      ).compareTo(int.parse(a.periodo));
-      if (periodoCompare != 0) return periodoCompare;
-
-      final aNota = a.nota;
-      final bNota = b.nota;
-
-      if (aNota == null && bNota == null) return 0;
-      if (aNota == null) return 1; // nulls last
-      if (bNota == null) return -1;
-
-      return bNota.compareTo(aNota); // higher nota first
-    });
-  }
-
-  Widget _buildClaseAnEstatus(CalificacionCurso calificacion) {
-    return Row(
-      children: [
-        Text(
-          calificacion.codigoCurso,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        const Spacer(),
-        if (calificacion.estatus == EstatusCalificacion.aprobada ||
-            calificacion.estatus == EstatusCalificacion.reprobada)
-          LabeledBadge(
-            msg: calificacion.nota.toString(),
-            foregroundColor: _getEstatusCalificacionColor(calificacion.estatus),
-            backgroundColor: _getEstatusCalificacionColor(calificacion.estatus),
-          ),
-        const SizedBox(width: 5),
-        LabeledBadge(
-          msg: _toTitleCase(calificacion.estatus.name),
-          backgroundColor: _getEstatusCalificacionColor(calificacion.estatus),
-          foregroundColor: _getEstatusCalificacionColor(calificacion.estatus),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCatedratico(CalificacionCurso calificacion) {
-    return Row(
-      children: [
-        const Icon(Icons.person, size: 15),
-        const SizedBox(width: 5),
-        Text(
-          calificacion.catedratico,
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFechaInfo(CalificacionCurso calificacion) {
-    final periodo = calificacion.periodo == "1"
-        ? 'I'
-        : calificacion.periodo == "2"
-        ? 'II'
-        : 'III';
-
-    return Row(
-      children: [
-        const Icon(Icons.calendar_month, size: 15),
-        const SizedBox(width: 5),
-        Text(
-          "${calificacion.anio} - Periodo: $periodo",
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        const Spacer(),
-        const Icon(Icons.sunny, size: 15),
-        const SizedBox(width: 5),
-        Text(calificacion.dias, style: Theme.of(context).textTheme.bodySmall),
-      ],
-    );
-  }
-
-  Widget _buildCalificacionCard(CalificacionCurso calificacion) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border(
-            left: BorderSide(
-              color: _getEstatusCalificacionColor(
-                calificacion.estatus,
-              ), // Color of the vertical line
-              width: 3.0, // Thickness of the line
-            ),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _buildClaseAnEstatus(calificacion),
-            const SizedBox(height: 8),
-            Text(
-              calificacion.descripcionCurso,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: 8),
-            _buildFechaInfo(calificacion),
-            const SizedBox(height: 8),
-            _buildCatedratico(calificacion),
-            if (calificacion.etiqueta != null) ...[
-              const SizedBox(height: 10),
-              LabeledBadge(
-                msg: calificacion.etiqueta!,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.primary,
-              ),
-            ],
-          ],
-        ),
+  Widget _buildLeadingIconForTile(BuildContext context, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Icon(
+        icon,
+        color: const Color.fromARGB(255, 16, 97, 162),
+        size: 24,
       ),
     );
   }
 
-  Widget _buildCalifcacionesCardsInExpansionTile(
-    List<CalificacionCurso> calificaciones,
-  ) {
-    orderCalificaciones(calificaciones);
-    final calificacionesCards = calificaciones
-        .map((calificacion) => _buildCalificacionCard(calificacion))
-        .toList();
+  Widget _buildPeriodoListTile(List<CalificacionCurso> calificaciones) {
+    if (calificaciones.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    String periodo = calificaciones.first.periodo;
 
-    return ExpansionTileCard(
-      leading: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Icon(
-          Icons.school_outlined,
-          color: Color.fromARGB(255, 16, 97, 162),
-          size: 24,
-        ),
-      ),
+    return ListTile(
+      leading: _buildLeadingIconForTile(context, Icons.date_range),
       title: Text(
-        calificaciones.first.anio,
-        style: Theme.of(context).textTheme.titleMedium,
+        "Periodo: $periodo",
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
       subtitle: Text(
         calificaciones.length == 1
@@ -258,64 +54,67 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
             : "${calificaciones.length} calificaciones",
         style: Theme.of(context).textTheme.bodySmall,
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                CalificacionesDetailScreen(calificaciones: calificaciones),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCalifcacionesCardsInExpansionTile(
+    List<CalificacionCurso> calificaciones,
+  ) {
+    CalificacionCurso.orderCalificaciones(calificaciones);
+    final groupsByPeriodo = CalificacionCurso.groupByPeriodo(calificaciones);
+
+    return ExpansionTileCard(
+      leading: _buildLeadingIconForTile(context, Icons.school_outlined),
+      title: Text(
+        calificaciones.first.anio,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+      subtitle: Text(
+        groupsByPeriodo.length == 1
+            ? "1 periodo"
+            : "${groupsByPeriodo.length} periodos",
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(children: calificacionesCards),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: groupsByPeriodo.length,
+            itemBuilder: (BuildContext context, int index) {
+              final calificaciones = groupsByPeriodo[index];
+              return _buildPeriodoListTile(calificaciones);
+            },
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildCalificacionEstatusFilter() {
-    return ScrollableSegmentedButtons(
-      options: [
-        "Todas",
-        _labelForEstatus(EstatusCalificacion.aprobada),
-        _labelForEstatus(EstatusCalificacion.reprobada),
-        _labelForEstatus(EstatusCalificacion.cursando),
-        _labelForEstatus(EstatusCalificacion.retiro),
-      ],
-      onSelected: (selectedEstatus) {
-        setState(() {
-          this.selectedEstatus = selectedEstatus;
-        });
-      },
-      selected: selectedEstatus,
-    );
-  }
-
   Widget _buildSuccessState(Student student) {
-    late List<CalificacionCurso> filteredCalificaciones =
-        student.calificaciones;
-
-    final validStatuses = _mapPluralStatusToEnum(selectedEstatus);
-
-    if (selectedEstatus != "Todas") {
-      filteredCalificaciones = student.calificaciones.where((calificacion) {
-        return validStatuses.contains(calificacion.estatus);
-      }).toList();
-    }
-    final grupos = _groupByAnios(filteredCalificaciones);
+    final groupsByAnio = CalificacionCurso.groupByAnio(student.calificaciones);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Mis Calificaciones")),
-      body: grupos.isNotEmpty
-          ? Column(
-              children: [
-                _buildCalificacionEstatusFilter(),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: grupos.length,
-                    itemBuilder: (context, index) {
-                      final calificaciones = grupos[index];
-                      return _buildCalifcacionesCardsInExpansionTile(
-                        calificaciones,
-                      );
-                    },
-                  ),
-                ),
-              ],
+      body: groupsByAnio.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 25),
+              child: ListView.builder(
+                itemCount: groupsByAnio.length,
+                itemBuilder: (context, index) {
+                  final califaciones = groupsByAnio[index];
+                  return _buildCalifcacionesCardsInExpansionTile(califaciones);
+                },
+              ),
             )
           : Center(
               child: Column(
@@ -344,7 +143,7 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           alignment: Alignment.topCenter,
           child: Text(
-            "Total de calificaciones: ${filteredCalificaciones.length}",
+            "Promedio: ${CalificacionCurso.getPromedio(student.calificaciones).toStringAsFixed(0)}",
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 12,

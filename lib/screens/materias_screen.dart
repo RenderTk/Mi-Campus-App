@@ -14,10 +14,7 @@ import 'package:usap_mobile/widgets/session_expired_widget.dart';
 class MateriasScreen extends ConsumerWidget {
   const MateriasScreen({super.key});
 
-  Widget _buildLeadingIconForExpansionTile(
-    BuildContext context,
-    IconData icon,
-  ) {
+  Widget _buildLeadingIconForTile(BuildContext context, IconData icon) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
@@ -37,7 +34,7 @@ class MateriasScreen extends ConsumerWidget {
     List<Matricula> matriculasGroupedByClass,
   ) {
     return ListTile(
-      leading: _buildLeadingIconForExpansionTile(context, Icons.menu_book),
+      leading: _buildLeadingIconForTile(context, Icons.menu_book),
       title: Text(
         matriculasGroupedByClass[0].descripcionCurso.toString(),
         style: Theme.of(context).textTheme.titleSmall,
@@ -73,7 +70,7 @@ class MateriasScreen extends ConsumerWidget {
         .length;
 
     return ExpansionTileCard(
-      leading: _buildLeadingIconForExpansionTile(context, Icons.date_range),
+      leading: _buildLeadingIconForTile(context, Icons.date_range),
       title: Text(
         "Periodo: ${matriculasByPeriodo[0].periodo.toString()}",
         style: Theme.of(context).textTheme.titleMedium,
@@ -107,21 +104,41 @@ class MateriasScreen extends ConsumerWidget {
 
     return matriculas.when(
       data: (matriculas) {
-        if (matriculas.isEmpty) {
-          return const Center(child: Text("No tienes matriculas"));
-        }
-
         final groupsByPeriodo = Matricula.agruparPorPeriodo(matriculas);
 
         return Scaffold(
           appBar: AppBar(title: const Text("Oferta de Matricula")),
-          body: ListView.builder(
-            itemCount: groupsByPeriodo.length,
-            itemBuilder: (BuildContext context, int index) {
-              final grupo = groupsByPeriodo[index];
-              return _buildPeriodoGroups(context, grupo);
-            },
-          ),
+          body: matriculas.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 25),
+                  child: ListView.builder(
+                    itemCount: groupsByPeriodo.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final grupo = groupsByPeriodo[index];
+                      return _buildPeriodoGroups(context, grupo);
+                    },
+                  ),
+                )
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.school,
+                        size: 100,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "No hay materias disponibles",
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
         );
       },
       error: (error, stackTrace) {
