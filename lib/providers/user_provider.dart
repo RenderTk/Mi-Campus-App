@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/user.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
-import 'package:usap_mobile/services/token_secure_storage_service.dart';
+import 'package:usap_mobile/services/secure_credential_storage_service.dart';
 
 final userProvider = FutureProvider<User>((ref) async {
   final token = await SecureCredentialStorageService.getToken();

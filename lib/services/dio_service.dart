@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/services/auth_service.dart';
-import 'package:usap_mobile/services/token_secure_storage_service.dart';
+import 'package:usap_mobile/services/secure_credential_storage_service.dart';
 
 const baseApiUrl = "https://siga.usap.edu/api/";
 

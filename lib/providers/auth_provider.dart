@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/token.dart';
 import 'package:usap_mobile/services/auth_service.dart';
 import 'package:usap_mobile/services/dio_service.dart';
-import 'package:usap_mobile/services/token_secure_storage_service.dart';
+import 'package:usap_mobile/services/secure_credential_storage_service.dart';
 
 class AuthNotifier extends AsyncNotifier<Token?> {
   final authService = AuthService();
