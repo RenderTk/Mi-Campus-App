@@ -4,10 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/models/student.dart';
-import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/screens/calificaciones_detail_screen.dart';
-import 'package:usap_mobile/utils/app_providers.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
@@ -165,9 +164,8 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
         // y se redirige al login
         if (error is TokenRefreshFailedException) {
           return SessionExpiredWidget(
-            onLogin: () {
-              ref.read(isLoggedInProvider.notifier).setLoggedOut();
-              AppProviders.invalidateAllProviders(ref);
+            onLogin: () async {
+              await ref.watch(userProvider.notifier).logOut();
             },
           );
         }
@@ -175,7 +173,7 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
         return ErrorStateWidget(
           errorMessage:
               "Ocurrio un error al cargar las calificaciones. Intente mas tarde.",
-          onRetry: () => ref.invalidate(studentProvider),
+          onRetry: () => ref.invalidate(userProvider),
           showExitButton: true,
         );
       },

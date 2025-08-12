@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show WidgetRef;
-import 'package:usap_mobile/providers/auth_provider.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
 
 void showTokenExpiredDialog(BuildContext context, WidgetRef ref) {
   showDialog(
@@ -34,11 +34,9 @@ void showTokenExpiredDialog(BuildContext context, WidgetRef ref) {
             child: const Text("Salir"),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.of(context).pop(); // Cerrar diálogo
-              ref
-                  .read(isLoggedInProvider.notifier)
-                  .setLoggedOut(); // Redirigir al login
+              await ref.watch(userProvider.notifier).logOut();
             },
             child: const Text("Iniciar Sesión"),
           ),
@@ -66,11 +64,9 @@ void showSimpleTokenExpiredDialog(BuildContext context, WidgetRef ref) {
         ),
         actions: [
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.of(context).pop(); // Cerrar diálogo
-              ref
-                  .read(isLoggedInProvider.notifier)
-                  .setLoggedOut(); // Redirigir al login
+              await ref.watch(userProvider.notifier).logOut();
             },
             child: const Text("Iniciar Sesión"),
           ),

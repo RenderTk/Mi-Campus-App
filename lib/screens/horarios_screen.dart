@@ -3,10 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/seccion_curso.dart';
 import 'package:usap_mobile/models/student.dart';
-import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/selected_day_of_the_week_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/utils/app_providers.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/widgets/cards/horario_card.dart';
 import 'package:usap_mobile/widgets/days_of_the_week_filter_button.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
@@ -150,9 +149,8 @@ class HorariosScreen extends ConsumerWidget {
         // y se redirige al login
         if (error is TokenRefreshFailedException) {
           return SessionExpiredWidget(
-            onLogin: () {
-              ref.read(isLoggedInProvider.notifier).setLoggedOut();
-              AppProviders.invalidateAllProviders(ref);
+            onLogin: () async {
+              await ref.watch(userProvider.notifier).logOut();
             },
           );
         }
@@ -160,7 +158,7 @@ class HorariosScreen extends ConsumerWidget {
         return ErrorStateWidget(
           errorMessage:
               "Ocurrio un error al cargar los horarios. Intente mas tarde.",
-          onRetry: () => ref.invalidate(studentProvider),
+          onRetry: () => ref.invalidate(userProvider),
           showExitButton: true,
         );
       },

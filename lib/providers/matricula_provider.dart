@@ -9,7 +9,12 @@ class MatriculaNotifier extends AsyncNotifier<List<Matricula>> {
 
   @override
   Future<List<Matricula>> build() async {
-    final user = await ref.read(userProvider.future);
+    final user = await ref.watch(userProvider.future);
+
+    if (user == null) {
+      throw Exception('User not found');
+    }
+
     final matriculas = await studentDataService.getStudentMatricula(user.id);
     return matriculas;
   }

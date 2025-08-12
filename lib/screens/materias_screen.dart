@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/matricula.dart';
-import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/matricula_provider.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/screens/materias_detail_screen.dart';
-import 'package:usap_mobile/utils/app_providers.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
@@ -146,9 +145,8 @@ class MateriasScreen extends ConsumerWidget {
         // y se redirige al login
         if (error is TokenRefreshFailedException) {
           return SessionExpiredWidget(
-            onLogin: () {
-              ref.read(isLoggedInProvider.notifier).setLoggedOut();
-              AppProviders.invalidateAllProviders(ref);
+            onLogin: () async {
+              await ref.watch(userProvider.notifier).logOut();
             },
           );
         }

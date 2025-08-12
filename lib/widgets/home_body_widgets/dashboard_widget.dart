@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/utils/app_providers.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/widgets/degree_progress_widget.dart';
 import 'package:usap_mobile/widgets/quick_access_widget.dart';
 import 'package:usap_mobile/widgets/upcoming_class_widget.dart';
@@ -35,9 +34,8 @@ class DashboardWidget extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               trailing: IconButton(
-                onPressed: () {
-                  ref.read(isLoggedInProvider.notifier).setLoggedOut();
-                  AppProviders.invalidateAllProviders(ref);
+                onPressed: () async {
+                  await ref.read(userProvider.notifier).logOut();
                 },
                 icon: const Icon(FontAwesomeIcons.rightFromBracket),
               ),

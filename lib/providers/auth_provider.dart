@@ -1,11 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/token.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/services/auth_service.dart';
 import 'package:usap_mobile/services/dio_service.dart';
+import 'package:usap_mobile/services/local_auth_service.dart';
 import 'package:usap_mobile/services/secure_credential_storage_service.dart';
 
 class AuthNotifier extends AsyncNotifier<Token?> {
   final authService = AuthService();
+  final localAuthService = LocalAuthService();
   final dioService = DioService();
 
   @override
@@ -14,25 +17,60 @@ class AuthNotifier extends AsyncNotifier<Token?> {
     return token;
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String username, String password) async {
     state = const AsyncValue.loading();
 
-    if (email.isEmpty || password.isEmpty) return;
+    if (username.isEmpty || password.isEmpty) return;
     final dio = dioService.getDio();
 
     state = await AsyncValue.guard(() async {
-      final token = await authService.login(dio, email, password);
+      final token = await authService.login(dio, username, password);
+      // clear any previous credentials
+      await SecureCredentialStorageService.clearAll();
+
       await SecureCredentialStorageService.setToken(token);
-      ref.read(isLoggedInProvider.notifier).setLoggedIn();
+      await SecureCredentialStorageService.setUserCredentials(
+        username,
+        password,
+      );
+
+      // wait for user provider to update
+      await ref.read(userProvider.notifier).refreshUser();
       return token;
     });
   }
 
-  Future<void> closeSession() async {
+  Future<void> biometricLogin() async {
+    state = const AsyncValue.loading();
+
+    final dio = dioService.getDio();
     state = await AsyncValue.guard(() async {
-      await SecureCredentialStorageService.clearToken();
-      ref.read(isLoggedInProvider.notifier).setLoggedOut();
-      return null;
+      final isAuthenticated = await localAuthService.authenticate();
+      if (!isAuthenticated) {
+        throw Exception("No se pudo iniciar sesión con biometría.");
+      }
+
+      final username = await SecureCredentialStorageService.getUsername();
+      final password = await SecureCredentialStorageService.getPassword();
+      if (username == null || password == null) {
+        throw Exception(
+          "No se pudo iniciar sesión con biometría. Inicia sesión manualmente.",
+        );
+      }
+
+      final token = await authService.login(dio, username, password);
+      // clear any previous credentials
+      await SecureCredentialStorageService.clearAll();
+
+      await SecureCredentialStorageService.setToken(token);
+      await SecureCredentialStorageService.setUserCredentials(
+        username,
+        password,
+      );
+
+      // wait for user provider to update
+      await ref.read(userProvider.notifier).refreshUser();
+      return token;
     });
   }
 
@@ -57,13 +95,15 @@ class AuthNotifier extends AsyncNotifier<Token?> {
       token = await authService.refreshToken(dio, user);
     } catch (e) {
       await SecureCredentialStorageService.clearToken();
-      ref.read(isLoggedInProvider.notifier).setLoggedOut();
+      // wait for user provider to update
+      await ref.read(userProvider.notifier).refreshUser();
       return;
     }
 
     state = await AsyncValue.guard(() async {
       await SecureCredentialStorageService.setToken(token);
-      ref.read(isLoggedInProvider.notifier).setLoggedIn();
+      // wait for user provider to update
+      await ref.read(userProvider.notifier).refreshUser();
       return token;
     });
   }
@@ -71,23 +111,4 @@ class AuthNotifier extends AsyncNotifier<Token?> {
 
 final authProvider = AsyncNotifierProvider<AuthNotifier, Token?>(
   AuthNotifier.new,
-);
-
-class IsLoggedInNotifier extends Notifier<bool> {
-  @override
-  bool build() {
-    return false;
-  }
-
-  void setLoggedIn() {
-    state = true;
-  }
-
-  void setLoggedOut() {
-    state = false;
-  }
-}
-
-final isLoggedInProvider = NotifierProvider<IsLoggedInNotifier, bool>(
-  IsLoggedInNotifier.new,
 );

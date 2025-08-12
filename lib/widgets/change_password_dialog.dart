@@ -135,6 +135,10 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
         _isLoading = true;
       });
       final user = await ref.read(userProvider.future);
+      if (user == null) {
+        throw Exception('User not found');
+      }
+
       final dio = await _dioService.getDioWithAutoRefresh();
       final msg = await _authService.changePassword(
         dio,
@@ -314,7 +318,7 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                   const Icon(FontAwesomeIcons.circleInfo, size: 16),
                   const SizedBox(width: 8),
                   Text(
-                    "Recomendaciones de contraseña",
+                    "Recomendaciones",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -396,50 +400,52 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildTitle(context),
-            const SizedBox(height: 10),
-            _buildPasswordTextFields(context),
-            const SizedBox(height: 5),
-            _buildPasswordRecomendationCard(context),
-            const SizedBox(height: 5),
-            ElevatedButton(
-              onPressed: _isLoading ? () {} : _onChangePassword,
-              child: _isLoading
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text("Cambiando contraseña..."),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 15,
-                          height: 15,
-                          child: CircularProgressIndicator(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
-                        ),
-                      ],
-                    )
-                  : const Text("Cambiar contraseña"),
-            ),
-            if (_statusMsg != null) ...[
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildTitle(context),
               const SizedBox(height: 10),
-              _buildStatusCard(
-                context,
-                message: _statusMsg!,
-                isSuccess: _isSucess,
+              _buildPasswordTextFields(context),
+              const SizedBox(height: 5),
+              _buildPasswordRecomendationCard(context),
+              const SizedBox(height: 5),
+              ElevatedButton(
+                onPressed: _isLoading ? () {} : _onChangePassword,
+                child: _isLoading
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text("Cambiando contraseña..."),
+                          const SizedBox(width: 10),
+                          SizedBox(
+                            width: 15,
+                            height: 15,
+                            child: CircularProgressIndicator(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ],
+                      )
+                    : const Text("Cambiar contraseña"),
               ),
+              if (_statusMsg != null) ...[
+                const SizedBox(height: 10),
+                _buildStatusCard(
+                  context,
+                  message: _statusMsg!,
+                  isSuccess: _isSucess,
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

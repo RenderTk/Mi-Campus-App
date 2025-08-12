@@ -13,9 +13,14 @@ class StudentNotifier extends AsyncNotifier<Student> {
   @override
   Future<Student> build() async {
     state = const AsyncValue.loading();
-    // await Future.delayed(const Duration(seconds: 5));
 
-    final user = await ref.read(userProvider.future);
+    // wait for user provider to update
+    final user = await ref.watch(userProvider.future);
+
+    if (user == null) {
+      throw Exception('User not found');
+    }
+
     final progresoCarrera = await studentDataService.getDegreeProgress(user.id);
     final puntosCoProgramaticos = await studentDataService
         .getPuntosCoProgramaticos(user.id);
@@ -43,6 +48,11 @@ class StudentNotifier extends AsyncNotifier<Student> {
 
     state = await AsyncValue.guard(() async {
       final user = await ref.read(userProvider.future);
+
+      if (user == null) {
+        throw Exception('User not found');
+      }
+
       final refreshedSecciones = await studentDataService.getStudentsSchedule(
         user.id,
       );

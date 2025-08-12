@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/services/local_auth_service.dart';
-import 'package:usap_mobile/services/secure_credential_storage_service.dart';
 import 'package:usap_mobile/utils/email_validator.dart';
 import 'package:usap_mobile/utils/error_helper.dart';
 import 'package:usap_mobile/utils/snackbar_helper.dart';
@@ -77,10 +76,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               setState(() {
                 isLoading = true;
               });
-              final email = emailController.text.trim().split('@')[0];
+              final username = emailController.text.trim().split('@')[0];
               await ref
                   .read(authProvider.notifier)
-                  .login(email, passwordController.text.trim());
+                  .login(username, passwordController.text.trim());
             } catch (e) {
               if (!mounted) return;
               SnackbarHelper.showCustomSnackbar(
@@ -125,24 +124,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           setState(() {
             isLoading = true;
           });
-          final isAuthenticated = await localAuthService.authenticate();
-          // final isAuthenticated = await _authenticateWithBiometrics();
-          if (!isAuthenticated) {
-            throw Exception();
-          }
-
-          final token = await SecureCredentialStorageService.getToken();
-          if (token == null) {
-            throw Exception();
-          }
-
-          await ref.read(authProvider.notifier).refreshToken();
+          await ref.read(authProvider.notifier).biometricLogin();
         } catch (e) {
           if (!mounted) return;
           SnackbarHelper.showCustomSnackbar(
             context: context,
             type: SnackbarType.warning,
-            message: "No se pudo iniciar sesión con biometría.",
+            message:
+                "No se pudo iniciar sesión con biometría. Inicia sesión manualmente.",
           );
         } finally {
           setState(() {

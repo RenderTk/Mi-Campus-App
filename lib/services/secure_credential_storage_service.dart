@@ -7,7 +7,7 @@ class SecureCredentialStorageService {
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
   static const tokenKey = 'token';
-  static const userKey = 'user';
+  static const usernameKey = 'username';
   static const passwordKey = 'password';
 
   static Future<void> setToken(Token token) async {
@@ -21,7 +21,7 @@ class SecureCredentialStorageService {
   }
 
   static Future<void> clearUserCredentials() async {
-    await _storage.delete(key: userKey);
+    await _storage.delete(key: usernameKey);
     await _storage.delete(key: passwordKey);
   }
 
@@ -30,12 +30,12 @@ class SecureCredentialStorageService {
   }
 
   static Future<void> setUserCredentials(String user, String password) async {
-    await _storage.write(key: userKey, value: user);
+    await _storage.write(key: usernameKey, value: user);
     await _storage.write(key: passwordKey, value: password);
   }
 
-  static Future<String?> getUser() async {
-    return await _storage.read(key: userKey);
+  static Future<String?> getUsername() async {
+    return await _storage.read(key: usernameKey);
   }
 
   static Future<String?> getPassword() async {
