@@ -4,7 +4,7 @@ import 'package:usap_mobile/providers/auth_provider.dart';
 import 'package:usap_mobile/services/token_secure_storage_service.dart';
 
 final userProvider = FutureProvider<User>((ref) async {
-  final token = await TokenSecureStorageService.getToken();
+  final token = await SecureCredentialStorageService.getToken();
 
   if (token == null) {
     await ref.read(authProvider.notifier).closeSession();

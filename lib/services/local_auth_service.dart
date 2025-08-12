@@ -13,7 +13,7 @@ class LocalAuthService {
   Future<bool> canUseBiometrics() async {
     try {
       // Check if user has alredy logged in, and theres a token on the device
-      final token = await TokenSecureStorageService.getToken();
+      final token = await SecureCredentialStorageService.getToken();
       if (token == null) {
         return false;
       }

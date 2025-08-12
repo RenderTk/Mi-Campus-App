@@ -10,7 +10,7 @@ class AuthNotifier extends AsyncNotifier<Token?> {
 
   @override
   Future<Token?>? build() async {
-    final token = await TokenSecureStorageService.getToken();
+    final token = await SecureCredentialStorageService.getToken();
     return token;
   }
 
@@ -22,7 +22,7 @@ class AuthNotifier extends AsyncNotifier<Token?> {
 
     state = await AsyncValue.guard(() async {
       final token = await authService.login(dio, email, password);
-      await TokenSecureStorageService.setToken(token);
+      await SecureCredentialStorageService.setToken(token);
       ref.read(isLoggedInProvider.notifier).setLoggedIn();
       return token;
     });
@@ -30,7 +30,7 @@ class AuthNotifier extends AsyncNotifier<Token?> {
 
   Future<void> closeSession() async {
     state = await AsyncValue.guard(() async {
-      await TokenSecureStorageService.clearToken();
+      await SecureCredentialStorageService.clearToken();
       ref.read(isLoggedInProvider.notifier).setLoggedOut();
       return null;
     });
@@ -56,13 +56,13 @@ class AuthNotifier extends AsyncNotifier<Token?> {
       }
       token = await authService.refreshToken(dio, user);
     } catch (e) {
-      await TokenSecureStorageService.clearToken();
+      await SecureCredentialStorageService.clearToken();
       ref.read(isLoggedInProvider.notifier).setLoggedOut();
       return;
     }
 
     state = await AsyncValue.guard(() async {
-      await TokenSecureStorageService.setToken(token);
+      await SecureCredentialStorageService.setToken(token);
       ref.read(isLoggedInProvider.notifier).setLoggedIn();
       return token;
     });

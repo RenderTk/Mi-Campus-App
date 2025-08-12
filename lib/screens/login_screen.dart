@@ -131,7 +131,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             throw Exception();
           }
 
-          final token = await TokenSecureStorageService.getToken();
+          final token = await SecureCredentialStorageService.getToken();
           if (token == null) {
             throw Exception();
           }

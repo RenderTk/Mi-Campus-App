@@ -14,18 +14,20 @@ class PerfilWidget extends ConsumerWidget {
     return student.when(
       data: (student) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            StudentCard(student: student),
-            const SizedBox(height: 5),
-            const Divider(),
-            const SizedBox(height: 5),
-            DegreeProgressPlusWidget(student: student),
-            const Divider(),
-            const SizedBox(height: 5),
-            const ConfigurationCard(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              StudentCard(student: student),
+              const SizedBox(height: 5),
+              const Divider(),
+              const SizedBox(height: 5),
+              DegreeProgressPlusWidget(student: student),
+              const Divider(),
+              const SizedBox(height: 5),
+              const ConfigurationCard(),
+            ],
+          ),
         ),
       ),
 

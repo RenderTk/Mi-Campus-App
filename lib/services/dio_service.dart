@@ -24,7 +24,7 @@ class DioService {
   }
 
   Future<Dio> getDioWithAutoRefresh() async {
-    final token = await TokenSecureStorageService.getToken();
+    final token = await SecureCredentialStorageService.getToken();
     try {
       if (token == null) {
         throw TokenRefreshFailedException();
