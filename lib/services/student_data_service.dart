@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/models/carrera.dart';
 import 'package:usap_mobile/models/matricula.dart';
@@ -242,5 +245,34 @@ class StudentDataService {
     }
 
     return null;
+  }
+
+  Future<String?> downloadStudentCalendar(String url) async {
+    try {
+      final dio = _dioService.getDio();
+
+      // Download the ICS file
+      final response = await dio.get(
+        url,
+        options: Options(responseType: ResponseType.bytes),
+      );
+
+      if (response.statusCode == 200) {
+        // The response.data should contain the ICS file as text
+        String icsContent = utf8.decode(response.data);
+
+        // Basic validation that it's an ICS file
+        if (icsContent.contains('BEGIN:VCALENDAR') &&
+            icsContent.contains('END:VCALENDAR')) {
+          return icsContent;
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
   }
 }

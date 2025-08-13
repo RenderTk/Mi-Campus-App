@@ -3,12 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/student.dart';
+import 'package:usap_mobile/providers/calendar_events_provider.dart';
 import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
-import 'package:usap_mobile/widgets/home_body_widgets/calendar_widget.dart';
 import 'package:usap_mobile/widgets/home_body_widgets/dashboard_widget.dart';
+import 'package:usap_mobile/widgets/home_body_widgets/moodle_calendar_url_widget.dart';
 import 'package:usap_mobile/widgets/home_body_widgets/perfil_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
@@ -26,9 +27,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
 
-    // Only trigger if mounted and user is logged in
     Future.microtask(() async {
-      if (!mounted) return;
       await ref.read(matriculaProvider.future);
     });
   }
@@ -56,6 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             IconButton(
               onPressed: () {
                 ref.invalidate(userProvider);
+                ref.invalidate(calendarEventsProvider);
               },
               icon: const Icon(FontAwesomeIcons.arrowsRotate),
             ),
@@ -63,7 +63,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         body: IndexedStack(
           index: selectedIndex,
-          children: const [DashboardWidget(), CalendarWidget(), PerfilWidget()],
+          children: const [
+            DashboardWidget(),
+            MoodleCalendarUrlWidget(),
+            PerfilWidget(),
+          ],
         ),
 
         bottomNavigationBar: NavigationBar(

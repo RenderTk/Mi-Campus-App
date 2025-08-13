@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/user.dart';
 import 'package:usap_mobile/services/secure_credential_storage_service.dart';
 
@@ -11,7 +12,13 @@ class UserNotifier extends AsyncNotifier<User?> {
       return null;
     }
 
-    final payload = token.decode()!;
+    late Map<String, dynamic> payload;
+    try {
+      payload = token.decode()!;
+    } catch (e) {
+      //probably expired
+      throw TokenRefreshFailedException();
+    }
     return User(
       id: payload["user"],
       name: payload["NOMBRE"],
