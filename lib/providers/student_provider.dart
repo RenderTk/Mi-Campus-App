@@ -14,21 +14,26 @@ class StudentNotifier extends AsyncNotifier<Student> {
   Future<Student> build() async {
     state = const AsyncValue.loading();
 
-    // wait for user provider to update
+    // Wait for user provider to update first (this is still a dependency)
     final user = await ref.watch(userProvider.future);
-
     if (user == null) {
       throw Exception('User not found');
     }
 
-    final progresoCarrera = await studentDataService.getDegreeProgress(user.id);
-    final puntosCoProgramaticos = await studentDataService
-        .getPuntosCoProgramaticos(user.id);
-    final carrera = await studentDataService.getDegree(user.id);
-    final secciones = await studentDataService.getStudentsSchedule(user.id);
-    final calificaciones = await studentDataService.getStudentCalifications(
-      user.id,
-    );
+    // Execute all independent service calls in parallel using Records
+    final (
+      progresoCarrera,
+      puntosCoProgramaticos,
+      carrera,
+      secciones,
+      calificaciones,
+    ) = await (
+      studentDataService.getDegreeProgress(user.id),
+      studentDataService.getPuntosCoProgramaticos(user.id),
+      studentDataService.getDegree(user.id),
+      studentDataService.getStudentsSchedule(user.id),
+      studentDataService.getStudentCalifications(user.id),
+    ).wait;
 
     // Ordenar las secciones por día y hora
     final seccionesOrdenadas = _ordenarSecciones(secciones);
