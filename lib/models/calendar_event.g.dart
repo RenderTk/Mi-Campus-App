@@ -17,9 +17,9 @@ abstract class _$CalendarEventCWProxy {
 
   CalendarEvent dtstamp(DateTime? dtstamp);
 
-  CalendarEvent dtstart(DateTime? dtstart);
+  CalendarEvent dtstart(DateTime dtstart);
 
-  CalendarEvent dtend(DateTime? dtend);
+  CalendarEvent dtend(DateTime dtend);
 
   CalendarEvent categories(String? categories);
 
@@ -42,8 +42,8 @@ abstract class _$CalendarEventCWProxy {
     String summary,
     String? description,
     DateTime? dtstamp,
-    DateTime? dtstart,
-    DateTime? dtend,
+    DateTime dtstart,
+    DateTime dtend,
     String? categories,
     String? classType,
     DateTime? lastModified,
@@ -75,10 +75,10 @@ class _$CalendarEventCWProxyImpl implements _$CalendarEventCWProxy {
   CalendarEvent dtstamp(DateTime? dtstamp) => call(dtstamp: dtstamp);
 
   @override
-  CalendarEvent dtstart(DateTime? dtstart) => call(dtstart: dtstart);
+  CalendarEvent dtstart(DateTime dtstart) => call(dtstart: dtstart);
 
   @override
-  CalendarEvent dtend(DateTime? dtend) => call(dtend: dtend);
+  CalendarEvent dtend(DateTime dtend) => call(dtend: dtend);
 
   @override
   CalendarEvent categories(String? categories) => call(categories: categories);
@@ -135,14 +135,14 @@ class _$CalendarEventCWProxyImpl implements _$CalendarEventCWProxy {
           ? _value.dtstamp
           // ignore: cast_nullable_to_non_nullable
           : dtstamp as DateTime?,
-      dtstart: dtstart == const $CopyWithPlaceholder()
+      dtstart: dtstart == const $CopyWithPlaceholder() || dtstart == null
           ? _value.dtstart
           // ignore: cast_nullable_to_non_nullable
-          : dtstart as DateTime?,
-      dtend: dtend == const $CopyWithPlaceholder()
+          : dtstart as DateTime,
+      dtend: dtend == const $CopyWithPlaceholder() || dtend == null
           ? _value.dtend
           // ignore: cast_nullable_to_non_nullable
-          : dtend as DateTime?,
+          : dtend as DateTime,
       categories: categories == const $CopyWithPlaceholder()
           ? _value.categories
           // ignore: cast_nullable_to_non_nullable

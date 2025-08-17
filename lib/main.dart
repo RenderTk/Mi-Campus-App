@@ -5,8 +5,10 @@ import 'package:usap_mobile/screens/home_screen.dart';
 import 'package:usap_mobile/screens/login_screen.dart';
 import 'package:usap_mobile/themes/app_theme.dart';
 import 'package:usap_mobile/utils/app_providers.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting('es_ES', null);
   runApp(
     ProviderScope(observers: [AppProviderObservers()], child: const MyApp()),
   );

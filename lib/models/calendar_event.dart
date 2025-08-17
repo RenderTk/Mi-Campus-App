@@ -14,9 +14,9 @@ class CalendarEvent {
 
   final DateTime? dtstamp;
 
-  final DateTime? dtstart;
+  final DateTime dtstart;
 
-  final DateTime? dtend;
+  final DateTime dtend;
 
   final String? categories;
 
@@ -40,9 +40,15 @@ class CalendarEvent {
     this.createdAt,
   });
 
-  static DateTime? parseDt(Map<String, dynamic> data) {
+  static DateTime? tryParseDt(Map<String, dynamic> data) {
     String dt = data["dt"] as String;
     final datetime = DateTime.tryParse(dt);
+    return datetime;
+  }
+
+  static DateTime parseDt(Map<String, dynamic> data) {
+    String dt = data["dt"] as String;
+    final datetime = DateTime.parse(dt);
     return datetime;
   }
 
@@ -53,15 +59,25 @@ class CalendarEvent {
         uid: item['uid'] as String,
         summary: item['summary'] as String,
         description: item['description'] as String?,
-        dtstamp: parseDt(item['dtstamp']),
+        dtstamp: tryParseDt(item['dtstamp']),
         dtstart: parseDt(item['dtstart']),
         dtend: parseDt(item['dtend']),
         categories: item['categories'][0] as String?,
         classType: item['class_type'] as String?,
-        lastModified: parseDt(item['lastModified']),
+        lastModified: tryParseDt(item['lastModified']),
       );
       events.add(calendarEvent);
     }
     return events;
+  }
+
+  static CalendarEvent? getNewestEvent(List<CalendarEvent> events) {
+    if (events.isEmpty) return null;
+    return events.reduce((a, b) => a.dtstamp!.isAfter(b.dtend) ? a : b);
+  }
+
+  static CalendarEvent? getOldestEvent(List<CalendarEvent> events) {
+    if (events.isEmpty) return null;
+    return events.reduce((a, b) => a.dtstamp!.isBefore(b.dtend) ? a : b);
   }
 }

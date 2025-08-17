@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/calendar_events_provider.dart';
+import 'package:usap_mobile/providers/calendar_navigation_provider.dart';
 import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
@@ -30,6 +31,53 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Future.microtask(() async {
       await ref.read(matriculaProvider.future);
     });
+  }
+
+  Widget _buildDeleteCalendarEventsButton() {
+    final calendarEvents = ref.watch(calendarEventsProvider).valueOrNull;
+    if (calendarEvents == null || calendarEvents.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return IconButton(
+      onPressed: () async {
+        final bool? shouldDelete = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Eliminar todos los eventos'),
+              content: const Text(
+                '¿Estás seguro de que quieres eliminar todos los eventos del calendario? Esta acción no se puede deshacer.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false); // Return false for cancel
+                  },
+                  child: const Text('Cancelar'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true); // Return true for confirm
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                    foregroundColor: Theme.of(context).colorScheme.onError,
+                  ),
+                  child: const Text('Eliminar'),
+                ),
+              ],
+            );
+          },
+        );
+
+        // Only delete if user confirmed
+        if (shouldDelete == true) {
+          await ref.read(calendarEventsProvider.notifier).deleteAllEvents();
+        }
+      },
+      icon: const Icon(FontAwesomeIcons.trash),
+    );
   }
 
   @override
@@ -59,6 +107,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
               icon: const Icon(FontAwesomeIcons.arrowsRotate),
             ),
+
+            // only show this button when in calendar screen or MoodleCalendarUrlWidget
+            if (selectedIndex == 1) ...[
+              _buildDeleteCalendarEventsButton(),
+              IconButton(
+                onPressed: () => ref
+                    .read(calendarNavigationProvider.notifier)
+                    .showOpposite(),
+                icon: const Icon(FontAwesomeIcons.calendarPlus),
+              ),
+            ],
           ],
         ),
         body: IndexedStack(

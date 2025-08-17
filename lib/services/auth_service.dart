@@ -7,20 +7,24 @@ const String changePasswordUrl = "cambiar_clave/cambiar";
 
 class AuthService {
   Future<Token> login(Dio dio, String email, String password) async {
-    final request = await dio.post(
-      tokenUrl,
-      data: {
-        "username": email,
-        "password": password,
-        "tokenGoo": "",
-        "sucursal": 1,
-      },
-    );
+    late Response request;
+    try {
+      request = await dio.post(
+        tokenUrl,
+        data: {
+          "username": email,
+          "password": password,
+          "tokenGoo": "",
+          "sucursal": 1,
+        },
+      );
 
-    if (request.statusCode != 200) {
-      throw Exception(request.data);
+      if (request.statusCode != 200) {
+        throw Exception(request.data);
+      }
+    } catch (e) {
+      throw Exception("Error al iniciar sesión. Ingresa tus credenciales.");
     }
-
     final token = Token.fromJson(request.data);
 
     try {

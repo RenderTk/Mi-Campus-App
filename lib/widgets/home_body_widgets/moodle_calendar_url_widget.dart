@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/calendar_event.dart';
 import 'package:usap_mobile/providers/calendar_events_provider.dart';
+import 'package:usap_mobile/providers/calendar_navigation_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/db_service.dart';
 import 'package:usap_mobile/services/student_data_service.dart';
 import 'package:usap_mobile/utils/ics_parser.dart';
 import 'package:usap_mobile/utils/snackbar_helper.dart';
@@ -26,7 +26,6 @@ class _MoodleCalendarUrlWidgetState
   final _formKey = GlobalKey<FormState>();
   final _urlTextController = TextEditingController();
   final _studentDataService = StudentDataService();
-  final _dbService = DbService();
   final _icsParser = IcsParser();
   int? eventsToBeInsertedCount;
   final List<CalendarEvent> loadedEventsFromUrl = [];
@@ -114,6 +113,24 @@ class _MoodleCalendarUrlWidgetState
     }
   }
 
+  Future<void> onSaveEvents() async {
+    try {
+      //save the new events
+      await ref
+          .read(calendarEventsProvider.notifier)
+          .addEvents(loadedEventsFromUrl);
+
+      //to navigate to calendar screen
+      ref.read(calendarNavigationProvider.notifier).showCalendar();
+    } finally {
+      setState(() {
+        eventsToBeInsertedCount = null;
+        loadedEventsFromUrl.clear();
+        _urlTextController.clear();
+      });
+    }
+  }
+
   Future<void> _onCalendarDownload() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -140,8 +157,15 @@ class _MoodleCalendarUrlWidgetState
 
       //if success
       final events = _icsParser.parseRawIcsDataToCalendarEvents(rawIcsContent);
-      eventsToBeInsertedCount = await _dbService.countNewEvents(events);
-      loadedEventsFromUrl.addAll(events);
+      eventsToBeInsertedCount = ref
+          .read(calendarEventsProvider.notifier)
+          .countNewEventToBeAdded(events);
+
+      final uniqueEvents = ref
+          .read(calendarEventsProvider.notifier)
+          .removeDuplicateEvents(events);
+
+      loadedEventsFromUrl.addAll(uniqueEvents);
     } catch (e) {
       if (!mounted) {
         return;
@@ -170,7 +194,7 @@ class _MoodleCalendarUrlWidgetState
             Text(
               (eventsToBeInsertedCount ?? 0) == 0
                   ? "No hay nuevos eventos para guardar"
-                  : "Se encontraron ${loadedEventsFromUrl.length} nuevos eventos",
+                  : "Se encontraron $eventsToBeInsertedCount nuevos eventos",
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -180,24 +204,15 @@ class _MoodleCalendarUrlWidgetState
         ),
         const SizedBox(height: 10),
         if ((eventsToBeInsertedCount ?? 0) > 0)
-          ElevatedButton(
-            onPressed: () {
-              try {
-                ref
-                    .read(calendarEventsProvider.notifier)
-                    .addEvents(loadedEventsFromUrl);
-              } finally {
-                setState(() {
-                  eventsToBeInsertedCount = null;
-                  loadedEventsFromUrl.clear();
-                  _urlTextController.clear();
-                });
-              }
-            },
-            style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-              backgroundColor: WidgetStateProperty.all(Colors.green),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () async => onSaveEvents(),
+              style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
+                backgroundColor: WidgetStateProperty.all(Colors.green),
+              ),
+              child: const Text("Guardar"),
             ),
-            child: const Text("Guardar"),
           ),
       ],
     );
@@ -228,11 +243,14 @@ class _MoodleCalendarUrlWidgetState
               TextFormField(
                 controller: _urlTextController,
                 validator: _validateUrl,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   hintText:
                       "https://virtual.usap.edu/calendar/export_execute.php?userid=12345",
-                  suffixIcon: Icon(Icons.link, size: 16),
+                  suffixIcon: IconButton(
+                    onPressed: () => _urlTextController.clear(),
+                    icon: const Icon(Icons.clear),
+                  ),
                 ),
               ),
               if (eventsToBeInsertedCount == null ||
@@ -341,7 +359,11 @@ class _MoodleCalendarUrlWidgetState
   }
 
   Widget _buildSuccessState(List<CalendarEvent> calendarEvents) {
-    if (calendarEvents.isNotEmpty) {
+    final showCalendar = ref
+        .watch(calendarNavigationProvider)
+        .maybeWhen(data: (value) => value, orElse: () => false);
+
+    if (showCalendar) {
       return const CalendarWidget();
     }
 

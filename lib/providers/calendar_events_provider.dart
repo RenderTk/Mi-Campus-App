@@ -15,10 +15,19 @@ class CalendarEventsNotfier extends AsyncNotifier<List<CalendarEvent>> {
     return state.value!.map((event) => event.copyWith()).toList();
   }
 
-  Future<void> deleteAllEvents() async {
-    state = const AsyncValue.loading();
-    await _dbService.deleteAllEvents();
-    state = const AsyncValue.data([]);
+  List<CalendarEvent> removeDuplicateEvents(List<CalendarEvent> newEvents) {
+    final events = _makeDeepCopyOfState();
+    final existingUids = events.map((e) => e.uid).toSet();
+    return newEvents
+        .where((event) => !existingUids.contains(event.uid))
+        .toList();
+  }
+
+  int countNewEventToBeAdded(List<CalendarEvent> newEvents) {
+    final currentEvents = _makeDeepCopyOfState();
+    final existingUids = currentEvents.map((e) => e.uid).toSet();
+
+    return newEvents.where((event) => !existingUids.contains(event.uid)).length;
   }
 
   Future<void> addEvents(List<CalendarEvent> newEvents) async {
@@ -51,6 +60,12 @@ class CalendarEventsNotfier extends AsyncNotifier<List<CalendarEvent>> {
       // Return updated list
       return [...currentEvents, ...notDuplicatedEvents];
     });
+  }
+
+  Future<void> deleteAllEvents() async {
+    state = const AsyncValue.loading();
+    await _dbService.clearDb();
+    state = const AsyncValue.data([]);
   }
 }
 

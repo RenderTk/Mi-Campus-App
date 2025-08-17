@@ -30,8 +30,8 @@ class DbService {
         $_eventsTableSummary TEXT NOT NULL,
         $_eventsTableDescription TEXT,
         $_eventsTableDtstamp TEXT,
-        $_eventsTableDtstart TEXT,
-        $_eventsTableDtend TEXT,
+        $_eventsTableDtstart TEXT NOT NULL,
+        $_eventsTableDtend TEXT NOT NULL,
         $_eventsTableCategories TEXT,
         $_eventsTableClassType TEXT,
         $_eventsTableLastModified TEXT,
@@ -46,8 +46,8 @@ class DbService {
       _eventsTableSummary: event.summary,
       _eventsTableDescription: event.description,
       _eventsTableDtstamp: event.dtstamp?.toIso8601String(),
-      _eventsTableDtstart: event.dtstart?.toIso8601String(),
-      _eventsTableDtend: event.dtend?.toIso8601String(),
+      _eventsTableDtstart: event.dtstart.toIso8601String(),
+      _eventsTableDtend: event.dtend.toIso8601String(),
       _eventsTableCategories: event.categories,
       _eventsTableClassType: event.classType,
       _eventsTableLastModified: event.lastModified?.toIso8601String(),
@@ -58,6 +58,20 @@ class DbService {
     if (_db != null) return _db!;
     _db = await getDatabase();
     return _db!;
+  }
+
+  Future<void> deleteFirstFiveEvents() async {
+    final dbPath = join(await getDatabasesPath(), 'database.db');
+    final db = await openDatabase(dbPath);
+
+    // Delete the first 5 records ordered by ID (oldest first)
+    await db.delete(
+      _eventsTableName,
+      where:
+          '$_eventsTableId IN (SELECT $_eventsTableId FROM $_eventsTableName ORDER BY $_eventsTableId ASC LIMIT 5)',
+    );
+
+    await db.close();
   }
 
   Future<Database> getDatabase() async {
@@ -107,7 +121,8 @@ class DbService {
     return uids.length - existingCount;
   }
 
-  Future<void> deleteAllEvents() async {
+  Future<void> clearDb() async {
+    //delete all events
     final db = await database;
     await db.delete(_eventsTableName);
   }
@@ -126,8 +141,8 @@ class DbService {
         summary: item[_eventsTableSummary] as String,
         description: item[_eventsTableDescription] as String?,
         dtstamp: DateTime.tryParse(item[_eventsTableDtstamp] as String? ?? ''),
-        dtstart: DateTime.tryParse(item[_eventsTableDtstart] as String? ?? ''),
-        dtend: DateTime.tryParse(item[_eventsTableDtend] as String? ?? ''),
+        dtstart: DateTime.parse(item[_eventsTableDtstart] as String),
+        dtend: DateTime.parse(item[_eventsTableDtend] as String),
         categories: item[_eventsTableCategories] as String?,
         classType: item[_eventsTableClassType] as String?,
         lastModified: DateTime.tryParse(
