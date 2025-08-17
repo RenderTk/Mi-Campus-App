@@ -130,7 +130,7 @@ class HorariosScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             alignment: Alignment.topCenter,
             child: Text(
-              "Total de clases: ${filteredSecciones.length}",
+              "Total de clases: ${filteredSecciones.map((s) => s.descripcionCurso).toSet().length}",
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: 12,

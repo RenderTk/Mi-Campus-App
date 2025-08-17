@@ -26,13 +26,11 @@ class AuthService {
       throw Exception("Error al iniciar sesión. Ingresa tus credenciales.");
     }
     final token = Token.fromJson(request.data);
-
     try {
       token.decode();
     } catch (e) {
       throw Exception("Correo o contraseña incorrecta");
     }
-
     return Token.fromJson(request.data);
   }
 
