@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/home_screen.dart';
+import 'package:usap_mobile/screens/home_screen/home_screen.dart';
 import 'package:usap_mobile/screens/login_screen.dart';
 import 'package:usap_mobile/themes/app_theme.dart';
 import 'package:usap_mobile/utils/app_providers.dart';

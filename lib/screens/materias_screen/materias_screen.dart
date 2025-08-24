@@ -5,7 +5,7 @@ import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/models/matricula.dart';
 import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/materias_detail_screen.dart';
+import 'package:usap_mobile/screens/materias_screen/materias_detail_screen.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';

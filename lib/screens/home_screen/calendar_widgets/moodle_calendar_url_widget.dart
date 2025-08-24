@@ -9,7 +9,7 @@ import 'package:usap_mobile/services/student_data_service.dart';
 import 'package:usap_mobile/utils/ics_parser.dart';
 import 'package:usap_mobile/utils/snackbar_helper.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
-import 'package:usap_mobile/widgets/home_body_widgets/calendar_widget.dart';
+import 'package:usap_mobile/screens/home_screen/calendar_widgets/calendar_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
 

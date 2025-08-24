@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/screens/calificaciones_screen.dart';
-import 'package:usap_mobile/screens/horarios_screen.dart';
-import 'package:usap_mobile/screens/materias_screen.dart';
+import 'package:usap_mobile/screens/calificaciones_screen/calificaciones_screen.dart';
+import 'package:usap_mobile/screens/horarios_screen/horarios_screen.dart';
+import 'package:usap_mobile/screens/materias_screen/materias_screen.dart';
 import 'package:usap_mobile/screens/pagos_screen/pagos_screen.dart';
 
 class QuickAccessWidget extends StatelessWidget {

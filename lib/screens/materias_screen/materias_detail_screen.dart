@@ -5,7 +5,7 @@ import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/services/student_data_service.dart';
 import 'package:usap_mobile/utils/snackbar_helper.dart';
-import 'package:usap_mobile/widgets/cards/materia_card.dart';
+import 'package:usap_mobile/screens/materias_screen/widgets/materia_card.dart';
 import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
 
 class MateriasDetailScreen extends ConsumerStatefulWidget {

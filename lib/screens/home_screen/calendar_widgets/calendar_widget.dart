@@ -6,7 +6,7 @@ import 'package:usap_mobile/models/calendar_event.dart';
 import 'package:usap_mobile/providers/calendar_events_provider.dart';
 import 'package:usap_mobile/providers/calendar_navigation_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/widgets/cards/event_card.dart';
+import 'package:usap_mobile/screens/home_screen/calendar_widgets/event_card.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';

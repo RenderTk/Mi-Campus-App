@@ -9,9 +9,9 @@ import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
-import 'package:usap_mobile/widgets/home_body_widgets/dashboard_widget.dart';
-import 'package:usap_mobile/widgets/home_body_widgets/moodle_calendar_url_widget.dart';
-import 'package:usap_mobile/widgets/home_body_widgets/perfil_widget.dart';
+import 'package:usap_mobile/screens/home_screen/home_widgets/dashboard_widget.dart';
+import 'package:usap_mobile/screens/home_screen/calendar_widgets/moodle_calendar_url_widget.dart';
+import 'package:usap_mobile/screens/home_screen/perfil_widgets/perfil_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
 

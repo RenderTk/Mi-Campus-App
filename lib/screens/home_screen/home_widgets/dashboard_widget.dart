@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/widgets/degree_progress_widget.dart';
-import 'package:usap_mobile/widgets/quick_access_widget.dart';
-import 'package:usap_mobile/widgets/upcoming_class_widget.dart';
+import 'package:usap_mobile/screens/home_screen/home_widgets/degree_progress_widget.dart';
+import 'package:usap_mobile/screens/home_screen/home_widgets/quick_access_widget.dart';
+import 'package:usap_mobile/screens/home_screen/home_widgets/upcoming_class_widget.dart';
 
 class DashboardWidget extends ConsumerWidget {
   const DashboardWidget({super.key});

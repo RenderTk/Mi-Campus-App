@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/widgets/cards/configuration_card.dart';
-import 'package:usap_mobile/widgets/cards/rendimiento_academico_card.dart';
-import 'package:usap_mobile/widgets/cards/student_card.dart';
-import 'package:usap_mobile/widgets/degree_progress_plus_widget.dart';
+import 'package:usap_mobile/screens/home_screen/perfil_widgets/configuration_card.dart';
+import 'package:usap_mobile/screens/home_screen/home_widgets/rendimiento_academico_card.dart';
+import 'package:usap_mobile/screens/home_screen/perfil_widgets/student_card.dart';
+import 'package:usap_mobile/screens/home_screen/perfil_widgets/degree_progress_plus_widget.dart';
 
 class PerfilWidget extends ConsumerWidget {
   const PerfilWidget({super.key});
