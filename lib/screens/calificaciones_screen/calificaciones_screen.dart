@@ -6,7 +6,7 @@ import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/calificaciones_detail_screen.dart';
+import 'package:usap_mobile/screens/calificaciones_screen/calificaciones_detail_screen.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';

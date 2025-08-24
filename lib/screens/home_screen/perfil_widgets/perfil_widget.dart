@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
+import 'package:usap_mobile/screens/home_screen/perfil_widgets/upcoming_class_widget.dart';
 import 'package:usap_mobile/screens/home_screen/perfil_widgets/configuration_card.dart';
-import 'package:usap_mobile/screens/home_screen/home_widgets/rendimiento_academico_card.dart';
 import 'package:usap_mobile/screens/home_screen/perfil_widgets/student_card.dart';
 import 'package:usap_mobile/screens/home_screen/perfil_widgets/degree_progress_plus_widget.dart';
 
@@ -21,15 +20,8 @@ class PerfilWidget extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StudentCard(student: student),
-
+              UpcomingClassWidget(student: student),
               DegreeProgressPlusWidget(student: student),
-
-              RendimientoAcademicoCard(
-                puntosCoprogramaticos: student.puntosCoProgramaticos,
-                promedioGeneral: CalificacionCurso.getPromedio(
-                  student.calificaciones,
-                ),
-              ),
               const ConfigurationCard(),
             ],
           ),

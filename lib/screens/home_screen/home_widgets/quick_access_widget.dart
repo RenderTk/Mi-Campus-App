@@ -22,7 +22,7 @@ class QuickAccessWidget extends StatelessWidget {
           color: Theme.of(
             context,
           ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
-          margin: const EdgeInsets.all(8),
+          margin: const EdgeInsets.all(5),
           child: Container(
             height: 85,
             alignment: Alignment.center,
@@ -54,7 +54,6 @@ class QuickAccessWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        const SizedBox(height: 10),
         Row(
           mainAxisSize: MainAxisSize.max,
           children: [

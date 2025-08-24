@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:usap_mobile/models/calendar_event.dart';
-import 'package:usap_mobile/widgets/cards/event_detail_bottom_sheet.dart';
+import 'package:usap_mobile/screens/home_screen/calendar_widgets/event_detail_bottom_sheet.dart';
 import 'package:usap_mobile/widgets/labeled_badge.dart';
 
 class EventCard extends StatelessWidget {

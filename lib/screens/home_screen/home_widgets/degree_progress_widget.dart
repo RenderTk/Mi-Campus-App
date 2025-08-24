@@ -11,7 +11,7 @@ class DegreeProgressWidget extends StatelessWidget {
     Widget buildDegreeProgressChart(int completionPercentage) {
       return SizedBox(
         width: 100,
-        height: 70,
+        height: 45,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -56,7 +56,7 @@ class DegreeProgressWidget extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 220,
+      height: 200,
       child: Card(
         color: Theme.of(
           context,
