@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:usap_mobile/screens/calificaciones_screen.dart';
 import 'package:usap_mobile/screens/horarios_screen.dart';
 import 'package:usap_mobile/screens/materias_screen.dart';
+import 'package:usap_mobile/screens/pagos_screen/pagos_screen.dart';
 
 class QuickAccessWidget extends StatelessWidget {
   const QuickAccessWidget({super.key});
@@ -112,7 +113,14 @@ class QuickAccessWidget extends StatelessWidget {
                 "Pagos",
                 Icons.payment_outlined,
                 Colors.red,
-                () {},
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PagosScreen(),
+                    ),
+                  );
+                },
               ),
             ),
           ],

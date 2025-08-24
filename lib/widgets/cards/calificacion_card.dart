@@ -44,7 +44,8 @@ class CalificacionCard extends StatelessWidget {
           ),
           const Spacer(),
           if (calificacion.estatus == EstatusCalificacion.aprobada ||
-              calificacion.estatus == EstatusCalificacion.reprobada)
+              calificacion.estatus == EstatusCalificacion.reprobada ||
+              calificacion.estatus == EstatusCalificacion.cursando)
             LabeledBadge(
               msg: calificacion.nota.toString(),
               foregroundColor: getEstatusCalificacionColor(

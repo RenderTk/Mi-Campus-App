@@ -1,11 +1,14 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/models/carrera.dart';
+import 'package:usap_mobile/models/historial_pago.dart';
 import 'package:usap_mobile/models/matricula.dart';
 import 'package:usap_mobile/models/seccion_curso.dart';
 import 'package:usap_mobile/services/dio_service.dart';
+
+final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
 const String degreeProgressUrl = "obtenerporcentajecarrera/{codigo_alumno}";
 const String degreeTotalClasesUrl =
@@ -23,6 +26,9 @@ const String addOrRemoveClassUrl = "matricula";
 
 const String puntosCoProgramaticosUrl =
     "actividades_coprogramaticas/alumno/historial/{3210411}/140";
+
+const String historialPagosUrl =
+    "HistoricoPago_Alumno/obtener_historico_pago/{fecha_inicio}/{fecha_final}/{codigo_alumno}";
 
 enum AccionClase { agregar, quitar }
 
@@ -274,5 +280,82 @@ class StudentDataService {
     } catch (e) {
       return null;
     }
+  }
+
+  Future<List<HistorialPago>> getStudentHistorialPagos(
+    String codigoAlumno,
+    DateTime fechaInicio,
+    DateTime fechaFinal,
+  ) async {
+    // 1. Petición HTTP
+    final url = historialPagosUrl
+        .replaceFirst("{fecha_inicio}", formatter.format(fechaInicio))
+        .replaceFirst("{fecha_final}", formatter.format(fechaFinal))
+        .replaceFirst("{codigo_alumno}", codigoAlumno);
+
+    final dio = await _dioService.getDioWithAutoRefresh();
+    final response = await dio.get<List<dynamic>>(url);
+
+    if (response.statusCode != 200 || response.data == null) {
+      throw Exception("Error al obtener el historial de pagos");
+    }
+
+    // 2. Parsear y procesar en una sola operación
+    final histororialPagos = response.data!
+        .map((e) => HistorialPago.fromJson(e))
+        .toList();
+
+    // 3. Identificar facturas de matrícula
+    final facturasMatricula = histororialPagos
+        .where((h) => h.descripcionDtl == "MATRICULA")
+        .map((h) => h.idFactura)
+        .toSet();
+
+    // 4. Procesar matrículas: agregar detalles y filtrar en una pasada
+    final List<DetallesDeHistorialPagoTipoMatriula> detallesMatricula = [];
+
+    for (final idFacturaPagoMatricula in facturasMatricula) {
+      //1486778
+
+      // 5. Obtener pagos relacionados a la factura de matrícula
+      final pagos = histororialPagos
+          .where((pago) => pago.idFactura == idFacturaPagoMatricula)
+          .toList();
+
+      // 5.1. Obtener el pago de matrícula
+      final pagoMatricula = pagos.firstWhere(
+        (pago) => pago.descripcionDtl == "MATRICULA",
+      );
+
+      // 5.2 quitar el pago de matrícula de la lista de pagos
+      pagos.remove(pagoMatricula);
+
+      //6. Agregar detalles para la matrícula
+      detallesMatricula.addAll(
+        pagos.map(
+          (pago) => DetallesDeHistorialPagoTipoMatriula(
+            descripcion: pago.descripcionDtl,
+            montoTotal: ((pago.montoTotal ?? 0) + (pago.montoBecCredito ?? 0)),
+            descuentoBeca: pago.montoBecCredito,
+            mora: pago.montoMora,
+          ),
+        ),
+      );
+
+      // 7. Guardar detalles en la factura de matrícula
+      pagoMatricula.detalles.addAll(detallesMatricula);
+
+      //7.1 Limpiar detalles
+      detallesMatricula.clear();
+    }
+
+    // 8. Retornar solo matrículas principales y pagos que no son parte de matrículas
+    return histororialPagos
+        .where(
+          (pago) =>
+              pago.descripcionDtl == "MATRICULA" ||
+              !facturasMatricula.contains(pago.idFactura),
+        )
+        .toList();
   }
 }
