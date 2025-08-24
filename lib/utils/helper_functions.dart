@@ -36,3 +36,46 @@ String formatNumber(num value) {
     return value.toStringAsFixed(2);
   }
 }
+
+Map<String, DateTime> getSemesterDateRange(int semester, int year) {
+  // Validate inputs
+  if (semester < 0 || semester > 3) {
+    throw ArgumentError(
+      'Semester must be 0 (all year), 1 (first semester), 2 (second semester), or 3 (third semester)',
+    );
+  }
+
+  if (year < 2010 || year > 2025) {
+    throw ArgumentError('Year must be a valid integer between 2010 and 2025');
+  }
+
+  DateTime fechaInicio;
+  DateTime fechaFinal;
+
+  switch (semester) {
+    case 0: // All year
+      fechaInicio = DateTime(year, 1, 1); // January 1st
+      fechaFinal = DateTime(year, 12, 31); // December 31st
+      break;
+
+    case 1: // First semester (January - April)
+      fechaInicio = DateTime(year, 1, 1); // January 1st
+      fechaFinal = DateTime(year, 4, 30); // April 30th
+      break;
+
+    case 2: // Second semester (May - August)
+      fechaInicio = DateTime(year, 5, 1); // May 1st
+      fechaFinal = DateTime(year, 8, 31); // August 31st
+      break;
+
+    case 3: // Third semester (September - December)
+      fechaInicio = DateTime(year, 9, 1); // September 1st
+      fechaFinal = DateTime(year, 12, 31); // December 31st
+      break;
+
+    default:
+      throw ArgumentError('Invalid semester value');
+  }
+
+  return {'fechaInicio': fechaInicio, 'fechaFinal': fechaFinal};
+}

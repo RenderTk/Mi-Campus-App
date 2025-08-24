@@ -17,8 +17,6 @@ abstract class _$HistorialPagoCWProxy {
 
   HistorialPago monto(double? monto);
 
-  HistorialPago idDetalle(int? idDetalle);
-
   HistorialPago descripcionDtl(String? descripcionDtl);
 
   HistorialPago montoTotal(double? montoTotal);
@@ -30,8 +28,6 @@ abstract class _$HistorialPagoCWProxy {
   HistorialPago montoBecCredito(double? montoBecCredito);
 
   HistorialPago financiado(int? financiado);
-
-  HistorialPago simbolo(String? simbolo);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `HistorialPago(...).copyWith.fieldName(value)`.
@@ -46,14 +42,12 @@ abstract class _$HistorialPagoCWProxy {
     String? descripcion,
     String? referencia1,
     double? monto,
-    int? idDetalle,
     String? descripcionDtl,
     double? montoTotal,
     double? montoDtl,
     double? montoMora,
     double? montoBecCredito,
     int? financiado,
-    String? simbolo,
   });
 }
 
@@ -83,9 +77,6 @@ class _$HistorialPagoCWProxyImpl implements _$HistorialPagoCWProxy {
   HistorialPago monto(double? monto) => call(monto: monto);
 
   @override
-  HistorialPago idDetalle(int? idDetalle) => call(idDetalle: idDetalle);
-
-  @override
   HistorialPago descripcionDtl(String? descripcionDtl) =>
       call(descripcionDtl: descripcionDtl);
 
@@ -106,9 +97,6 @@ class _$HistorialPagoCWProxyImpl implements _$HistorialPagoCWProxy {
   HistorialPago financiado(int? financiado) => call(financiado: financiado);
 
   @override
-  HistorialPago simbolo(String? simbolo) => call(simbolo: simbolo);
-
-  @override
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `HistorialPago(...).copyWith.fieldName(value)`.
   ///
@@ -122,14 +110,12 @@ class _$HistorialPagoCWProxyImpl implements _$HistorialPagoCWProxy {
     Object? descripcion = const $CopyWithPlaceholder(),
     Object? referencia1 = const $CopyWithPlaceholder(),
     Object? monto = const $CopyWithPlaceholder(),
-    Object? idDetalle = const $CopyWithPlaceholder(),
     Object? descripcionDtl = const $CopyWithPlaceholder(),
     Object? montoTotal = const $CopyWithPlaceholder(),
     Object? montoDtl = const $CopyWithPlaceholder(),
     Object? montoMora = const $CopyWithPlaceholder(),
     Object? montoBecCredito = const $CopyWithPlaceholder(),
     Object? financiado = const $CopyWithPlaceholder(),
-    Object? simbolo = const $CopyWithPlaceholder(),
   }) {
     return HistorialPago(
       idFactura: idFactura == const $CopyWithPlaceholder()
@@ -152,10 +138,6 @@ class _$HistorialPagoCWProxyImpl implements _$HistorialPagoCWProxy {
           ? _value.monto
           // ignore: cast_nullable_to_non_nullable
           : monto as double?,
-      idDetalle: idDetalle == const $CopyWithPlaceholder()
-          ? _value.idDetalle
-          // ignore: cast_nullable_to_non_nullable
-          : idDetalle as int?,
       descripcionDtl: descripcionDtl == const $CopyWithPlaceholder()
           ? _value.descripcionDtl
           // ignore: cast_nullable_to_non_nullable
@@ -180,10 +162,6 @@ class _$HistorialPagoCWProxyImpl implements _$HistorialPagoCWProxy {
           ? _value.financiado
           // ignore: cast_nullable_to_non_nullable
           : financiado as int?,
-      simbolo: simbolo == const $CopyWithPlaceholder()
-          ? _value.simbolo
-          // ignore: cast_nullable_to_non_nullable
-          : simbolo as String?,
     );
   }
 }
@@ -208,14 +186,12 @@ HistorialPago _$HistorialPagoFromJson(Map<String, dynamic> json) =>
       descripcion: json['DESCRIPCION'] as String?,
       referencia1: json['REFERENCIA1'] as String?,
       monto: (json['MONTO'] as num?)?.toDouble(),
-      idDetalle: (json['ID_DETALLE'] as num?)?.toInt(),
       descripcionDtl: json['DESCRIPCION_DTL'] as String?,
       montoTotal: (json['MONTO_TOTAL'] as num?)?.toDouble(),
       montoDtl: (json['MONTO_DTL'] as num?)?.toDouble(),
       montoMora: (json['MONTO_MORA'] as num?)?.toDouble(),
       montoBecCredito: (json['MONTO_BEC_CREDITO'] as num?)?.toDouble(),
       financiado: (json['FINANCIADO'] as num?)?.toInt(),
-      simbolo: json['SIMBOLO'] as String?,
     );
 
 Map<String, dynamic> _$HistorialPagoToJson(HistorialPago instance) =>
@@ -225,12 +201,10 @@ Map<String, dynamic> _$HistorialPagoToJson(HistorialPago instance) =>
       'DESCRIPCION': instance.descripcion,
       'REFERENCIA1': instance.referencia1,
       'MONTO': instance.monto,
-      'ID_DETALLE': instance.idDetalle,
       'DESCRIPCION_DTL': instance.descripcionDtl,
       'MONTO_TOTAL': instance.montoTotal,
       'MONTO_DTL': instance.montoDtl,
       'MONTO_MORA': instance.montoMora,
       'MONTO_BEC_CREDITO': instance.montoBecCredito,
       'FINANCIADO': instance.financiado,
-      'SIMBOLO': instance.simbolo,
     };

@@ -43,53 +43,17 @@ class Matricula {
   @JsonKey(name: 'DISPONIBLE_MODALIDAD')
   int? cuposModalidad;
 
-  @JsonKey(name: 'ID_CONTROL_MATRICULA')
-  int? idControlMatricula;
-
-  @JsonKey(name: 'ID_CONTROL_MATRICULA_PI')
-  int? idControlMatriculaPI;
-
-  @JsonKey(name: 'ID_PLAN')
-  int? idPlan;
-
-  @JsonKey(name: 'ESTATUS_FINANCIERO')
-  String? estatusFinanciero;
-
-  @JsonKey(name: 'ESTATUS_ACADEMICO')
-  String? estatusAcademico;
-
   @JsonKey(name: 'HIBRIDA', fromJson: _hibridaFromJson)
   int? hibrida;
-
-  @JsonKey(name: 'NOM_HIBRIDA')
-  String? nomHibrida;
 
   @JsonKey(name: 'CHECKED')
   int? estaSeleccionada;
 
-  @JsonKey(name: 'VALOR')
-  double? valor;
-
-  @JsonKey(name: 'VALOR_MODALIDAD')
-  double? valorModalidad;
-
-  @JsonKey(name: 'ALIAS')
-  String? alias;
-
   @JsonKey(name: 'NOMBRE_COMPLETO')
   String? nombreCompleto;
 
-  @JsonKey(name: 'GRUPO')
-  String? grupo;
-
   @JsonKey(name: 'OPTATIVA')
   int? optativa;
-
-  @JsonKey(name: 'CORREQUISITOS')
-  int? correquisitos;
-
-  @JsonKey(name: 'ID_ESTADO_MODALIDAD')
-  int? idEstadoModalidad;
 
   @JsonKey(name: 'MODALIDAD')
   String? modalidad;
@@ -99,12 +63,6 @@ class Matricula {
 
   @JsonKey(name: 'HDR')
   int? hdr;
-
-  @JsonKey(name: 'AUTONOMA')
-  int? autonoma;
-
-  @JsonKey(name: 'DEPENDIENTE')
-  int? dependiente;
 
   Matricula({
     this.idSeccion,
@@ -119,27 +77,13 @@ class Matricula {
     this.periodo,
     this.cupos,
     this.cuposModalidad,
-    this.idControlMatricula,
-    this.idControlMatriculaPI,
-    this.idPlan,
-    this.estatusFinanciero,
-    this.estatusAcademico,
     this.hibrida,
-    this.nomHibrida,
     this.estaSeleccionada,
-    this.valor,
-    this.valorModalidad,
-    this.alias,
     this.nombreCompleto,
-    this.grupo,
     this.optativa,
-    this.correquisitos,
-    this.idEstadoModalidad,
     this.modalidad,
     this.idDetallePlan,
     this.hdr,
-    this.autonoma,
-    this.dependiente,
   });
 
   factory Matricula.fromJson(Map<String, dynamic> json) =>
@@ -171,9 +115,6 @@ class Matricula {
 
   /// Verifica si es una materia optativa
   bool get esOptativa => optativa == 1;
-
-  /// Verifica si tiene correquisitos
-  bool get tieneCorrequisitos => correquisitos == 1;
 
   /// Verifica si hay cupos disponibles
   bool get tieneCupos => (cupos ?? 0) > 0;
@@ -276,9 +217,6 @@ class Matricula {
       nombreCompleto != null &&
       nombreCompleto!.isNotEmpty &&
       !nombreCompleto!.contains('SIN ASIGNAR');
-
-  /// Obtiene el valor a pagar (prioriza valor_modalidad si existe)
-  double? get valorAPagar => valorModalidad ?? valor;
 
   /// Métodos helper estáticos
 

@@ -8,9 +8,6 @@ enum EstatusCalificacion { aprobada, reprobada, cursando, retiro }
 @CopyWith()
 @JsonSerializable()
 class CalificacionCurso {
-  @JsonKey(name: 'ORDERBY')
-  int orderBy;
-
   @JsonKey(name: 'ANIO')
   String anio;
 
@@ -23,23 +20,11 @@ class CalificacionCurso {
   @JsonKey(name: 'DESCRIPCION_CURSO')
   String descripcionCurso;
 
-  @JsonKey(name: 'CREDITOS')
-  int creditos;
-
   @JsonKey(name: 'ESTATUS', fromJson: getEstatusClase)
   EstatusCalificacion estatus;
 
   @JsonKey(name: 'NOTA')
   int? nota;
-
-  @JsonKey(name: 'ID_SECCION_CLIENTE')
-  int idSeccionCliente;
-
-  @JsonKey(name: 'ID_SECCION')
-  int idSeccion;
-
-  @JsonKey(name: 'ESTATUS_ACADEMICO')
-  String estatusAcademico;
 
   @JsonKey(name: 'DIAS')
   String dias;
@@ -57,17 +42,12 @@ class CalificacionCurso {
   String? etiqueta;
 
   CalificacionCurso({
-    required this.orderBy,
     required this.anio,
     required this.periodo,
     required this.codigoCurso,
     required this.descripcionCurso,
-    required this.creditos,
     required this.estatus,
     required this.nota,
-    required this.idSeccionCliente,
-    required this.idSeccion,
-    required this.estatusAcademico,
     required this.dias,
     required this.inicio,
     required this.fin,

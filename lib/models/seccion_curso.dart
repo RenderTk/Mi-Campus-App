@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -17,9 +15,6 @@ class SeccionCurso {
   @JsonKey(name: 'DESCRIPCION_CURSO')
   String? descripcionCurso;
 
-  @JsonKey(name: 'CREDITOS')
-  int? creditos;
-
   @JsonKey(name: 'NUMERO_SECCION')
   int? numeroSeccion;
 
@@ -29,32 +24,14 @@ class SeccionCurso {
   @JsonKey(name: 'FIN')
   String? fin;
 
-  @JsonKey(name: 'ESTATUS')
-  String? estatus;
-
-  @JsonKey(name: 'ESTATUS_ACADEMICO')
-  String? estatusAcademico;
-
-  @JsonKey(name: 'ESTATUS_FINANCIERO')
-  String? estatusFinanciero;
-
   @JsonKey(name: 'ESTADO')
   String? estado;
-
-  @JsonKey(name: 'ESTADO_PAGO')
-  String? estadoPago;
 
   @JsonKey(name: 'DIA')
   String? dia;
 
   @JsonKey(name: 'AULA')
   String? aula;
-
-  @JsonKey(name: 'INICIO_DIA')
-  String? inicioDia;
-
-  @JsonKey(name: 'FIN_DIA')
-  String? finDia;
 
   @JsonKey(name: 'GRUPO')
   String? grupo;
@@ -66,19 +43,12 @@ class SeccionCurso {
     this.idSeccionCliente,
     this.codigoCurso,
     this.descripcionCurso,
-    this.creditos,
     this.numeroSeccion,
     this.inicio,
     this.fin,
-    this.estatus,
-    this.estatusAcademico,
-    this.estatusFinanciero,
     this.estado,
-    this.estadoPago,
     this.dia,
     this.aula,
-    this.inicioDia,
-    this.finDia,
     this.grupo,
     this.url,
   });
@@ -96,9 +66,6 @@ class SeccionCurso {
 
   /// Verifica si el curso está activo
   bool get estaActivo => estado == 'Activa';
-
-  /// Verifica si el pago está pendiente
-  bool get pagoPendiente => estadoPago == 'Pendiente';
 
   /// Verifica si es modalidad presencial
   bool get esPresencial => grupo == 'Presencial';
@@ -305,69 +272,4 @@ class SeccionCurso {
       'fechaClase': proximaClase.proximaFechaClase,
     };
   }
-}
-
-List<SeccionCurso> generarEjemploCursos({int cantidad = 5}) {
-  final random = Random();
-  final diasSemana = [
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sábado',
-    'Domingo',
-  ];
-
-  final cursosBase = [
-    {'codigo': 'DAE-1503', 'descripcion': 'CÁLCULO I', 'creditos': 4},
-    {'codigo': 'DAG-1804', 'descripcion': 'INGLÉS IV', 'creditos': 3},
-    {'codigo': 'DAE-1002', 'descripcion': 'QUÍMICA GENERAL', 'creditos': 3},
-    {
-      'codigo': 'LQ-202',
-      'descripcion': 'LABORATORIO DE QUÍMICA GENERAL',
-      'creditos': 0,
-    },
-    {'codigo': 'DAF-2001', 'descripcion': 'FÍSICA I', 'creditos': 4},
-  ];
-
-  final List<SeccionCurso> lista = [];
-
-  for (int i = 0; i < cantidad; i++) {
-    final curso = cursosBase[random.nextInt(cursosBase.length)];
-    final dia = diasSemana[random.nextInt(diasSemana.length)];
-    final horaInicio = 8 + random.nextInt(10); // entre 8AM y 5PM
-    final minutoInicio = random.nextBool() ? '00' : '30';
-    final horaFin = horaInicio + 1;
-    final inicioStr =
-        '${horaInicio > 12 ? horaInicio - 12 : horaInicio}:$minutoInicio${horaInicio >= 12 ? 'PM' : 'AM'}';
-    final finStr =
-        '${horaFin > 12 ? horaFin - 12 : horaFin}:$minutoInicio${horaFin >= 12 ? 'PM' : 'AM'}';
-
-    lista.add(
-      SeccionCurso(
-        idSeccionCliente: random.nextInt(1000000),
-        codigoCurso: curso['codigo'] as String,
-        descripcionCurso: curso['descripcion'] as String,
-        creditos: curso['creditos'] as int,
-        numeroSeccion: random.nextInt(20) + 1,
-        inicio: inicioStr,
-        fin: finStr,
-        estatus: 'A',
-        estatusAcademico: '',
-        estatusFinanciero: 'T',
-        estado: 'Activa',
-        estadoPago: 'Pendiente',
-        dia: dia,
-        aula: 'A-${random.nextInt(300) + 100}',
-        inicioDia: inicioStr,
-        finDia: finStr,
-        grupo: 'Por Videoconferencia',
-        url:
-            'https://virtual.usap.edu/course/view.php?id=${random.nextInt(20000) + 10000}',
-      ),
-    );
-  }
-
-  return lista;
 }

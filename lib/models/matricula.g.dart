@@ -31,47 +31,19 @@ abstract class _$MatriculaCWProxy {
 
   Matricula cuposModalidad(int? cuposModalidad);
 
-  Matricula idControlMatricula(int? idControlMatricula);
-
-  Matricula idControlMatriculaPI(int? idControlMatriculaPI);
-
-  Matricula idPlan(int? idPlan);
-
-  Matricula estatusFinanciero(String? estatusFinanciero);
-
-  Matricula estatusAcademico(String? estatusAcademico);
-
   Matricula hibrida(int? hibrida);
-
-  Matricula nomHibrida(String? nomHibrida);
 
   Matricula estaSeleccionada(int? estaSeleccionada);
 
-  Matricula valor(double? valor);
-
-  Matricula valorModalidad(double? valorModalidad);
-
-  Matricula alias(String? alias);
-
   Matricula nombreCompleto(String? nombreCompleto);
 
-  Matricula grupo(String? grupo);
-
   Matricula optativa(int? optativa);
-
-  Matricula correquisitos(int? correquisitos);
-
-  Matricula idEstadoModalidad(int? idEstadoModalidad);
 
   Matricula modalidad(String? modalidad);
 
   Matricula idDetallePlan(int? idDetallePlan);
 
   Matricula hdr(int? hdr);
-
-  Matricula autonoma(int? autonoma);
-
-  Matricula dependiente(int? dependiente);
 
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `Matricula(...).copyWith.fieldName(value)`.
@@ -93,27 +65,13 @@ abstract class _$MatriculaCWProxy {
     int? periodo,
     int? cupos,
     int? cuposModalidad,
-    int? idControlMatricula,
-    int? idControlMatriculaPI,
-    int? idPlan,
-    String? estatusFinanciero,
-    String? estatusAcademico,
     int? hibrida,
-    String? nomHibrida,
     int? estaSeleccionada,
-    double? valor,
-    double? valorModalidad,
-    String? alias,
     String? nombreCompleto,
-    String? grupo,
     int? optativa,
-    int? correquisitos,
-    int? idEstadoModalidad,
     String? modalidad,
     int? idDetallePlan,
     int? hdr,
-    int? autonoma,
-    int? dependiente,
   });
 }
 
@@ -164,61 +122,18 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
       call(cuposModalidad: cuposModalidad);
 
   @override
-  Matricula idControlMatricula(int? idControlMatricula) =>
-      call(idControlMatricula: idControlMatricula);
-
-  @override
-  Matricula idControlMatriculaPI(int? idControlMatriculaPI) =>
-      call(idControlMatriculaPI: idControlMatriculaPI);
-
-  @override
-  Matricula idPlan(int? idPlan) => call(idPlan: idPlan);
-
-  @override
-  Matricula estatusFinanciero(String? estatusFinanciero) =>
-      call(estatusFinanciero: estatusFinanciero);
-
-  @override
-  Matricula estatusAcademico(String? estatusAcademico) =>
-      call(estatusAcademico: estatusAcademico);
-
-  @override
   Matricula hibrida(int? hibrida) => call(hibrida: hibrida);
-
-  @override
-  Matricula nomHibrida(String? nomHibrida) => call(nomHibrida: nomHibrida);
 
   @override
   Matricula estaSeleccionada(int? estaSeleccionada) =>
       call(estaSeleccionada: estaSeleccionada);
 
   @override
-  Matricula valor(double? valor) => call(valor: valor);
-
-  @override
-  Matricula valorModalidad(double? valorModalidad) =>
-      call(valorModalidad: valorModalidad);
-
-  @override
-  Matricula alias(String? alias) => call(alias: alias);
-
-  @override
   Matricula nombreCompleto(String? nombreCompleto) =>
       call(nombreCompleto: nombreCompleto);
 
   @override
-  Matricula grupo(String? grupo) => call(grupo: grupo);
-
-  @override
   Matricula optativa(int? optativa) => call(optativa: optativa);
-
-  @override
-  Matricula correquisitos(int? correquisitos) =>
-      call(correquisitos: correquisitos);
-
-  @override
-  Matricula idEstadoModalidad(int? idEstadoModalidad) =>
-      call(idEstadoModalidad: idEstadoModalidad);
 
   @override
   Matricula modalidad(String? modalidad) => call(modalidad: modalidad);
@@ -229,12 +144,6 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
 
   @override
   Matricula hdr(int? hdr) => call(hdr: hdr);
-
-  @override
-  Matricula autonoma(int? autonoma) => call(autonoma: autonoma);
-
-  @override
-  Matricula dependiente(int? dependiente) => call(dependiente: dependiente);
 
   @override
   /// Creates a new instance with the provided field values.
@@ -257,27 +166,13 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
     Object? periodo = const $CopyWithPlaceholder(),
     Object? cupos = const $CopyWithPlaceholder(),
     Object? cuposModalidad = const $CopyWithPlaceholder(),
-    Object? idControlMatricula = const $CopyWithPlaceholder(),
-    Object? idControlMatriculaPI = const $CopyWithPlaceholder(),
-    Object? idPlan = const $CopyWithPlaceholder(),
-    Object? estatusFinanciero = const $CopyWithPlaceholder(),
-    Object? estatusAcademico = const $CopyWithPlaceholder(),
     Object? hibrida = const $CopyWithPlaceholder(),
-    Object? nomHibrida = const $CopyWithPlaceholder(),
     Object? estaSeleccionada = const $CopyWithPlaceholder(),
-    Object? valor = const $CopyWithPlaceholder(),
-    Object? valorModalidad = const $CopyWithPlaceholder(),
-    Object? alias = const $CopyWithPlaceholder(),
     Object? nombreCompleto = const $CopyWithPlaceholder(),
-    Object? grupo = const $CopyWithPlaceholder(),
     Object? optativa = const $CopyWithPlaceholder(),
-    Object? correquisitos = const $CopyWithPlaceholder(),
-    Object? idEstadoModalidad = const $CopyWithPlaceholder(),
     Object? modalidad = const $CopyWithPlaceholder(),
     Object? idDetallePlan = const $CopyWithPlaceholder(),
     Object? hdr = const $CopyWithPlaceholder(),
-    Object? autonoma = const $CopyWithPlaceholder(),
-    Object? dependiente = const $CopyWithPlaceholder(),
   }) {
     return Matricula(
       idSeccion: idSeccion == const $CopyWithPlaceholder()
@@ -328,70 +223,22 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
           ? _value.cuposModalidad
           // ignore: cast_nullable_to_non_nullable
           : cuposModalidad as int?,
-      idControlMatricula: idControlMatricula == const $CopyWithPlaceholder()
-          ? _value.idControlMatricula
-          // ignore: cast_nullable_to_non_nullable
-          : idControlMatricula as int?,
-      idControlMatriculaPI: idControlMatriculaPI == const $CopyWithPlaceholder()
-          ? _value.idControlMatriculaPI
-          // ignore: cast_nullable_to_non_nullable
-          : idControlMatriculaPI as int?,
-      idPlan: idPlan == const $CopyWithPlaceholder()
-          ? _value.idPlan
-          // ignore: cast_nullable_to_non_nullable
-          : idPlan as int?,
-      estatusFinanciero: estatusFinanciero == const $CopyWithPlaceholder()
-          ? _value.estatusFinanciero
-          // ignore: cast_nullable_to_non_nullable
-          : estatusFinanciero as String?,
-      estatusAcademico: estatusAcademico == const $CopyWithPlaceholder()
-          ? _value.estatusAcademico
-          // ignore: cast_nullable_to_non_nullable
-          : estatusAcademico as String?,
       hibrida: hibrida == const $CopyWithPlaceholder()
           ? _value.hibrida
           // ignore: cast_nullable_to_non_nullable
           : hibrida as int?,
-      nomHibrida: nomHibrida == const $CopyWithPlaceholder()
-          ? _value.nomHibrida
-          // ignore: cast_nullable_to_non_nullable
-          : nomHibrida as String?,
       estaSeleccionada: estaSeleccionada == const $CopyWithPlaceholder()
           ? _value.estaSeleccionada
           // ignore: cast_nullable_to_non_nullable
           : estaSeleccionada as int?,
-      valor: valor == const $CopyWithPlaceholder()
-          ? _value.valor
-          // ignore: cast_nullable_to_non_nullable
-          : valor as double?,
-      valorModalidad: valorModalidad == const $CopyWithPlaceholder()
-          ? _value.valorModalidad
-          // ignore: cast_nullable_to_non_nullable
-          : valorModalidad as double?,
-      alias: alias == const $CopyWithPlaceholder()
-          ? _value.alias
-          // ignore: cast_nullable_to_non_nullable
-          : alias as String?,
       nombreCompleto: nombreCompleto == const $CopyWithPlaceholder()
           ? _value.nombreCompleto
           // ignore: cast_nullable_to_non_nullable
           : nombreCompleto as String?,
-      grupo: grupo == const $CopyWithPlaceholder()
-          ? _value.grupo
-          // ignore: cast_nullable_to_non_nullable
-          : grupo as String?,
       optativa: optativa == const $CopyWithPlaceholder()
           ? _value.optativa
           // ignore: cast_nullable_to_non_nullable
           : optativa as int?,
-      correquisitos: correquisitos == const $CopyWithPlaceholder()
-          ? _value.correquisitos
-          // ignore: cast_nullable_to_non_nullable
-          : correquisitos as int?,
-      idEstadoModalidad: idEstadoModalidad == const $CopyWithPlaceholder()
-          ? _value.idEstadoModalidad
-          // ignore: cast_nullable_to_non_nullable
-          : idEstadoModalidad as int?,
       modalidad: modalidad == const $CopyWithPlaceholder()
           ? _value.modalidad
           // ignore: cast_nullable_to_non_nullable
@@ -404,14 +251,6 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
           ? _value.hdr
           // ignore: cast_nullable_to_non_nullable
           : hdr as int?,
-      autonoma: autonoma == const $CopyWithPlaceholder()
-          ? _value.autonoma
-          // ignore: cast_nullable_to_non_nullable
-          : autonoma as int?,
-      dependiente: dependiente == const $CopyWithPlaceholder()
-          ? _value.dependiente
-          // ignore: cast_nullable_to_non_nullable
-          : dependiente as int?,
     );
   }
 }
@@ -442,27 +281,13 @@ Matricula _$MatriculaFromJson(Map<String, dynamic> json) => Matricula(
   periodo: (json['PERIODO'] as num?)?.toInt(),
   cupos: (json['DISPONIBLE'] as num?)?.toInt(),
   cuposModalidad: (json['DISPONIBLE_MODALIDAD'] as num?)?.toInt(),
-  idControlMatricula: (json['ID_CONTROL_MATRICULA'] as num?)?.toInt(),
-  idControlMatriculaPI: (json['ID_CONTROL_MATRICULA_PI'] as num?)?.toInt(),
-  idPlan: (json['ID_PLAN'] as num?)?.toInt(),
-  estatusFinanciero: json['ESTATUS_FINANCIERO'] as String?,
-  estatusAcademico: json['ESTATUS_ACADEMICO'] as String?,
   hibrida: Matricula._hibridaFromJson(json['HIBRIDA']),
-  nomHibrida: json['NOM_HIBRIDA'] as String?,
   estaSeleccionada: (json['CHECKED'] as num?)?.toInt(),
-  valor: (json['VALOR'] as num?)?.toDouble(),
-  valorModalidad: (json['VALOR_MODALIDAD'] as num?)?.toDouble(),
-  alias: json['ALIAS'] as String?,
   nombreCompleto: json['NOMBRE_COMPLETO'] as String?,
-  grupo: json['GRUPO'] as String?,
   optativa: (json['OPTATIVA'] as num?)?.toInt(),
-  correquisitos: (json['CORREQUISITOS'] as num?)?.toInt(),
-  idEstadoModalidad: (json['ID_ESTADO_MODALIDAD'] as num?)?.toInt(),
   modalidad: json['MODALIDAD'] as String?,
   idDetallePlan: (json['ID_DETALLE_PLAN'] as num?)?.toInt(),
   hdr: (json['HDR'] as num?)?.toInt(),
-  autonoma: (json['AUTONOMA'] as num?)?.toInt(),
-  dependiente: (json['DEPENDIENTE'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$MatriculaToJson(Matricula instance) => <String, dynamic>{
@@ -478,25 +303,11 @@ Map<String, dynamic> _$MatriculaToJson(Matricula instance) => <String, dynamic>{
   'PERIODO': instance.periodo,
   'DISPONIBLE': instance.cupos,
   'DISPONIBLE_MODALIDAD': instance.cuposModalidad,
-  'ID_CONTROL_MATRICULA': instance.idControlMatricula,
-  'ID_CONTROL_MATRICULA_PI': instance.idControlMatriculaPI,
-  'ID_PLAN': instance.idPlan,
-  'ESTATUS_FINANCIERO': instance.estatusFinanciero,
-  'ESTATUS_ACADEMICO': instance.estatusAcademico,
   'HIBRIDA': instance.hibrida,
-  'NOM_HIBRIDA': instance.nomHibrida,
   'CHECKED': instance.estaSeleccionada,
-  'VALOR': instance.valor,
-  'VALOR_MODALIDAD': instance.valorModalidad,
-  'ALIAS': instance.alias,
   'NOMBRE_COMPLETO': instance.nombreCompleto,
-  'GRUPO': instance.grupo,
   'OPTATIVA': instance.optativa,
-  'CORREQUISITOS': instance.correquisitos,
-  'ID_ESTADO_MODALIDAD': instance.idEstadoModalidad,
   'MODALIDAD': instance.modalidad,
   'ID_DETALLE_PLAN': instance.idDetallePlan,
   'HDR': instance.hdr,
-  'AUTONOMA': instance.autonoma,
-  'DEPENDIENTE': instance.dependiente,
 };

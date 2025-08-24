@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/historial_pago.dart';
 import 'package:usap_mobile/providers/historial_pago_provider.dart';
 import 'package:usap_mobile/screens/pagos_screen/widgets/dropdown_buttons_periodo_and_year.dart';
+import 'package:usap_mobile/utils/helper_functions.dart';
 
 class HistorialPagosFilters extends ConsumerStatefulWidget {
   const HistorialPagosFilters({super.key});
@@ -54,7 +54,7 @@ class _HistorialPagosFiltersState extends ConsumerState<HistorialPagosFilters> {
                       return;
                     }
 
-                    final fechas = HistorialPago.getSemesterDateRange(
+                    final fechas = getSemesterDateRange(
                       selectedPeriodo ?? 0,
                       selectedAno ?? 0,
                     );
