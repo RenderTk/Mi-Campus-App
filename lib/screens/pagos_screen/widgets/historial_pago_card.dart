@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:usap_mobile/models/historial_pago.dart';
 import 'package:usap_mobile/screens/pagos_screen/widgets/detalle_historial_pago.dart';
 import 'package:usap_mobile/utils/helper_functions.dart';
+import 'package:usap_mobile/widgets/labeled_badge.dart';
 
 class HistorialPagoCard extends StatelessWidget {
   const HistorialPagoCard({super.key, required this.historialPago});
@@ -49,22 +50,10 @@ class HistorialPagoCard extends StatelessWidget {
                   ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w900),
                 ),
                 const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    "Pagado",
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Colors.green.shade700,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                const LabeledBadge(
+                  msg: "Pagado",
+                  foregroundColor: Colors.green,
+                  backgroundColor: Colors.green,
                 ),
               ],
             ),

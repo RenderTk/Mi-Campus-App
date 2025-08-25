@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/historial_pago.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/student_data_service.dart';
+import 'package:usap_mobile/services/payments_service.dart';
 
 class HistorialPagosProviderNotifier
     extends AsyncNotifier<List<HistorialPago>> {
-  final StudentDataService _studentDataService = StudentDataService();
+  final PaymentsService _paymentsService = PaymentsService();
 
   @override
   Future<List<HistorialPago>> build() async {
@@ -18,7 +18,7 @@ class HistorialPagosProviderNotifier
 
     final now = DateTime.now();
     final fechaInicio = DateTime(now.year, 1, 1);
-    final historialPagos = await _studentDataService.getStudentHistorialPagos(
+    final historialPagos = await _paymentsService.getStudentHistorialPagos(
       user.id,
       fechaInicio,
       now,
@@ -42,10 +42,15 @@ class HistorialPagosProviderNotifier
         );
       }
 
-      final refreshedHistorialPagos = await _studentDataService
+      final refreshedHistorialPagos = await _paymentsService
           .getStudentHistorialPagos(user.id, fechaInicio, fechaFinal);
       return refreshedHistorialPagos;
     });
+  }
+
+  void clearState() {
+    state = const AsyncValue.loading();
+    state = const AsyncValue.data([]);
   }
 }
 

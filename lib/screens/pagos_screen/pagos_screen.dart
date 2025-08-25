@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
 import 'package:usap_mobile/providers/historial_pago_provider.dart';
+import 'package:usap_mobile/providers/pagos_pendientes_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/screens/pagos_screen/widgets/historial_pagos_filter.dart';
 import 'package:usap_mobile/screens/pagos_screen/widgets/historial_pagos_widegt.dart';
 import 'package:usap_mobile/screens/pagos_screen/widgets/pagos_buttons.dart';
 import 'package:usap_mobile/screens/pagos_screen/widgets/pagos_pendientes_widget.dart';
+import 'package:usap_mobile/screens/pagos_screen/widgets/total_saldo_pendiente_card.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
 
 class PagosScreen extends ConsumerStatefulWidget {
@@ -23,6 +26,7 @@ class _PagosScreenState extends ConsumerState<PagosScreen> {
   @override
   Widget build(BuildContext context) {
     final historialPagos = ref.watch(historialPagosProvider);
+    final pagosPendientes = ref.watch(pagosPendientesProvider);
     tabWidget = _selectedTab == PagosTab.pagosPendientes
         ? const PagosPendientesWidget()
         : const HistorialPagosWidget();
@@ -39,8 +43,31 @@ class _PagosScreenState extends ConsumerState<PagosScreen> {
       }
     }
 
+    if (pagosPendientes.hasError) {
+      final error = pagosPendientes.error;
+      if (error is TokenRefreshFailedException) {
+        return SessionExpiredWidget(
+          onLogin: () async {
+            Navigator.pop(context);
+            await ref.watch(userProvider.notifier).logOut();
+          },
+        );
+      }
+    }
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Mis Pagos")),
+      appBar: AppBar(
+        title: const Text("Mis Pagos"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.invalidate(pagosPendientesProvider);
+              ref.invalidate(historialPagosProvider);
+            },
+            icon: const Icon(FontAwesomeIcons.arrowsRotate),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -64,6 +91,9 @@ class _PagosScreenState extends ConsumerState<PagosScreen> {
               ),
             ],
 
+            if (_selectedTab == PagosTab.pagosPendientes) ...[
+              const TotalSaldoPendienteCard(),
+            ],
             Expanded(child: tabWidget),
           ],
         ),

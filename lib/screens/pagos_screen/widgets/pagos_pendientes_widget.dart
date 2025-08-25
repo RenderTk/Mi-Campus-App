@@ -1,97 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
+import 'package:usap_mobile/models/pago_pendiente.dart';
+import 'package:usap_mobile/providers/pagos_pendientes_provider.dart';
+import 'package:usap_mobile/screens/pagos_screen/widgets/pago_pendiente_card.dart';
+import 'package:usap_mobile/widgets/error_state_widget.dart';
 
-class PagosPendientesWidget extends StatelessWidget {
-  const PagosPendientesWidget({super.key});
+class _EmptyState extends StatelessWidget {
+  const _EmptyState();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          color: Theme.of(
-            context,
-          ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "Total pendiente",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const Spacer(),
-                    const Icon(
-                      Icons.attach_money,
-                      color: Colors.green,
-                      size: 20,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  "\$2725.00",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 15),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest,
-                    border: Border(
-                      left: BorderSide(color: Colors.amber.shade600, width: 4),
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.warning_amber,
-                        color: Colors.amber.shade600,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Importante",
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurface,
-                                  ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              "Para realizar tus pagos visita siga.usap.edu",
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface
-                                        .withValues(alpha: 0.7),
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.receipt_long,
+            size: 100,
+            color: Theme.of(context).colorScheme.primary,
           ),
-        ),
-      ],
+          const SizedBox(height: 12),
+          Text(
+            "No se encontraron pagos pendientes",
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SucessState extends StatelessWidget {
+  const _SucessState({required this.pagosPendientes});
+  final List<PagoPendiente> pagosPendientes;
+
+  @override
+  Widget build(BuildContext context) {
+    return pagosPendientes.isEmpty
+        ? const _EmptyState()
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: pagosPendientes.length,
+            itemBuilder: (context, index) {
+              final pagoPendiente = pagosPendientes[index];
+              return PagoPendienteCard(pagoPendiente: pagoPendiente);
+            },
+          );
+  }
+}
+
+class PagosPendientesWidget extends ConsumerWidget {
+  const PagosPendientesWidget({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pagosPendientes = ref.watch(pagosPendientesProvider);
+
+    return pagosPendientes.when(
+      data: (pagosPendientes) {
+        return _SucessState(pagosPendientes: pagosPendientes);
+      },
+      error: (error, stackTrace) {
+        if (error != TokenRefreshFailedException) {
+          return const ErrorStateWidget(
+            errorMessage:
+                "Ocurrio un error al cargar sus pagos pendientes. Intente mas tarde.",
+            onRetry: null,
+            showExitButton: false,
+          );
+        }
+        return const SizedBox.shrink();
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }

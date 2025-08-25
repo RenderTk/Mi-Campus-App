@@ -43,6 +43,9 @@ class Matricula {
   @JsonKey(name: 'DISPONIBLE_MODALIDAD')
   int? cuposModalidad;
 
+  @JsonKey(name: 'ID_PLAN')
+  int? idPlan;
+
   @JsonKey(name: 'HIBRIDA', fromJson: _hibridaFromJson)
   int? hibrida;
 
@@ -77,6 +80,7 @@ class Matricula {
     this.periodo,
     this.cupos,
     this.cuposModalidad,
+    this.idPlan,
     this.hibrida,
     this.estaSeleccionada,
     this.nombreCompleto,
