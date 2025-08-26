@@ -9,6 +9,10 @@ part of 'carrera.dart';
 abstract class _$CarreraCWProxy {
   Carrera nombre(String nombre);
 
+  Carrera progresoCarrera(int progresoCarrera);
+
+  Carrera totalCompletadas(int totalCompletadas);
+
   Carrera totalClases(int totalClases);
 
   /// Creates a new instance with the provided field values.
@@ -18,7 +22,12 @@ abstract class _$CarreraCWProxy {
   /// ```dart
   /// Carrera(...).copyWith(id: 12, name: "My name")
   /// ```
-  Carrera call({String nombre, int totalClases});
+  Carrera call({
+    String nombre,
+    int progresoCarrera,
+    int totalCompletadas,
+    int totalClases,
+  });
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -30,6 +39,14 @@ class _$CarreraCWProxyImpl implements _$CarreraCWProxy {
 
   @override
   Carrera nombre(String nombre) => call(nombre: nombre);
+
+  @override
+  Carrera progresoCarrera(int progresoCarrera) =>
+      call(progresoCarrera: progresoCarrera);
+
+  @override
+  Carrera totalCompletadas(int totalCompletadas) =>
+      call(totalCompletadas: totalCompletadas);
 
   @override
   Carrera totalClases(int totalClases) => call(totalClases: totalClases);
@@ -44,6 +61,8 @@ class _$CarreraCWProxyImpl implements _$CarreraCWProxy {
   /// ```
   Carrera call({
     Object? nombre = const $CopyWithPlaceholder(),
+    Object? progresoCarrera = const $CopyWithPlaceholder(),
+    Object? totalCompletadas = const $CopyWithPlaceholder(),
     Object? totalClases = const $CopyWithPlaceholder(),
   }) {
     return Carrera(
@@ -51,6 +70,18 @@ class _$CarreraCWProxyImpl implements _$CarreraCWProxy {
           ? _value.nombre
           // ignore: cast_nullable_to_non_nullable
           : nombre as String,
+      progresoCarrera:
+          progresoCarrera == const $CopyWithPlaceholder() ||
+              progresoCarrera == null
+          ? _value.progresoCarrera
+          // ignore: cast_nullable_to_non_nullable
+          : progresoCarrera as int,
+      totalClasesCompletadas:
+          totalCompletadas == const $CopyWithPlaceholder() ||
+              totalCompletadas == null
+          ? _value.totalClasesCompletadas
+          // ignore: cast_nullable_to_non_nullable
+          : totalCompletadas as int,
       totalClases:
           totalClases == const $CopyWithPlaceholder() || totalClases == null
           ? _value.totalClases

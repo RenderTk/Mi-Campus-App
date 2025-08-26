@@ -97,7 +97,7 @@ class RendimientoAcademicoCard extends StatelessWidget {
                   children: [
                     const SizedBox(height: 2),
                     Text(
-                      promedioGeneral.toStringAsFixed(0),
+                      promedioGeneral.toStringAsFixed(1),
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.bold,

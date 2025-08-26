@@ -7,7 +7,6 @@ import 'package:usap_mobile/models/user.dart';
 @CopyWith()
 class Student {
   User user;
-  int progresoCarrera;
   int puntosCoProgramaticos;
   Carrera carrera;
   List<SeccionCurso> secciones;
@@ -15,15 +14,9 @@ class Student {
 
   Student({
     required this.user,
-    required this.progresoCarrera,
     required this.puntosCoProgramaticos,
     required this.carrera,
     required this.secciones,
     required this.calificaciones,
   });
-
-  int get clasesCompletadas {
-    if (carrera.totalClases == 0) return 0;
-    return ((carrera.totalClases * (progresoCarrera / 100))).floor();
-  }
 }

@@ -5,7 +5,14 @@ part 'carrera.g.dart';
 @CopyWith()
 class Carrera {
   String nombre;
+  int progresoCarrera;
+  int totalClasesCompletadas;
   int totalClases;
 
-  Carrera({required this.nombre, required this.totalClases});
+  Carrera({
+    required this.nombre,
+    required this.progresoCarrera,
+    required this.totalClasesCompletadas,
+    required this.totalClases,
+  });
 }

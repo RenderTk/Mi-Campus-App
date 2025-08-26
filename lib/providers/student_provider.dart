@@ -21,14 +21,7 @@ class StudentNotifier extends AsyncNotifier<Student> {
     }
 
     // Execute all independent service calls in parallel using Records
-    final (
-      progresoCarrera,
-      puntosCoProgramaticos,
-      carrera,
-      secciones,
-      calificaciones,
-    ) = await (
-      studentDataService.getDegreeProgress(user.id),
+    final (puntosCoProgramaticos, carrera, secciones, calificaciones) = await (
       studentDataService.getPuntosCoProgramaticos(user.id),
       studentDataService.getDegree(user.id),
       studentDataService.getStudentsSchedule(user.id),
@@ -40,7 +33,6 @@ class StudentNotifier extends AsyncNotifier<Student> {
 
     return Student(
       user: user,
-      progresoCarrera: progresoCarrera,
       puntosCoProgramaticos: puntosCoProgramaticos,
       carrera: carrera,
       secciones: seccionesOrdenadas,
@@ -72,7 +64,6 @@ class StudentNotifier extends AsyncNotifier<Student> {
   Student _makeDeepCopyOfState() {
     return Student(
       user: state.value!.user.copyWith(),
-      progresoCarrera: state.value!.progresoCarrera,
       puntosCoProgramaticos: state.value!.puntosCoProgramaticos,
       carrera: state.value!.carrera.copyWith(),
       secciones: state.value!.secciones

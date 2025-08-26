@@ -27,16 +27,16 @@ class CalificacionCurso {
   int? nota;
 
   @JsonKey(name: 'DIAS')
-  String dias;
+  String? dias;
 
   @JsonKey(name: 'INICIO')
-  String inicio;
+  String? inicio;
 
   @JsonKey(name: 'FIN')
-  String fin;
+  String? fin;
 
   @JsonKey(name: 'CATEDRATICO')
-  String catedratico;
+  String? catedratico;
 
   @JsonKey(name: 'ETIQUETA')
   String? etiqueta;
@@ -67,13 +67,13 @@ class CalificacionCurso {
   bool get estaAprobado => estatus == EstatusCalificacion.aprobada;
 
   /// Normaliza días
-  String? get diasNormalizado => dias.trim();
+  String? get diasNormalizado => dias?.trim();
 
   /// Convierte los días abreviados a lista de días completos
-  List<String> get diasDeLaSemana {
-    if (dias.isEmpty) return [];
+  List<String>? get diasDeLaSemana {
+    if (dias?.isEmpty ?? true) return [];
 
-    final diasAbrev = dias.split('-');
+    final diasAbrev = dias?.split('-');
     final Map<String, String> conversion = {
       'L': 'Lunes',
       'M': 'Miércoles',
@@ -85,7 +85,7 @@ class CalificacionCurso {
     };
 
     return diasAbrev
-        .map((dia) => conversion[dia.trim().toUpperCase()] ?? dia)
+        ?.map((dia) => conversion[dia.trim().toUpperCase()] ?? dia)
         .toList();
   }
 

@@ -77,7 +77,11 @@ class DegreeProgressWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 30),
-              Center(child: buildDegreeProgressChart(student.progresoCarrera)),
+              Center(
+                child: buildDegreeProgressChart(
+                  student.carrera.progresoCarrera,
+                ),
+              ),
             ],
           ),
         ),

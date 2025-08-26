@@ -71,7 +71,7 @@ class CalificacionCard extends StatelessWidget {
           const Icon(Icons.person, size: 15),
           const SizedBox(width: 5),
           Text(
-            calificacion.catedratico,
+            calificacion.catedratico ?? "Catedratico no disponible",
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
@@ -97,7 +97,7 @@ class CalificacionCard extends StatelessWidget {
           const Icon(Icons.sunny, size: 15),
           const SizedBox(width: 5),
           Text(
-            calificacion.diasDeLaSemana.join(", "),
+            calificacion.diasDeLaSemana?.join(", ") ?? "Dias no disponibles",
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],

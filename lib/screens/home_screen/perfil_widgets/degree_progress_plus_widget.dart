@@ -150,7 +150,7 @@ class DegreeProgressPlusWidget extends StatelessWidget {
             const SizedBox(height: 15),
             buildProgressBar(
               context,
-              completed: student.clasesCompletadas,
+              completed: student.carrera.totalClasesCompletadas,
               total: student.carrera.totalClases,
             ),
           ],

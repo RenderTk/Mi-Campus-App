@@ -19,13 +19,13 @@ abstract class _$CalificacionCursoCWProxy {
 
   CalificacionCurso nota(int? nota);
 
-  CalificacionCurso dias(String dias);
+  CalificacionCurso dias(String? dias);
 
-  CalificacionCurso inicio(String inicio);
+  CalificacionCurso inicio(String? inicio);
 
-  CalificacionCurso fin(String fin);
+  CalificacionCurso fin(String? fin);
 
-  CalificacionCurso catedratico(String catedratico);
+  CalificacionCurso catedratico(String? catedratico);
 
   CalificacionCurso etiqueta(String? etiqueta);
 
@@ -43,10 +43,10 @@ abstract class _$CalificacionCursoCWProxy {
     String descripcionCurso,
     EstatusCalificacion estatus,
     int? nota,
-    String dias,
-    String inicio,
-    String fin,
-    String catedratico,
+    String? dias,
+    String? inicio,
+    String? fin,
+    String? catedratico,
     String? etiqueta,
   });
 }
@@ -80,16 +80,16 @@ class _$CalificacionCursoCWProxyImpl implements _$CalificacionCursoCWProxy {
   CalificacionCurso nota(int? nota) => call(nota: nota);
 
   @override
-  CalificacionCurso dias(String dias) => call(dias: dias);
+  CalificacionCurso dias(String? dias) => call(dias: dias);
 
   @override
-  CalificacionCurso inicio(String inicio) => call(inicio: inicio);
+  CalificacionCurso inicio(String? inicio) => call(inicio: inicio);
 
   @override
-  CalificacionCurso fin(String fin) => call(fin: fin);
+  CalificacionCurso fin(String? fin) => call(fin: fin);
 
   @override
-  CalificacionCurso catedratico(String catedratico) =>
+  CalificacionCurso catedratico(String? catedratico) =>
       call(catedratico: catedratico);
 
   @override
@@ -144,23 +144,22 @@ class _$CalificacionCursoCWProxyImpl implements _$CalificacionCursoCWProxy {
           ? _value.nota
           // ignore: cast_nullable_to_non_nullable
           : nota as int?,
-      dias: dias == const $CopyWithPlaceholder() || dias == null
+      dias: dias == const $CopyWithPlaceholder()
           ? _value.dias
           // ignore: cast_nullable_to_non_nullable
-          : dias as String,
-      inicio: inicio == const $CopyWithPlaceholder() || inicio == null
+          : dias as String?,
+      inicio: inicio == const $CopyWithPlaceholder()
           ? _value.inicio
           // ignore: cast_nullable_to_non_nullable
-          : inicio as String,
-      fin: fin == const $CopyWithPlaceholder() || fin == null
+          : inicio as String?,
+      fin: fin == const $CopyWithPlaceholder()
           ? _value.fin
           // ignore: cast_nullable_to_non_nullable
-          : fin as String,
-      catedratico:
-          catedratico == const $CopyWithPlaceholder() || catedratico == null
+          : fin as String?,
+      catedratico: catedratico == const $CopyWithPlaceholder()
           ? _value.catedratico
           // ignore: cast_nullable_to_non_nullable
-          : catedratico as String,
+          : catedratico as String?,
       etiqueta: etiqueta == const $CopyWithPlaceholder()
           ? _value.etiqueta
           // ignore: cast_nullable_to_non_nullable
@@ -189,10 +188,10 @@ CalificacionCurso _$CalificacionCursoFromJson(Map<String, dynamic> json) =>
       descripcionCurso: json['DESCRIPCION_CURSO'] as String,
       estatus: CalificacionCurso.getEstatusClase(json['ESTATUS'] as String),
       nota: (json['NOTA'] as num?)?.toInt(),
-      dias: json['DIAS'] as String,
-      inicio: json['INICIO'] as String,
-      fin: json['FIN'] as String,
-      catedratico: json['CATEDRATICO'] as String,
+      dias: json['DIAS'] as String?,
+      inicio: json['INICIO'] as String?,
+      fin: json['FIN'] as String?,
+      catedratico: json['CATEDRATICO'] as String?,
       etiqueta: json['ETIQUETA'] as String?,
     );
 

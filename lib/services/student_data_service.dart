@@ -12,9 +12,13 @@ final DateFormat formatter = DateFormat('yyyy-MM-dd');
 const String degreeProgressUrl = "obtenerporcentajecarrera/{codigo_alumno}";
 const String degreeTotalClasesUrl =
     "actividades_coprogramaticas/planes/{codigo_alumno}/2";
+const String degreeClasesCumplidasUrl =
+    "historial/total_cumplidos/{codigo_alumno}/{id_plan}";
+
 const String scheduleUrl =
     "Horariosalumno/obtener_horarios_alumno/{codigo_alumno}";
-const String calificationsUrl = "historial/informacion/{codigo_alumno}/140";
+const String calificationsUrl =
+    "historial/informacion/{codigo_alumno}/{id_plan}";
 const String ofertaMatriculaUrl =
     "matricula/oferta/{codigo_alumno1}/{codigo_alumno2}/1";
 
@@ -39,7 +43,7 @@ enum TipoModalidad { presencial, videoconferencia }
 class StudentDataService {
   final _dioService = DioService();
 
-  Future<int> getDegreeProgress(String codigoAlumno) async {
+  Future<int> _getDegreeProgress(String codigoAlumno) async {
     final url = degreeProgressUrl.replaceFirst("{codigo_alumno}", codigoAlumno);
     final dio = _dioService.getDio();
     final response = await dio.get<List<dynamic>>(url);
@@ -53,7 +57,24 @@ class StudentDataService {
     }
   }
 
-  Future<int> getCarreraIdPlan(String codigoAlumno) async {
+  Future<int> _getTotalClasesCompletadas(String codigoAlumno) async {
+    final idPlan = await _getCarreraIdPlan(codigoAlumno);
+    final url = degreeClasesCumplidasUrl
+        .replaceFirst("{codigo_alumno}", codigoAlumno)
+        .replaceFirst("{id_plan}", idPlan.toString());
+    final dio = await _dioService.getDioWithAutoRefresh();
+    final response = await dio.get<List<dynamic>>(url);
+    final data = response.data;
+    if (data != null && data.isNotEmpty) {
+      final int totalClasesCumplidas = (data[0]['TOTAL_CUMPLIDAS'] as num)
+          .toInt();
+      return totalClasesCumplidas;
+    } else {
+      return 0;
+    }
+  }
+
+  Future<int> _getCarreraIdPlan(String codigoAlumno) async {
     final url = carreraIdPlanUrl.replaceFirst("{codigo_alumno}", codigoAlumno);
     final dio = await _dioService.getDioWithAutoRefresh();
     final response = await dio.get<List<dynamic>>(url);
@@ -66,7 +87,7 @@ class StudentDataService {
   }
 
   Future<int> getPuntosCoProgramaticos(String codigoAlumno) async {
-    final idPlan = await getCarreraIdPlan(codigoAlumno);
+    final idPlan = await _getCarreraIdPlan(codigoAlumno);
     final url = puntosCoProgramaticosUrl
         .replaceFirst("{codigo_alumno}", codigoAlumno)
         .replaceFirst("{id_plan}", idPlan.toString());
@@ -93,9 +114,20 @@ class StudentDataService {
     final response = await dio.get<List<dynamic>>(url);
     final data = response.data;
     if (data != null && data.isNotEmpty) {
+      final totalClasesCumplidas = await _getTotalClasesCompletadas(
+        codigoAlumno,
+      );
+
+      final progresoCarrera = await _getDegreeProgress(codigoAlumno);
+
       final int totalClases = (data[0]['TOTAL_CURSOS_PLAN'] as num).toInt();
       final String nombreCarrera = data[0]['DESCRIPCION_PLAN'];
-      return Carrera(nombre: nombreCarrera, totalClases: totalClases);
+      return Carrera(
+        nombre: nombreCarrera,
+        progresoCarrera: progresoCarrera,
+        totalClasesCompletadas: totalClasesCumplidas,
+        totalClases: totalClases,
+      );
     } else {
       throw Exception('Empty, null or invalid response data');
     }
@@ -116,10 +148,16 @@ class StudentDataService {
   Future<List<CalificacionCurso>> getStudentCalifications(
     String codigoAlumno,
   ) async {
-    final url = calificationsUrl.replaceFirst("{codigo_alumno}", codigoAlumno);
+    final idPlan = await _getCarreraIdPlan(codigoAlumno);
+    final url = calificationsUrl
+        .replaceFirst("{codigo_alumno}", codigoAlumno)
+        .replaceFirst("{id_plan}", idPlan.toString());
     final dio = await _dioService.getDioWithAutoRefresh();
     final response = await dio.get<List<dynamic>>(url);
     final data = response.data;
+
+    data?.removeWhere((e) => e['ESTATUS'] == "Equivalencia");
+
     if (data != null) {
       final calificaciones = data
           .map((e) => CalificacionCurso.fromJson(e))

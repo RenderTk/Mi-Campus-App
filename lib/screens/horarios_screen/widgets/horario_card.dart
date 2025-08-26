@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:usap_mobile/models/seccion_curso.dart';
+import 'package:usap_mobile/utils/helper_functions.dart';
 import 'package:usap_mobile/widgets/labeled_badge.dart';
 
 class HorarioCard extends StatelessWidget {
@@ -20,7 +21,8 @@ class HorarioCard extends StatelessWidget {
           SizedBox(
             width: 260,
             child: Text(
-              seccion.descripcionCurso ?? "",
+              customCapitalize(seccion.descripcionCurso ?? ""),
+
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(
