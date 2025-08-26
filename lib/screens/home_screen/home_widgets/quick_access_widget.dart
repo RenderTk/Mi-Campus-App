@@ -56,6 +56,7 @@ class QuickAccessWidget extends StatelessWidget {
         ),
         Row(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
               child: buildQuickAccessCard(
@@ -91,6 +92,7 @@ class QuickAccessWidget extends StatelessWidget {
         ),
         Row(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
               child: buildQuickAccessCard(

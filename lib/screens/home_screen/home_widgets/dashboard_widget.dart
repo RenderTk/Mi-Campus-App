@@ -4,9 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/home_screen/home_widgets/degree_progress_widget.dart';
 import 'package:usap_mobile/screens/home_screen/home_widgets/quick_access_widget.dart';
 import 'package:usap_mobile/screens/home_screen/home_widgets/rendimiento_academico_card.dart';
+import 'package:usap_mobile/screens/home_screen/perfil_widgets/degree_progress_plus_widget.dart';
 
 class DashboardWidget extends ConsumerWidget {
   const DashboardWidget({super.key});
@@ -23,9 +23,10 @@ class DashboardWidget extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
+                visualDensity: VisualDensity.compact,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 12,
-                  vertical: 0,
+                  vertical: 2,
                 ),
                 title: Text(
                   student.user.name,
@@ -42,7 +43,7 @@ class DashboardWidget extends ConsumerWidget {
                   icon: const Icon(FontAwesomeIcons.rightFromBracket),
                 ),
               ),
-              DegreeProgressWidget(student: student),
+              DegreeProgressPlusWidget(student: student),
               RendimientoAcademicoCard(
                 puntosCoprogramaticos: student.puntosCoProgramaticos,
                 promedioGeneral: CalificacionCurso.getPromedio(
@@ -50,7 +51,6 @@ class DashboardWidget extends ConsumerWidget {
                 ),
               ),
               const QuickAccessWidget(),
-              // UpcomingClassWidget(student: student),
             ],
           ),
         ),

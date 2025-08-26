@@ -19,12 +19,15 @@ class DegreeProgressPlusWidget extends StatelessWidget {
             color: Colors.green.withValues(alpha: 0.1),
             child: SizedBox(
               width: 150,
-              height: 100,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
                   children: [
-                    const Icon(Icons.check_circle_outline, color: Colors.green),
+                    const Icon(
+                      Icons.check_circle_outline,
+                      color: Colors.green,
+                      size: 20,
+                    ),
                     const SizedBox(height: 2),
                     Text(
                       completed.toString(),
@@ -52,7 +55,6 @@ class DegreeProgressPlusWidget extends StatelessWidget {
             ).colorScheme.tertiary.withValues(alpha: 0.1),
             child: SizedBox(
               width: 150,
-              height: 100,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -60,6 +62,7 @@ class DegreeProgressPlusWidget extends StatelessWidget {
                     Icon(
                       Icons.pending_actions,
                       color: Theme.of(context).colorScheme.primary,
+                      size: 20,
                     ),
                     const SizedBox(height: 2),
                     Text(
@@ -103,7 +106,7 @@ class DegreeProgressPlusWidget extends StatelessWidget {
               Text("$completed/$total clases"),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 5),
           // Progress bar
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
@@ -114,7 +117,7 @@ class DegreeProgressPlusWidget extends StatelessWidget {
               valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 5),
           buildClassesProgressCards(
             context,
             completed: completed,
@@ -130,8 +133,9 @@ class DegreeProgressPlusWidget extends StatelessWidget {
       ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
       elevation: 5,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -147,7 +151,7 @@ class DegreeProgressPlusWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 8),
             buildProgressBar(
               context,
               completed: student.carrera.totalClasesCompletadas,

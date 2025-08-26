@@ -11,7 +11,7 @@ class DegreeProgressWidget extends StatelessWidget {
     Widget buildDegreeProgressChart(int completionPercentage) {
       return SizedBox(
         width: 100,
-        height: 45,
+        height: 80,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -68,13 +68,8 @@ class DegreeProgressWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                student.user.carrera,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(height: 10),
-              Text(
                 "Progreso de la carrera",
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 30),
               Center(
