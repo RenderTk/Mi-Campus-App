@@ -35,6 +35,18 @@ class _CalendarWidgetState extends ConsumerState<CalendarWidget> {
     );
   }
 
+  DateTime threeMonthsAfterNewest(DateTime newestEvent) {
+    final dt = newestEvent;
+    return DateTime(
+      dt.year,
+      dt.month + 3,
+      dt.day,
+      dt.hour,
+      dt.minute,
+      dt.second,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final calendarEvents = ref.watch(calendarEventsProvider);
@@ -129,7 +141,7 @@ class _CalendarWidgetState extends ConsumerState<CalendarWidget> {
                 TableCalendar<CalendarEvent>(
                   locale: "es_ES",
                   firstDay: threeMonthsBeforeOldest(oldestEvent!.dtend),
-                  lastDay: newestEvent!.dtend,
+                  lastDay: threeMonthsAfterNewest(newestEvent!.dtend),
                   focusedDay: _focusedDay,
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDay, day);

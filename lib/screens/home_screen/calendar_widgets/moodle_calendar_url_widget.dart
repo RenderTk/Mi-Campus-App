@@ -156,7 +156,11 @@ class _MoodleCalendarUrlWidgetState
       }
 
       //if success
-      final events = _icsParser.parseRawIcsDataToCalendarEvents(rawIcsContent);
+      final user = await ref.read(userProvider.future);
+      final events = _icsParser.parseRawIcsDataToCalendarEvents(
+        rawIcsContent,
+        user?.id ?? '',
+      );
       eventsToBeInsertedCount = ref
           .read(calendarEventsProvider.notifier)
           .countNewEventToBeAdded(events);

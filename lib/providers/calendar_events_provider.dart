@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/calendar_event.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/services/db_service.dart';
 
 class CalendarEventsNotfier extends AsyncNotifier<List<CalendarEvent>> {
@@ -7,7 +8,12 @@ class CalendarEventsNotfier extends AsyncNotifier<List<CalendarEvent>> {
 
   @override
   Future<List<CalendarEvent>> build() async {
-    final events = await _dbService.getAllEvents();
+    final user = await ref.watch(userProvider.future);
+    if (user == null) {
+      throw Exception('User not found');
+    }
+
+    final events = await _dbService.getAllEvents(user.id);
     return events;
   }
 
@@ -64,8 +70,17 @@ class CalendarEventsNotfier extends AsyncNotifier<List<CalendarEvent>> {
 
   Future<void> deleteAllEvents() async {
     state = const AsyncValue.loading();
-    await _dbService.clearDb();
-    state = const AsyncValue.data([]);
+
+    state = await AsyncValue.guard(() async {
+      final user = await ref.read(userProvider.future);
+
+      if (user == null) {
+        throw Exception('User not found');
+      }
+
+      await _dbService.clearDb(user.id);
+      return [];
+    });
   }
 }
 

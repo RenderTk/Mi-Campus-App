@@ -21,6 +21,7 @@ class DbService {
   final String _eventsTableClassType = 'class_type';
   final String _eventsTableLastModified = 'last_modified';
   final String _eventsTableCreatedAt = 'created_at';
+  final String _eventsTableCodigoAlumno = 'codigo_alumno';
 
   Future<void> _createTables(Database db, int version) async {
     await db.execute('''
@@ -35,7 +36,8 @@ class DbService {
         $_eventsTableCategories TEXT,
         $_eventsTableClassType TEXT,
         $_eventsTableLastModified TEXT,
-        $_eventsTableCreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+        $_eventsTableCreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        $_eventsTableCodigoAlumno TEXT NOT NULL
       )
     ''');
   }
@@ -51,30 +53,11 @@ class DbService {
       _eventsTableCategories: event.categories,
       _eventsTableClassType: event.classType,
       _eventsTableLastModified: event.lastModified?.toIso8601String(),
+      _eventsTableCodigoAlumno: event.codigoAlumno,
     };
   }
 
-  Future<Database> get database async {
-    if (_db != null) return _db!;
-    _db = await getDatabase();
-    return _db!;
-  }
-
-  Future<void> deleteFirstFiveEvents() async {
-    final dbPath = join(await getDatabasesPath(), 'database.db');
-    final db = await openDatabase(dbPath);
-
-    // Delete the first 5 records ordered by ID (oldest first)
-    await db.delete(
-      _eventsTableName,
-      where:
-          '$_eventsTableId IN (SELECT $_eventsTableId FROM $_eventsTableName ORDER BY $_eventsTableId ASC LIMIT 5)',
-    );
-
-    await db.close();
-  }
-
-  Future<Database> getDatabase() async {
+  Future<Database> _getDatabase() async {
     final databaseDirPath = await getDatabasesPath();
     final databasePath = join(databaseDirPath, 'database.db');
     final database = await openDatabase(
@@ -85,52 +68,30 @@ class DbService {
     return database;
   }
 
-  Future<int> countExistingEvents(List<CalendarEvent> events) async {
-    final db = await database;
-
-    if (events.isEmpty) return 0;
-
-    final uids = events.map((event) => event.uid).toSet().toList();
-
-    final placeholders = List.filled(uids.length, '?').join(',');
-
-    final result = await db.rawQuery(
-      'SELECT COUNT(*) as count FROM $_eventsTableName WHERE $_eventsTableUid IN ($placeholders)',
-      uids,
-    );
-
-    return result.first['count'] as int;
+  Future<Database> get database async {
+    if (_db != null) return _db!;
+    _db = await _getDatabase();
+    return _db!;
   }
 
-  Future<int> countNewEvents(List<CalendarEvent> events) async {
-    final db = await database;
-
-    if (events.isEmpty) return 0;
-
-    final uids = events.map((event) => event.uid).toSet().toList();
-    final placeholders = List.filled(uids.length, '?').join(',');
-
-    final result = await db.rawQuery(
-      'SELECT COUNT(*) as count FROM $_eventsTableName WHERE $_eventsTableUid IN ($placeholders)',
-      uids,
-    );
-
-    final existingCount = result.first['count'] as int;
-
-    // Return how many will be newly inserted
-    return uids.length - existingCount;
-  }
-
-  Future<void> clearDb() async {
+  Future<void> clearDb(String codigoAlumno) async {
     //delete all events
     final db = await database;
-    await db.delete(_eventsTableName);
+    await db.delete(
+      _eventsTableName,
+      where: '$_eventsTableCodigoAlumno = ?',
+      whereArgs: [codigoAlumno],
+    );
   }
 
-  Future<List<CalendarEvent>> getAllEvents() async {
+  Future<List<CalendarEvent>> getAllEvents(String codigoAlumno) async {
     final db = await database;
 
-    final data = await db.query(_eventsTableName);
+    final data = await db.query(
+      _eventsTableName,
+      where: '$_eventsTableCodigoAlumno = ?',
+      whereArgs: [codigoAlumno],
+    );
     List<CalendarEvent> events = [];
     for (final item in data) {
       final value = item[_eventsTableDtstamp];
@@ -148,6 +109,10 @@ class DbService {
         lastModified: DateTime.tryParse(
           item[_eventsTableLastModified] as String? ?? '',
         ),
+        createdAt: DateTime.tryParse(
+          item[_eventsTableCreatedAt] as String? ?? '',
+        ),
+        codigoAlumno: item[_eventsTableCodigoAlumno] as String,
       );
 
       events.add(event);

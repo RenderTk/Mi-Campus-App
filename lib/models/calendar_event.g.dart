@@ -29,6 +29,8 @@ abstract class _$CalendarEventCWProxy {
 
   CalendarEvent createdAt(DateTime? createdAt);
 
+  CalendarEvent codigoAlumno(String codigoAlumno);
+
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `CalendarEvent(...).copyWith.fieldName(value)`.
   ///
@@ -48,6 +50,7 @@ abstract class _$CalendarEventCWProxy {
     String? classType,
     DateTime? lastModified,
     DateTime? createdAt,
+    String codigoAlumno,
   });
 }
 
@@ -94,6 +97,10 @@ class _$CalendarEventCWProxyImpl implements _$CalendarEventCWProxy {
   CalendarEvent createdAt(DateTime? createdAt) => call(createdAt: createdAt);
 
   @override
+  CalendarEvent codigoAlumno(String codigoAlumno) =>
+      call(codigoAlumno: codigoAlumno);
+
+  @override
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `CalendarEvent(...).copyWith.fieldName(value)`.
   ///
@@ -113,6 +120,7 @@ class _$CalendarEventCWProxyImpl implements _$CalendarEventCWProxy {
     Object? classType = const $CopyWithPlaceholder(),
     Object? lastModified = const $CopyWithPlaceholder(),
     Object? createdAt = const $CopyWithPlaceholder(),
+    Object? codigoAlumno = const $CopyWithPlaceholder(),
   }) {
     return CalendarEvent(
       id: id == const $CopyWithPlaceholder()
@@ -159,6 +167,11 @@ class _$CalendarEventCWProxyImpl implements _$CalendarEventCWProxy {
           ? _value.createdAt
           // ignore: cast_nullable_to_non_nullable
           : createdAt as DateTime?,
+      codigoAlumno:
+          codigoAlumno == const $CopyWithPlaceholder() || codigoAlumno == null
+          ? _value.codigoAlumno
+          // ignore: cast_nullable_to_non_nullable
+          : codigoAlumno as String,
     );
   }
 }

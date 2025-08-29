@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/providers/calendar_events_provider.dart';
+import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/services/db_service.dart';
 
 class CalendarNavigationProvider extends AsyncNotifier<bool> {
@@ -7,6 +8,9 @@ class CalendarNavigationProvider extends AsyncNotifier<bool> {
 
   @override
   Future<bool> build() async {
+    //to reset when user logs out
+    ref.watch(userProvider);
+
     final events = await ref.read(calendarEventsProvider.future);
 
     //if there is no events saved on lcoal db

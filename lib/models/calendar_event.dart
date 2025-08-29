@@ -26,6 +26,8 @@ class CalendarEvent {
 
   final DateTime? createdAt;
 
+  final String codigoAlumno;
+
   CalendarEvent({
     this.id,
     required this.uid,
@@ -38,38 +40,8 @@ class CalendarEvent {
     required this.classType,
     required this.lastModified,
     this.createdAt,
+    required this.codigoAlumno,
   });
-
-  static DateTime? tryParseDt(Map<String, dynamic> data) {
-    String dt = data["dt"] as String;
-    final datetime = DateTime.tryParse(dt);
-    return datetime;
-  }
-
-  static DateTime parseDt(Map<String, dynamic> data) {
-    String dt = data["dt"] as String;
-    final datetime = DateTime.parse(dt);
-    return datetime;
-  }
-
-  static List<CalendarEvent> mapEventsFromIcsData(dynamic data) {
-    List<CalendarEvent> events = [];
-    for (var item in data) {
-      final calendarEvent = CalendarEvent(
-        uid: item['uid'] as String,
-        summary: item['summary'] as String,
-        description: item['description'] as String?,
-        dtstamp: tryParseDt(item['dtstamp']),
-        dtstart: parseDt(item['dtstart']),
-        dtend: parseDt(item['dtend']),
-        categories: item['categories'][0] as String?,
-        classType: item['class_type'] as String?,
-        lastModified: tryParseDt(item['lastModified']),
-      );
-      events.add(calendarEvent);
-    }
-    return events;
-  }
 
   static CalendarEvent? getNewestEvent(List<CalendarEvent> events) {
     if (events.isEmpty) return null;
