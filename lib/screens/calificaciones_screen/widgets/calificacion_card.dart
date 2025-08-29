@@ -47,7 +47,9 @@ class CalificacionCard extends StatelessWidget {
               calificacion.estatus == EstatusCalificacion.reprobada ||
               calificacion.estatus == EstatusCalificacion.cursando)
             LabeledBadge(
-              msg: calificacion.nota.toString(),
+              msg: calificacion.nota != null
+                  ? calificacion.nota.toString()
+                  : "Sin calificación",
               foregroundColor: getEstatusCalificacionColor(
                 calificacion.estatus,
               ),

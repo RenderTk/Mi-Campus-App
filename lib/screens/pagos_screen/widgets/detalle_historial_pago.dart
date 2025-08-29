@@ -56,24 +56,25 @@ class DetalleHistorialPago extends StatelessWidget {
 
           if (esTipoPagoDeMatricula) ...[
             for (final detalle in historialPago.detalles) ...[
-              Row(
-                children: [
-                  SizedBox(
-                    width: 225,
-                    child: Text(
-                      customCapitalize(detalle.descripcion),
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+              if (detalle.montoTotal != null && detalle.montoTotal! > 0)
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 225,
+                      child: Text(
+                        customCapitalize(detalle.descripcion),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    "L ${formatNumber(detalle.montoTotal ?? 0)}",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
-              ),
+                    const Spacer(),
+                    Text(
+                      "L ${formatNumber(detalle.montoTotal ?? 0)}",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
             ],
           ],
 

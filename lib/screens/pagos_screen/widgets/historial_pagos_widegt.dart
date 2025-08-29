@@ -73,6 +73,8 @@ class _SucessState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HistorialPago.sortListByFechaDesc(historialPagos);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       child: historialPagos.isEmpty
