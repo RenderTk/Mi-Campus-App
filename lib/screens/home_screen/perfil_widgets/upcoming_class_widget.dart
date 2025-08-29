@@ -29,7 +29,7 @@ class UpcomingClassWidget extends StatelessWidget {
       ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
       child: Container(
         alignment: Alignment.topLeft,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

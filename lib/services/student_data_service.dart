@@ -31,8 +31,30 @@ const String carreraIdPlanUrl =
 const String promediosCalificacionesUrl =
     "historial/promedios/{codigo_alumno}/{id_plan}";
 
+const String fotoCarnetAlumnoUrl = "obtenerfoto_carnet/{codigo_alumno}";
+
 class StudentDataService {
   final _dioService = DioService();
+
+  Future<String?> getFotoCarnetAlumno(String codigoAlumno) async {
+    final url = fotoCarnetAlumnoUrl.replaceFirst(
+      "{codigo_alumno}",
+      codigoAlumno,
+    );
+    final dio = _dioService.getDio();
+    final response = await dio.get<List<dynamic>>(url);
+    final data = response.data;
+    if (data != null && data.isNotEmpty) {
+      final String base64String = data[0]['FOTO'];
+      String cleanBase64 = base64String
+          .replaceAll('<FOTO>', '')
+          .replaceAll('</FOTO>', '');
+
+      return cleanBase64;
+    } else {
+      return null;
+    }
+  }
 
   Future<int> _getCarreraProgress(String codigoAlumno) async {
     final url = progresoCarreraUrl.replaceFirst(

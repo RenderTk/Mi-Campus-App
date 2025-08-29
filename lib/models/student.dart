@@ -8,6 +8,7 @@ import 'package:usap_mobile/models/user.dart';
 class Student {
   User user;
   int puntosCoProgramaticos;
+  String? fotoBase64;
   Carrera carrera;
   List<SeccionCurso> secciones;
   List<CalificacionCurso> calificaciones;
@@ -15,6 +16,7 @@ class Student {
   Student({
     required this.user,
     required this.puntosCoProgramaticos,
+    required this.fotoBase64,
     required this.carrera,
     required this.secciones,
     required this.calificaciones,
