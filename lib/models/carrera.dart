@@ -6,12 +6,16 @@ part 'carrera.g.dart';
 class Carrera {
   String nombre;
   int progresoCarrera;
+  double promedioGraduacion;
+  double promedioHistorico;
   int totalClasesCompletadas;
   int totalClases;
 
   Carrera({
     required this.nombre,
     required this.progresoCarrera,
+    required this.promedioGraduacion,
+    required this.promedioHistorico,
     required this.totalClasesCompletadas,
     required this.totalClases,
   });

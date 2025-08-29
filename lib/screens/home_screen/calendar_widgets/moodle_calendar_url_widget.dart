@@ -139,7 +139,7 @@ class _MoodleCalendarUrlWidgetState
       setState(() {
         isLoading = true;
       });
-      final rawIcsContent = await _studentDataService.downloadStudentCalendar(
+      final rawIcsContent = await _studentDataService.descargarCalendarioAlumno(
         _urlTextController.text,
       );
 

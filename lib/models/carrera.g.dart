@@ -11,7 +11,11 @@ abstract class _$CarreraCWProxy {
 
   Carrera progresoCarrera(int progresoCarrera);
 
-  Carrera totalCompletadas(int totalCompletadas);
+  Carrera promedioGraduacion(double promedioGraduacion);
+
+  Carrera promedioHistorico(double promedioHistorico);
+
+  Carrera totalClasesCompletadas(int totalClasesCompletadas);
 
   Carrera totalClases(int totalClases);
 
@@ -25,7 +29,9 @@ abstract class _$CarreraCWProxy {
   Carrera call({
     String nombre,
     int progresoCarrera,
-    int totalCompletadas,
+    double promedioGraduacion,
+    double promedioHistorico,
+    int totalClasesCompletadas,
     int totalClases,
   });
 }
@@ -45,8 +51,16 @@ class _$CarreraCWProxyImpl implements _$CarreraCWProxy {
       call(progresoCarrera: progresoCarrera);
 
   @override
-  Carrera totalCompletadas(int totalCompletadas) =>
-      call(totalCompletadas: totalCompletadas);
+  Carrera promedioGraduacion(double promedioGraduacion) =>
+      call(promedioGraduacion: promedioGraduacion);
+
+  @override
+  Carrera promedioHistorico(double promedioHistorico) =>
+      call(promedioHistorico: promedioHistorico);
+
+  @override
+  Carrera totalClasesCompletadas(int totalClasesCompletadas) =>
+      call(totalClasesCompletadas: totalClasesCompletadas);
 
   @override
   Carrera totalClases(int totalClases) => call(totalClases: totalClases);
@@ -62,7 +76,9 @@ class _$CarreraCWProxyImpl implements _$CarreraCWProxy {
   Carrera call({
     Object? nombre = const $CopyWithPlaceholder(),
     Object? progresoCarrera = const $CopyWithPlaceholder(),
-    Object? totalCompletadas = const $CopyWithPlaceholder(),
+    Object? promedioGraduacion = const $CopyWithPlaceholder(),
+    Object? promedioHistorico = const $CopyWithPlaceholder(),
+    Object? totalClasesCompletadas = const $CopyWithPlaceholder(),
     Object? totalClases = const $CopyWithPlaceholder(),
   }) {
     return Carrera(
@@ -76,12 +92,24 @@ class _$CarreraCWProxyImpl implements _$CarreraCWProxy {
           ? _value.progresoCarrera
           // ignore: cast_nullable_to_non_nullable
           : progresoCarrera as int,
+      promedioGraduacion:
+          promedioGraduacion == const $CopyWithPlaceholder() ||
+              promedioGraduacion == null
+          ? _value.promedioGraduacion
+          // ignore: cast_nullable_to_non_nullable
+          : promedioGraduacion as double,
+      promedioHistorico:
+          promedioHistorico == const $CopyWithPlaceholder() ||
+              promedioHistorico == null
+          ? _value.promedioHistorico
+          // ignore: cast_nullable_to_non_nullable
+          : promedioHistorico as double,
       totalClasesCompletadas:
-          totalCompletadas == const $CopyWithPlaceholder() ||
-              totalCompletadas == null
+          totalClasesCompletadas == const $CopyWithPlaceholder() ||
+              totalClasesCompletadas == null
           ? _value.totalClasesCompletadas
           // ignore: cast_nullable_to_non_nullable
-          : totalCompletadas as int,
+          : totalClasesCompletadas as int,
       totalClases:
           totalClases == const $CopyWithPlaceholder() || totalClases == null
           ? _value.totalClases

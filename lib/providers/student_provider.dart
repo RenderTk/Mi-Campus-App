@@ -23,9 +23,9 @@ class StudentNotifier extends AsyncNotifier<Student> {
     // Execute all independent service calls in parallel using Records
     final (puntosCoProgramaticos, carrera, secciones, calificaciones) = await (
       studentDataService.getPuntosCoProgramaticos(user.id),
-      studentDataService.getDegree(user.id),
-      studentDataService.getStudentsSchedule(user.id),
-      studentDataService.getStudentCalifications(user.id),
+      studentDataService.getCarrera(user.id),
+      studentDataService.getHorarioAlumno(user.id),
+      studentDataService.getCalificacionesAlumno(user.id),
     ).wait;
 
     // Ordenar las secciones por día y hora
@@ -50,7 +50,7 @@ class StudentNotifier extends AsyncNotifier<Student> {
         throw Exception('User not found');
       }
 
-      final refreshedSecciones = await studentDataService.getStudentsSchedule(
+      final refreshedSecciones = await studentDataService.getHorarioAlumno(
         user.id,
       );
 

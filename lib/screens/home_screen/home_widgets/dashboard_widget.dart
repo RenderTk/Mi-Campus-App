@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:usap_mobile/models/calificacion_curso.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/screens/home_screen/home_widgets/quick_access_widget.dart';
@@ -45,10 +44,8 @@ class DashboardWidget extends ConsumerWidget {
               ),
               DegreeProgressPlusWidget(student: student),
               RendimientoAcademicoCard(
-                puntosCoprogramaticos: student.puntosCoProgramaticos,
-                promedioGeneral: CalificacionCurso.getPromedio(
-                  student.calificaciones,
-                ),
+                promedioGraduacion: student.carrera.promedioGraduacion,
+                promedioHistorico: student.carrera.promedioHistorico,
               ),
               const QuickAccessWidget(),
             ],

@@ -28,10 +28,13 @@ const String puntosCoProgramaticosUrl =
 const String carreraIdPlanUrl =
     "actividades_coprogramaticas/planes/{codigo_alumno}/2";
 
+const String promediosCalificacionesUrl =
+    "historial/promedios/{codigo_alumno}/{id_plan}";
+
 class StudentDataService {
   final _dioService = DioService();
 
-  Future<int> _getDegreeProgress(String codigoAlumno) async {
+  Future<int> _getCarreraProgress(String codigoAlumno) async {
     final url = progresoCarreraUrl.replaceFirst(
       "{codigo_alumno}",
       codigoAlumno,
@@ -45,6 +48,30 @@ class StudentDataService {
       return progress;
     } else {
       throw Exception('Empty, null or invalid response data');
+    }
+  }
+
+  Future<Map<String, double>> getPromediosCalificaciones(
+    String codigoAlumno,
+  ) async {
+    final idPlan = await _getCarreraIdPlan(codigoAlumno);
+    final url = promediosCalificacionesUrl
+        .replaceFirst("{codigo_alumno}", codigoAlumno)
+        .replaceFirst("{id_plan}", idPlan.toString());
+    final dio = await _dioService.getDioWithAutoRefresh();
+    final response = await dio.get<List<dynamic>>(url);
+    final data = response.data;
+
+    if (data != null && data.isNotEmpty) {
+      final promedioGraduacion = (data[0]['PROMEDIO_GRADUACION'] as num);
+      final promedioHistorico = (data[0]['PROMEDIO_HISTORICO'] as num);
+
+      return {
+        "PROMEDIO_GRADUACION": promedioGraduacion.toDouble(),
+        "PROMEDIO_HISTORICO": promedioHistorico.toDouble(),
+      };
+    } else {
+      return {"PROMEDIO_GRADUACION": 0, "PROMEDIO_HISTORICO": 0};
     }
   }
 
@@ -96,7 +123,7 @@ class StudentDataService {
     }
   }
 
-  Future<Carrera> getDegree(String codigoAlumno) async {
+  Future<Carrera> getCarrera(String codigoAlumno) async {
     final url = totalClasesEnCarreraUrl.replaceFirst(
       "{codigo_alumno}",
       codigoAlumno,
@@ -109,13 +136,16 @@ class StudentDataService {
         codigoAlumno,
       );
 
-      final progresoCarrera = await _getDegreeProgress(codigoAlumno);
+      final progresoCarrera = await _getCarreraProgress(codigoAlumno);
 
       final int totalClases = (data[0]['TOTAL_CURSOS_PLAN'] as num).toInt();
       final String nombreCarrera = data[0]['DESCRIPCION_PLAN'];
+      final promedios = await getPromediosCalificaciones(codigoAlumno);
       return Carrera(
         nombre: nombreCarrera,
         progresoCarrera: progresoCarrera,
+        promedioGraduacion: promedios["PROMEDIO_GRADUACION"] ?? 0,
+        promedioHistorico: promedios["PROMEDIO_HISTORICO"] ?? 0,
         totalClasesCompletadas: totalClasesCumplidas,
         totalClases: totalClases,
       );
@@ -124,7 +154,7 @@ class StudentDataService {
     }
   }
 
-  Future<List<SeccionCurso>> getStudentsSchedule(String codigoAlumno) async {
+  Future<List<SeccionCurso>> getHorarioAlumno(String codigoAlumno) async {
     final url = horarioUrl.replaceFirst("{codigo_alumno}", codigoAlumno);
     final dio = await _dioService.getDioWithAutoRefresh();
     final response = await dio.get<List<dynamic>>(url);
@@ -136,7 +166,7 @@ class StudentDataService {
     }
   }
 
-  Future<List<CalificacionCurso>> getStudentCalifications(
+  Future<List<CalificacionCurso>> getCalificacionesAlumno(
     String codigoAlumno,
   ) async {
     final idPlan = await _getCarreraIdPlan(codigoAlumno);
@@ -159,7 +189,7 @@ class StudentDataService {
     }
   }
 
-  Future<String?> downloadStudentCalendar(String url) async {
+  Future<String?> descargarCalendarioAlumno(String url) async {
     try {
       final dio = _dioService.getDio();
 
