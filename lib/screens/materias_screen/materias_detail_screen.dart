@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/matricula.dart';
 import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/services/student_data_service.dart';
+import 'package:usap_mobile/services/matricula_data_service.dart';
 import 'package:usap_mobile/utils/snackbar_helper.dart';
 import 'package:usap_mobile/screens/materias_screen/widgets/materia_card.dart';
 import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
@@ -18,9 +18,9 @@ class MateriasDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
-  final StudentDataService studentDataService = StudentDataService();
-  Set<int> selectedIndexes = {};
-  String selectedModalidad = 'Todas';
+  final MatriculaDataService _matriculaDataService = MatriculaDataService();
+  Set<int> _selectedIndexes = {};
+  String _selectedModalidad = 'Todas';
 
   @override
   void initState() {
@@ -95,7 +95,7 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
 
   void _searchSelectedMaterias() {
     setState(() {
-      selectedIndexes = widget.matriculas
+      _selectedIndexes = widget.matriculas
           .asMap()
           .entries
           .where((entry) => (entry.value.estaSeleccionada ?? 0) != 0)
@@ -111,7 +111,7 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
   ) async {
     TipoModalidad? selectedModalidad;
     try {
-      if (matricula.esHibrida && !selectedIndexes.contains(index)) {
+      if (matricula.esHibrida && !_selectedIndexes.contains(index)) {
         selectedModalidad = await _showModalidadPicker(matricula);
         if (selectedModalidad == null) return;
       } else if (matricula.esHibrida) {
@@ -133,7 +133,7 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
       final student = await ref.read(studentProvider.future);
 
       //update on server
-      final msg = await studentDataService.addClaseOrRemoveClaseFromStudent(
+      final msg = await _matriculaDataService.addClaseOrRemoveClaseFromStudent(
         matricula,
         student.user.id,
         accion,
@@ -172,10 +172,10 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
 
     //update the state if nothing went wrong
     setState(() {
-      if (selectedIndexes.contains(index)) {
-        selectedIndexes.remove(index);
+      if (_selectedIndexes.contains(index)) {
+        _selectedIndexes.remove(index);
       } else {
-        selectedIndexes.add(index);
+        _selectedIndexes.add(index);
       }
 
       SnackbarHelper.showCustomSnackbar(
@@ -224,21 +224,21 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
   }
 
   List<Matricula> _getFilteredMatriculas() {
-    if (selectedModalidad == "Todas") return widget.matriculas;
+    if (_selectedModalidad == "Todas") return widget.matriculas;
 
-    if (selectedModalidad == "Presencial") {
+    if (_selectedModalidad == "Presencial") {
       return widget.matriculas
           .where((matricula) => matricula.modalidad == "PRESENCIAL")
           .toList();
     }
 
-    if (selectedModalidad == "Videoconferencia") {
+    if (_selectedModalidad == "Videoconferencia") {
       return widget.matriculas
           .where((matricula) => matricula.modalidad == "POR VIDEOCONFERENCIA")
           .toList();
     }
 
-    if (selectedModalidad == "Virtual") {
+    if (_selectedModalidad == "Virtual") {
       return widget.matriculas
           .where((matricula) => matricula.modalidad == "VIRTUAL")
           .toList();
@@ -260,10 +260,10 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
       ],
       onSelected: (selectedModalidad) {
         setState(() {
-          this.selectedModalidad = selectedModalidad;
+          _selectedModalidad = selectedModalidad;
         });
       },
-      selected: selectedModalidad,
+      selected: _selectedModalidad,
     );
   }
 
@@ -279,12 +279,12 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
           overflow: TextOverflow.ellipsis,
         ),
         actions: [
-          if (selectedIndexes.isNotEmpty)
+          if (_selectedIndexes.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.close),
               onPressed: () {
                 setState(() {
-                  selectedIndexes.clear();
+                  _selectedIndexes.clear();
                 });
               },
             ),
@@ -303,11 +303,11 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
                         final matricula = filteredMatriculas[index];
                         return MateriaCard(
                           matricula: matricula,
-                          isSelected: selectedIndexes.contains(index),
+                          isSelected: _selectedIndexes.contains(index),
                           onTap: () async {
                             // an item is already selected, and it is not the selected item
-                            if (selectedIndexes.isNotEmpty &&
-                                !selectedIndexes.contains(index)) {
+                            if (_selectedIndexes.isNotEmpty &&
+                                !_selectedIndexes.contains(index)) {
                               SnackbarHelper.showCustomSnackbar(
                                 context: context,
                                 message: "Ya tienes esta clase seleccionada.",
@@ -316,7 +316,7 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
                               return;
                             }
                             final AccionClase accion =
-                                selectedIndexes.contains(index)
+                                _selectedIndexes.contains(index)
                                 ? AccionClase.quitar
                                 : AccionClase.agregar;
                             await _onTap(matricula, index, accion);

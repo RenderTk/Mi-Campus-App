@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/pago_pendiente.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/payments_service.dart';
+import 'package:usap_mobile/services/payments_data_service.dart';
 
 class PagosPendientesNotifier extends AsyncNotifier<List<PagoPendiente>> {
-  final _paymentsService = PaymentsService();
+  final _paymentsService = PaymentsDataService();
   @override
   Future<List<PagoPendiente>> build() async {
     state = const AsyncLoading();

@@ -8,10 +8,11 @@ const String historialPagosUrl =
     "HistoricoPago_Alumno/obtener_historico_pago/{fecha_inicio}/{fecha_final}/{codigo_alumno}";
 
 const String pagoPendienteUrl = "detallePago/modalidad";
+
 const String pagoPendienteDetalleUrl =
     "detallePago/detalle/{idFactura}/{codigo_alumno}";
 
-class PaymentsService {
+class PaymentsDataService {
   final _dioService = DioService();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
 

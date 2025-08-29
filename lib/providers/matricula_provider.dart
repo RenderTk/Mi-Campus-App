@@ -2,10 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/matricula.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/student_data_service.dart';
+import 'package:usap_mobile/services/matricula_data_service.dart';
 
 class MatriculaNotifier extends AsyncNotifier<List<Matricula>> {
-  final StudentDataService studentDataService = StudentDataService();
+  final MatriculaDataService _matriculaDataService = MatriculaDataService();
 
   @override
   Future<List<Matricula>> build() async {
@@ -15,7 +15,7 @@ class MatriculaNotifier extends AsyncNotifier<List<Matricula>> {
       throw Exception('User not found');
     }
 
-    final matriculas = await studentDataService.getStudentMatricula(user.id);
+    final matriculas = await _matriculaDataService.getStudentMatricula(user.id);
     return matriculas;
   }
 
