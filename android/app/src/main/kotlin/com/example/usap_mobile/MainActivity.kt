@@ -1,4 +1,4 @@
-package com.tropix.usap_mobile
+package com.tropix.usapMovil
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
