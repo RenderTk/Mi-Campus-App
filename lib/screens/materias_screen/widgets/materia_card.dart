@@ -7,10 +7,12 @@ class MateriaCard extends StatefulWidget {
     super.key,
     required this.matricula,
     required this.isSelected,
+    required this.readOnlyMode,
     required this.onTap,
   });
   final Matricula matricula;
   final bool isSelected;
+  final bool readOnlyMode;
   final Future<void> Function() onTap;
 
   @override
@@ -57,7 +59,11 @@ class _MateriaCardState extends State<MateriaCard> {
     );
   }
 
-  Widget _buildClassTitle(BuildContext context, Matricula matricula) {
+  Widget _buildClassTitle(
+    BuildContext context,
+    Matricula matricula,
+    bool isReadOnlyMode,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,7 +95,7 @@ class _MateriaCardState extends State<MateriaCard> {
           const SizedBox(width: 5),
         ],
 
-        _buildButtonAgregarOQuitarClase(context),
+        if (!isReadOnlyMode) _buildButtonAgregarOQuitarClase(context),
       ],
     );
   }
@@ -247,7 +253,7 @@ class _MateriaCardState extends State<MateriaCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _buildClassTitle(context, widget.matricula),
+            _buildClassTitle(context, widget.matricula, widget.readOnlyMode),
             const SizedBox(height: 5),
             _buildUVandDays(context, widget.matricula),
             const SizedBox(height: 10),
@@ -263,7 +269,7 @@ class _MateriaCardState extends State<MateriaCard> {
             ),
             const SizedBox(height: 2),
             _buildModalidadAndCupos(widget.matricula),
-            const SizedBox(height: 4),
+            const SizedBox(height: 8),
           ],
         ),
       ),

@@ -9,8 +9,13 @@ import 'package:usap_mobile/screens/materias_screen/widgets/materia_card.dart';
 import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
 
 class MateriasDetailScreen extends ConsumerStatefulWidget {
-  const MateriasDetailScreen({super.key, required this.matriculas});
+  const MateriasDetailScreen({
+    super.key,
+    required this.matriculas,
+    required this.readOnlyMode,
+  });
   final List<Matricula> matriculas;
+  final bool readOnlyMode;
 
   @override
   ConsumerState<MateriasDetailScreen> createState() =>
@@ -271,24 +276,29 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
   Widget build(BuildContext context) {
     final firstMatricula = widget.matriculas[0];
     final filteredMatriculas = _getFilteredMatriculas();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          firstMatricula.descripcionCurso ?? "Matricula",
-          overflow: TextOverflow.ellipsis,
-        ),
-        actions: [
-          if (_selectedIndexes.isNotEmpty)
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                setState(() {
-                  _selectedIndexes.clear();
-                });
-              },
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              firstMatricula.descripcionCurso ?? "Matricula",
+              overflow: TextOverflow.ellipsis,
             ),
-        ],
+            if (widget.readOnlyMode)
+              const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Modo Lectura",
+                    style: TextStyle(fontSize: 13, color: Colors.grey),
+                  ),
+                  SizedBox(width: 4),
+                  Icon(Icons.lock, size: 16, color: Colors.grey),
+                ],
+              ),
+          ],
+        ),
       ),
       body: filteredMatriculas.isNotEmpty
           ? Padding(
@@ -304,6 +314,7 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
                         return MateriaCard(
                           matricula: matricula,
                           isSelected: _selectedIndexes.contains(index),
+                          readOnlyMode: widget.readOnlyMode,
                           onTap: () async {
                             // an item is already selected, and it is not the selected item
                             if (_selectedIndexes.isNotEmpty &&

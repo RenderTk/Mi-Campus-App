@@ -12,7 +12,8 @@ import 'package:usap_mobile/widgets/loading_state_widget.dart';
 import 'package:usap_mobile/widgets/session_expired_widget.dart';
 
 class MateriasScreen extends ConsumerWidget {
-  const MateriasScreen({super.key});
+  const MateriasScreen({super.key, required this.readOnlyMode});
+  final bool readOnlyMode;
 
   Widget _buildLeadingIconForTile(BuildContext context, IconData icon) {
     return Container(
@@ -60,8 +61,10 @@ class MateriasScreen extends ConsumerWidget {
           : () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    MateriasDetailScreen(matriculas: matriculasGroupedByClass),
+                builder: (context) => MateriasDetailScreen(
+                  matriculas: matriculasGroupedByClass,
+                  readOnlyMode: readOnlyMode,
+                ),
               ),
             ),
     );
@@ -140,7 +143,26 @@ class MateriasScreen extends ConsumerWidget {
         final groupsByPeriodo = Matricula.agruparPorPeriodo(matriculas);
 
         return Scaffold(
-          appBar: AppBar(title: const Text("Oferta de Matricula")),
+          appBar: AppBar(
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text("Oferta de Matricula"),
+                if (readOnlyMode)
+                  const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Modo Lectura",
+                        style: TextStyle(fontSize: 13, color: Colors.grey),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(Icons.lock, size: 16, color: Colors.grey),
+                    ],
+                  ),
+              ],
+            ),
+          ),
           body: matriculas.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.only(bottom: 25),

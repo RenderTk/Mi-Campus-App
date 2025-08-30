@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:usap_mobile/providers/pagos_pendientes_provider.dart';
+import 'package:usap_mobile/widgets/cards/warning_card.dart';
 import 'package:usap_mobile/utils/helper_functions.dart';
 
 Future<void> _launchSigaUrl() async {
@@ -60,55 +61,9 @@ class TotalSaldoPendienteCard extends ConsumerWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 15),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest,
-                    border: Border(
-                      left: BorderSide(color: Colors.amber.shade600, width: 4),
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.warning_amber,
-                        color: Colors.amber.shade600,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Importante",
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurface,
-                                  ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              "Para realizar tus pagos visita siga.usap.edu",
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface
-                                        .withValues(alpha: 0.7),
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                const WarningCard(
+                  title: "Importante",
+                  message: "Para realizar tus pagos visita siga.usap.edu",
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
