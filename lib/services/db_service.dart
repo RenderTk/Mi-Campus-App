@@ -27,7 +27,7 @@ class DbService {
     await db.execute('''
       CREATE TABLE $_eventsTableName (
         $_eventsTableId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $_eventsTableUid TEXT UNIQUE NOT NULL,
+        $_eventsTableUid TEXT NOT NULL,
         $_eventsTableSummary TEXT NOT NULL,
         $_eventsTableDescription TEXT,
         $_eventsTableDtstamp TEXT,
@@ -37,9 +37,10 @@ class DbService {
         $_eventsTableClassType TEXT,
         $_eventsTableLastModified TEXT,
         $_eventsTableCreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-        $_eventsTableCodigoAlumno TEXT NOT NULL
+        $_eventsTableCodigoAlumno TEXT NOT NULL,
+        UNIQUE($_eventsTableUid, $_eventsTableCodigoAlumno)
       )
-    ''');
+  ''');
   }
 
   Map<String, dynamic> _eventToMap(CalendarEvent event) {

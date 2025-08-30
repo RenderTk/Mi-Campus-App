@@ -139,8 +139,10 @@ class _MoodleCalendarUrlWidgetState
       setState(() {
         isLoading = true;
       });
+      final user = await ref.read(userProvider.future);
       final rawIcsContent = await _studentDataService.descargarCalendarioAlumno(
         _urlTextController.text,
+        user?.id ?? '',
       );
 
       if (rawIcsContent == null) {
@@ -156,19 +158,16 @@ class _MoodleCalendarUrlWidgetState
       }
 
       //if success
-      final user = await ref.read(userProvider.future);
       final events = _icsParser.parseRawIcsDataToCalendarEvents(
         rawIcsContent,
         user?.id ?? '',
       );
-      eventsToBeInsertedCount = ref
-          .read(calendarEventsProvider.notifier)
-          .countNewEventToBeAdded(events);
 
       final uniqueEvents = ref
           .read(calendarEventsProvider.notifier)
           .removeDuplicateEvents(events);
 
+      eventsToBeInsertedCount = uniqueEvents.length;
       loadedEventsFromUrl.addAll(uniqueEvents);
     } catch (e) {
       if (!mounted) {

@@ -102,8 +102,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             IconButton(
               onPressed: () {
+                // only invalidate the calendar events if we're not in the perfil screen or dashboard
+                if (selectedIndex == 1) {
+                  ref.invalidate(calendarEventsProvider);
+                  return;
+                }
                 ref.invalidate(userProvider);
-                ref.invalidate(calendarEventsProvider);
               },
               icon: const Icon(FontAwesomeIcons.arrowsRotate),
             ),

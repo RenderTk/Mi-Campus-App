@@ -26,7 +26,7 @@ class AuthNotifier extends AsyncNotifier<Token?> {
     state = await AsyncValue.guard(() async {
       final token = await authService.login(dio, username, password);
       // clear any previous credentials
-      await SecureCredentialStorageService.clearAll();
+      await SecureCredentialStorageService.clearAllAuthCredentials();
 
       await SecureCredentialStorageService.setToken(token);
       await SecureCredentialStorageService.setUserCredentials(
@@ -60,7 +60,7 @@ class AuthNotifier extends AsyncNotifier<Token?> {
 
       final token = await authService.login(dio, username, password);
       // clear any previous credentials
-      await SecureCredentialStorageService.clearAll();
+      await SecureCredentialStorageService.clearAllAuthCredentials();
 
       await SecureCredentialStorageService.setToken(token);
       await SecureCredentialStorageService.setUserCredentials(

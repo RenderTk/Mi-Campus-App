@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/calendar_event.dart';
+import 'package:usap_mobile/providers/calendar_sync_service.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
 import 'package:usap_mobile/services/db_service.dart';
 
 class CalendarEventsNotfier extends AsyncNotifier<List<CalendarEvent>> {
   final _dbService = DbService();
+  final _calendarSyncService = CalendarSyncService();
 
   @override
   Future<List<CalendarEvent>> build() async {
@@ -12,6 +14,9 @@ class CalendarEventsNotfier extends AsyncNotifier<List<CalendarEvent>> {
     if (user == null) {
       throw Exception('User not found');
     }
+
+    // Sync the calendar if there are new events and the user has already imported a calendar URL
+    await _calendarSyncService.syncCalendar(user.id);
 
     final events = await _dbService.getAllEvents(user.id);
     return events;
@@ -27,13 +32,6 @@ class CalendarEventsNotfier extends AsyncNotifier<List<CalendarEvent>> {
     return newEvents
         .where((event) => !existingUids.contains(event.uid))
         .toList();
-  }
-
-  int countNewEventToBeAdded(List<CalendarEvent> newEvents) {
-    final currentEvents = _makeDeepCopyOfState();
-    final existingUids = currentEvents.map((e) => e.uid).toSet();
-
-    return newEvents.where((event) => !existingUids.contains(event.uid)).length;
   }
 
   Future<void> addEvents(List<CalendarEvent> newEvents) async {
