@@ -276,6 +276,10 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
   Widget build(BuildContext context) {
     final firstMatricula = widget.matriculas[0];
     final filteredMatriculas = _getFilteredMatriculas();
+    final estaPagada = filteredMatriculas.any(
+      (matricula) => matricula.estaPagada,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -315,6 +319,7 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
                           matricula: matricula,
                           isSelected: _selectedIndexes.contains(index),
                           readOnlyMode: widget.readOnlyMode,
+                          estaPagada: estaPagada,
                           onTap: () async {
                             // an item is already selected, and it is not the selected item
                             if (_selectedIndexes.isNotEmpty &&

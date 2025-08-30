@@ -8,11 +8,13 @@ class MateriaCard extends StatefulWidget {
     required this.matricula,
     required this.isSelected,
     required this.readOnlyMode,
+    required this.estaPagada,
     required this.onTap,
   });
   final Matricula matricula;
   final bool isSelected;
   final bool readOnlyMode;
+  final bool estaPagada;
   final Future<void> Function() onTap;
 
   @override
@@ -39,22 +41,29 @@ class _MateriaCardState extends State<MateriaCard> {
         maxHeight: 35,
         maxWidth: 35,
       ), // removes min size (48x48)
-      onPressed: () async {
-        try {
-          setState(() {
-            isLoading = true;
-          });
-          await widget.onTap();
-        } finally {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      },
+      onPressed: widget.estaPagada
+          ? null
+          : () async {
+              try {
+                // If the button is already loading, prevent double-tapping
+                if (isLoading) return;
+
+                setState(() {
+                  isLoading = true;
+                });
+                await widget.onTap();
+              } finally {
+                setState(() {
+                  isLoading = false;
+                });
+              }
+            },
       icon: Icon(
         widget.isSelected ? Icons.check_box : Icons.check_box_outline_blank,
         size: 35,
-        color: Theme.of(context).colorScheme.primary,
+        color: widget.estaPagada
+            ? Theme.of(context).disabledColor
+            : Theme.of(context).colorScheme.primary,
       ),
     );
   }
@@ -140,7 +149,10 @@ class _MateriaCardState extends State<MateriaCard> {
     );
   }
 
-  Widget _buildProfesorName(BuildContext context, Matricula matricula) {
+  Widget _buildProfesorNameAndPaymentStatus(
+    BuildContext context,
+    Matricula matricula,
+  ) {
     return Row(
       children: [
         const Icon(Icons.person, size: 15),
@@ -149,6 +161,14 @@ class _MateriaCardState extends State<MateriaCard> {
           matricula.profesorNormalizado ?? "",
           style: Theme.of(context).textTheme.bodySmall,
         ),
+        if (matricula.estaPagada) ...[
+          const Spacer(),
+          const LabeledBadge(
+            msg: "Pagada",
+            foregroundColor: Colors.green,
+            backgroundColor: Colors.green,
+          ),
+        ],
       ],
     );
   }
@@ -259,7 +279,7 @@ class _MateriaCardState extends State<MateriaCard> {
             const SizedBox(height: 10),
             _buildTimeAndAula(context, widget.matricula),
             const SizedBox(height: 10),
-            _buildProfesorName(context, widget.matricula),
+            _buildProfesorNameAndPaymentStatus(context, widget.matricula),
             const SizedBox(height: 2),
             Divider(
               thickness: 1,

@@ -33,6 +33,8 @@ abstract class _$MatriculaCWProxy {
 
   Matricula idPlan(int? idPlan);
 
+  Matricula estatusFinanciero(String? estatusFinanciero);
+
   Matricula hibrida(int? hibrida);
 
   Matricula estaSeleccionada(int? estaSeleccionada);
@@ -68,6 +70,7 @@ abstract class _$MatriculaCWProxy {
     int? cupos,
     int? cuposModalidad,
     int? idPlan,
+    String? estatusFinanciero,
     int? hibrida,
     int? estaSeleccionada,
     String? nombreCompleto,
@@ -128,6 +131,10 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
   Matricula idPlan(int? idPlan) => call(idPlan: idPlan);
 
   @override
+  Matricula estatusFinanciero(String? estatusFinanciero) =>
+      call(estatusFinanciero: estatusFinanciero);
+
+  @override
   Matricula hibrida(int? hibrida) => call(hibrida: hibrida);
 
   @override
@@ -173,6 +180,7 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
     Object? cupos = const $CopyWithPlaceholder(),
     Object? cuposModalidad = const $CopyWithPlaceholder(),
     Object? idPlan = const $CopyWithPlaceholder(),
+    Object? estatusFinanciero = const $CopyWithPlaceholder(),
     Object? hibrida = const $CopyWithPlaceholder(),
     Object? estaSeleccionada = const $CopyWithPlaceholder(),
     Object? nombreCompleto = const $CopyWithPlaceholder(),
@@ -234,6 +242,10 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
           ? _value.idPlan
           // ignore: cast_nullable_to_non_nullable
           : idPlan as int?,
+      estatusFinanciero: estatusFinanciero == const $CopyWithPlaceholder()
+          ? _value.estatusFinanciero
+          // ignore: cast_nullable_to_non_nullable
+          : estatusFinanciero as String?,
       hibrida: hibrida == const $CopyWithPlaceholder()
           ? _value.hibrida
           // ignore: cast_nullable_to_non_nullable
@@ -293,6 +305,7 @@ Matricula _$MatriculaFromJson(Map<String, dynamic> json) => Matricula(
   cupos: (json['DISPONIBLE'] as num?)?.toInt(),
   cuposModalidad: (json['DISPONIBLE_MODALIDAD'] as num?)?.toInt(),
   idPlan: (json['ID_PLAN'] as num?)?.toInt(),
+  estatusFinanciero: json['ESTATUS_FINANCIERO'] as String?,
   hibrida: Matricula._hibridaFromJson(json['HIBRIDA']),
   estaSeleccionada: (json['CHECKED'] as num?)?.toInt(),
   nombreCompleto: json['NOMBRE_COMPLETO'] as String?,
@@ -316,6 +329,7 @@ Map<String, dynamic> _$MatriculaToJson(Matricula instance) => <String, dynamic>{
   'DISPONIBLE': instance.cupos,
   'DISPONIBLE_MODALIDAD': instance.cuposModalidad,
   'ID_PLAN': instance.idPlan,
+  'ESTATUS_FINANCIERO': instance.estatusFinanciero,
   'HIBRIDA': instance.hibrida,
   'CHECKED': instance.estaSeleccionada,
   'NOMBRE_COMPLETO': instance.nombreCompleto,

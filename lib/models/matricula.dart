@@ -46,6 +46,9 @@ class Matricula {
   @JsonKey(name: 'ID_PLAN')
   int? idPlan;
 
+  @JsonKey(name: 'ESTATUS_FINANCIERO')
+  String? estatusFinanciero;
+
   @JsonKey(name: 'HIBRIDA', fromJson: _hibridaFromJson)
   int? hibrida;
 
@@ -81,6 +84,7 @@ class Matricula {
     this.cupos,
     this.cuposModalidad,
     this.idPlan,
+    this.estatusFinanciero,
     this.hibrida,
     this.estaSeleccionada,
     this.nombreCompleto,
@@ -138,6 +142,8 @@ class Matricula {
   bool get presencialSeleccionada => hibrida == 1;
 
   bool get videoconferenciaSeleccionada => hibrida == 0;
+
+  bool get estaPagada => estatusFinanciero == 'P';
 
   /// Obtiene una representación legible del horario
 
