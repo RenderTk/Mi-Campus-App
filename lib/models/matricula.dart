@@ -52,14 +52,17 @@ class Matricula {
   @JsonKey(name: 'HIBRIDA', fromJson: _hibridaFromJson)
   int? hibrida;
 
-  @JsonKey(name: 'CHECKED')
-  int? estaSeleccionada;
+  @JsonKey(name: 'CHECKED', fromJson: _boolFromJson)
+  bool? estaSeleccionada;
 
   @JsonKey(name: 'NOMBRE_COMPLETO')
   String? nombreCompleto;
 
   @JsonKey(name: 'OPTATIVA')
   int? optativa;
+
+  @JsonKey(name: 'CORREQUISITOS', fromJson: _boolFromJson)
+  bool? tieneCorrequisito;
 
   @JsonKey(name: 'MODALIDAD')
   String? modalidad;
@@ -89,6 +92,7 @@ class Matricula {
     this.estaSeleccionada,
     this.nombreCompleto,
     this.optativa,
+    this.tieneCorrequisito,
     this.modalidad,
     this.idDetallePlan,
     this.hdr,
@@ -110,6 +114,19 @@ class Matricula {
       return int.tryParse(value);
     }
     return null; // fallback for unexpected types
+  }
+
+  static bool? _boolFromJson(dynamic value) {
+    if (value == null) return null;
+    if (value is bool) return value;
+    if (value is int) return value == 1;
+    if (value is String) {
+      if (value.toLowerCase() == 'true') return true;
+      if (value.toLowerCase() == 'false') return false;
+      final intValue = int.tryParse(value);
+      return intValue == 1;
+    }
+    return null;
   }
 
   /// Obtiene los días de la semana sin espacios adicionales

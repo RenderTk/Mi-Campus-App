@@ -9,6 +9,9 @@ const String ofertaMatriculaOptativaUrl =
 
 const String addOrRemoveClassUrl = "matricula";
 
+const String matriculasDeCorrequisitoUrl =
+    "matricula/oferta_correquisito/{codigo_alumno}/{id_detalle_plan}";
+
 enum AccionClase { agregar, quitar }
 
 enum TipoModalidad { presencial, videoconferencia }
@@ -92,39 +95,86 @@ class MatriculaDataService {
     return results.expand((list) => list).toList();
   }
 
+  Future<List<Matricula>> getStudentMatriculaCorrequisito(
+    String codigoAlumno,
+    int idDetallePlan,
+  ) async {
+    final url = matriculasDeCorrequisitoUrl
+        .replaceFirst("{codigo_alumno}", codigoAlumno)
+        .replaceFirst("{id_detalle_plan}", idDetallePlan.toString());
+    final dio = await _dioService.getDioWithAutoRefresh();
+    final response = await dio.get<List<dynamic>>(url);
+    final data = response.data;
+    if (data != null) {
+      final matriculas = data.map((e) => Matricula.fromJson(e)).toList();
+      //remove invalid matriculas
+      matriculas.removeWhere(
+        (matricula) =>
+            matricula.cupos == null ||
+            matricula.dias == null ||
+            matricula.dias == "" ||
+            matricula.modalidad == null ||
+            matricula.modalidad == "" ||
+            matricula.esHDR,
+      );
+      return matriculas;
+    } else {
+      throw Exception('Empty, null or invalid response data');
+    }
+  }
+
   Future<String?> addClaseOrRemoveClaseFromStudent(
     Matricula matricula,
     String codigoAlumno,
     AccionClase accion,
-    TipoModalidad? tipo,
-  ) async {
+    TipoModalidad? tipoModalidad,
+    bool esCorrequisitoMateria, {
+    String? idSeccion,
+    String? idSeccionCorrequisito,
+    String? codigoCurso,
+    String? codigoCursoCorrequisito,
+    TipoModalidad? tipoModalidadCorrequisito,
+  }) async {
     int accionAsInt = accion == AccionClase.agregar ? 1 : 2;
+
+    //reglas del negocio si es correquisito el tipo de accion es 3
+    if (esCorrequisitoMateria == true) {
+      accionAsInt = 3;
+    }
 
     // valor por defecto si no es clase hibrida
     int? modalidadAfectadaAsInt = 0;
+    int? modalidadCorrequisitoAsInt = 0;
 
-    if (tipo != null) {
+    if (tipoModalidad != null) {
       // si es clase hibrida
-      modalidadAfectadaAsInt = tipo == TipoModalidad.presencial ? 1 : 0;
+      modalidadAfectadaAsInt = tipoModalidad == TipoModalidad.presencial
+          ? 1
+          : 0;
+    }
+    if (tipoModalidadCorrequisito != null) {
+      // si es clase hibrida
+      modalidadCorrequisitoAsInt =
+          tipoModalidadCorrequisito == TipoModalidad.presencial ? 1 : 0;
     }
 
-    if (accion == AccionClase.agregar && matricula.estaSeleccionada == 1) {
+    if (accion == AccionClase.agregar && matricula.estaSeleccionada == true) {
       throw Exception(
         "La clase ya se encuentra seleccionada, no se puede agregar",
       );
     }
 
-    if (accion == AccionClase.quitar && matricula.estaSeleccionada == 0) {
+    if (accion == AccionClase.quitar && matricula.estaSeleccionada == false) {
       throw Exception(
         "La clase no se encuentra seleccionada, no se puede quitar",
       );
     }
 
     final payload = {
-      "id_seccion": matricula.idSeccion,
-      "id_seccion_co": "null",
-      "codigo_curso": matricula.codigoCurso,
-      "codigo_curso_co": "null",
+      "id_seccion": idSeccion ?? matricula.idSeccion,
+      "id_seccion_co": idSeccionCorrequisito ?? "null",
+      "codigo_curso": codigoCurso ?? matricula.codigoCurso,
+      "codigo_curso_co": codigoCursoCorrequisito ?? "null",
       "cuenta_alumno": codigoAlumno,
       "id_plan": matricula.idPlan,
       "ad_usuario": codigoAlumno,
@@ -134,7 +184,7 @@ class MatriculaDataService {
           : "null",
       "lista_espera": 0,
       "hibrida": modalidadAfectadaAsInt,
-      "hibrida_co": "null",
+      "hibrida_co": modalidadCorrequisitoAsInt,
       "tipo": accionAsInt,
     };
     final dio = await _dioService.getDioWithAutoRefresh();

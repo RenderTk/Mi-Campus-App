@@ -7,15 +7,17 @@ class MateriaCard extends StatefulWidget {
     super.key,
     required this.matricula,
     required this.isSelected,
+    required this.esDeCorrequisito,
     required this.readOnlyMode,
     required this.estaPagada,
     required this.onTap,
   });
   final Matricula matricula;
   final bool isSelected;
+  final bool esDeCorrequisito;
   final bool readOnlyMode;
   final bool estaPagada;
-  final Future<void> Function() onTap;
+  final Future<void> Function(Matricula materia) onTap;
 
   @override
   State<MateriaCard> createState() => _MateriaCardState();
@@ -51,7 +53,7 @@ class _MateriaCardState extends State<MateriaCard> {
                 setState(() {
                   isLoading = true;
                 });
-                await widget.onTap();
+                await widget.onTap(widget.matricula);
               } finally {
                 setState(() {
                   isLoading = false;

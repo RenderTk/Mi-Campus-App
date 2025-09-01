@@ -37,11 +37,13 @@ abstract class _$MatriculaCWProxy {
 
   Matricula hibrida(int? hibrida);
 
-  Matricula estaSeleccionada(int? estaSeleccionada);
+  Matricula estaSeleccionada(bool? estaSeleccionada);
 
   Matricula nombreCompleto(String? nombreCompleto);
 
   Matricula optativa(int? optativa);
+
+  Matricula tieneCorrequisito(bool? tieneCorrequisito);
 
   Matricula modalidad(String? modalidad);
 
@@ -72,9 +74,10 @@ abstract class _$MatriculaCWProxy {
     int? idPlan,
     String? estatusFinanciero,
     int? hibrida,
-    int? estaSeleccionada,
+    bool? estaSeleccionada,
     String? nombreCompleto,
     int? optativa,
+    bool? tieneCorrequisito,
     String? modalidad,
     int? idDetallePlan,
     int? hdr,
@@ -138,7 +141,7 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
   Matricula hibrida(int? hibrida) => call(hibrida: hibrida);
 
   @override
-  Matricula estaSeleccionada(int? estaSeleccionada) =>
+  Matricula estaSeleccionada(bool? estaSeleccionada) =>
       call(estaSeleccionada: estaSeleccionada);
 
   @override
@@ -147,6 +150,10 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
 
   @override
   Matricula optativa(int? optativa) => call(optativa: optativa);
+
+  @override
+  Matricula tieneCorrequisito(bool? tieneCorrequisito) =>
+      call(tieneCorrequisito: tieneCorrequisito);
 
   @override
   Matricula modalidad(String? modalidad) => call(modalidad: modalidad);
@@ -185,6 +192,7 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
     Object? estaSeleccionada = const $CopyWithPlaceholder(),
     Object? nombreCompleto = const $CopyWithPlaceholder(),
     Object? optativa = const $CopyWithPlaceholder(),
+    Object? tieneCorrequisito = const $CopyWithPlaceholder(),
     Object? modalidad = const $CopyWithPlaceholder(),
     Object? idDetallePlan = const $CopyWithPlaceholder(),
     Object? hdr = const $CopyWithPlaceholder(),
@@ -253,7 +261,7 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
       estaSeleccionada: estaSeleccionada == const $CopyWithPlaceholder()
           ? _value.estaSeleccionada
           // ignore: cast_nullable_to_non_nullable
-          : estaSeleccionada as int?,
+          : estaSeleccionada as bool?,
       nombreCompleto: nombreCompleto == const $CopyWithPlaceholder()
           ? _value.nombreCompleto
           // ignore: cast_nullable_to_non_nullable
@@ -262,6 +270,10 @@ class _$MatriculaCWProxyImpl implements _$MatriculaCWProxy {
           ? _value.optativa
           // ignore: cast_nullable_to_non_nullable
           : optativa as int?,
+      tieneCorrequisito: tieneCorrequisito == const $CopyWithPlaceholder()
+          ? _value.tieneCorrequisito
+          // ignore: cast_nullable_to_non_nullable
+          : tieneCorrequisito as bool?,
       modalidad: modalidad == const $CopyWithPlaceholder()
           ? _value.modalidad
           // ignore: cast_nullable_to_non_nullable
@@ -307,9 +319,10 @@ Matricula _$MatriculaFromJson(Map<String, dynamic> json) => Matricula(
   idPlan: (json['ID_PLAN'] as num?)?.toInt(),
   estatusFinanciero: json['ESTATUS_FINANCIERO'] as String?,
   hibrida: Matricula._hibridaFromJson(json['HIBRIDA']),
-  estaSeleccionada: (json['CHECKED'] as num?)?.toInt(),
+  estaSeleccionada: Matricula._boolFromJson(json['CHECKED']),
   nombreCompleto: json['NOMBRE_COMPLETO'] as String?,
   optativa: (json['OPTATIVA'] as num?)?.toInt(),
+  tieneCorrequisito: Matricula._boolFromJson(json['CORREQUISITOS']),
   modalidad: json['MODALIDAD'] as String?,
   idDetallePlan: (json['ID_DETALLE_PLAN'] as num?)?.toInt(),
   hdr: (json['HDR'] as num?)?.toInt(),
@@ -334,6 +347,7 @@ Map<String, dynamic> _$MatriculaToJson(Matricula instance) => <String, dynamic>{
   'CHECKED': instance.estaSeleccionada,
   'NOMBRE_COMPLETO': instance.nombreCompleto,
   'OPTATIVA': instance.optativa,
+  'CORREQUISITOS': instance.tieneCorrequisito,
   'MODALIDAD': instance.modalidad,
   'ID_DETALLE_PLAN': instance.idDetallePlan,
   'HDR': instance.hdr,

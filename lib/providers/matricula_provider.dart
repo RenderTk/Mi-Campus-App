@@ -40,7 +40,7 @@ class MatriculaNotifier extends AsyncNotifier<List<Matricula>> {
       matriculas.removeWhere((m) => m.idSeccion == matricula.idSeccion);
 
       if (accion == AccionClase.quitar) {
-        matricula.estaSeleccionada = 0;
+        matricula.estaSeleccionada = false;
 
         // si es presencial
         if (tipo == TipoModalidad.presencial) {
@@ -63,7 +63,7 @@ class MatriculaNotifier extends AsyncNotifier<List<Matricula>> {
       }
 
       if (accion == AccionClase.agregar) {
-        matricula.estaSeleccionada = 1;
+        matricula.estaSeleccionada = true;
         // si es presencial
         if (tipo == TipoModalidad.presencial) {
           matricula.cuposModalidad = matricula.cuposModalidad! - 1;

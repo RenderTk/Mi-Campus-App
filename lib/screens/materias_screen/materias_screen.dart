@@ -35,7 +35,7 @@ class MateriasScreen extends ConsumerWidget {
     List<Matricula> matriculasGroupedByClass,
   ) {
     final hasSelectedItems = matriculasGroupedByClass.any(
-      (matricula) => matricula.estaSeleccionada == 1,
+      (matricula) => matricula.estaSeleccionada == true,
     );
 
     return ListTile(
@@ -82,11 +82,11 @@ class MateriasScreen extends ConsumerWidget {
         .toList()
         .length;
     final hasSelectedItems = groupsByClass.any(
-      (group) => group.any((classItem) => classItem.estaSeleccionada == 1),
+      (group) => group.any((classItem) => classItem.estaSeleccionada == true),
     );
     final totalSelectedClasses = groupsByClass
         .expand((group) => group)
-        .where((classItem) => classItem.estaSeleccionada == 1)
+        .where((classItem) => classItem.estaSeleccionada == true)
         .length;
 
     return ExpansionTileCard(

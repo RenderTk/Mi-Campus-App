@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/models/matricula.dart';
+import 'package:usap_mobile/models/student.dart';
 import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
+import 'package:usap_mobile/screens/materias_correquisito_screen/materias_correquisito_screen.dart';
 import 'package:usap_mobile/services/matricula_data_service.dart';
 import 'package:usap_mobile/utils/snackbar_helper.dart';
 import 'package:usap_mobile/screens/materias_screen/widgets/materia_card.dart';
@@ -103,78 +105,91 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
       _selectedIndexes = widget.matriculas
           .asMap()
           .entries
-          .where((entry) => (entry.value.estaSeleccionada ?? 0) != 0)
+          .where((entry) => entry.value.estaSeleccionada == true)
           .map((entry) => entry.key)
           .toSet();
     });
   }
 
-  Future<void> _onTap(
+  Future<TipoModalidad?> askForTipoModalidadMateriaBase(
     Matricula matricula,
     int index,
-    AccionClase accion,
   ) async {
-    TipoModalidad? selectedModalidad;
-    try {
-      if (matricula.esHibrida && !_selectedIndexes.contains(index)) {
-        selectedModalidad = await _showModalidadPicker(matricula);
-        if (selectedModalidad == null) return;
-      } else if (matricula.esHibrida) {
-        // 1 = presencial
-        // 0 = videoconferencia
-        selectedModalidad = matricula.hibrida == 1
-            ? TipoModalidad.presencial
-            : TipoModalidad.videoconferencia;
-      }
+    if (matricula.esHibrida && !_selectedIndexes.contains(index)) {
+      final selectedModalidad = await _showModalidadPicker(matricula);
+      if (selectedModalidad == null) return null;
 
-      if (!mounted) return; // widget was disposed, stop here
+      return selectedModalidad;
+    } else if (matricula.esHibrida) {
+      // 1 = presencial
+      // 0 = videoconferencia
+      return matricula.hibrida == 1
+          ? TipoModalidad.presencial
+          : TipoModalidad.videoconferencia;
+    }
+    return null;
+  }
 
-      // validate cupos before try to add
-      if (accion == AccionClase.agregar &&
-          !_validateCupos(context, matricula, selectedModalidad)) {
-        return;
-      }
+  Future<TipoModalidad?> askForTipoModalidadMateriaCorrequisito(
+    Matricula matricula,
+  ) async {
+    if (matricula.esHibrida) {
+      final selectedModalidad = await _showModalidadPicker(matricula);
+      if (selectedModalidad == null) return null;
 
-      final student = await ref.read(studentProvider.future);
+      return selectedModalidad;
+    }
+    return null;
+  }
 
-      //update on server
-      final msg = await _matriculaDataService.addClaseOrRemoveClaseFromStudent(
-        matricula,
-        student.user.id,
-        accion,
-        selectedModalidad,
-      );
+  Future<String?> _addOrRemoveMateria(
+    Matricula matricula,
+    Student student,
+    AccionClase accion,
+    TipoModalidad? modalidad,
+    bool esDeCorrequisito, {
+    String? idSeccion,
+    String? idSeccionCorrequisito,
+    String? codigoCurso,
+    String? codigoCursoCorrequisito,
+    TipoModalidad? tipoModalidadCorrequisito,
+  }) async {
+    //update on server
+    final msg = await _matriculaDataService.addClaseOrRemoveClaseFromStudent(
+      matricula,
+      student.user.id,
+      accion,
+      modalidad,
+      esDeCorrequisito,
+      idSeccion: idSeccion,
+      idSeccionCorrequisito: idSeccionCorrequisito,
+      codigoCurso: codigoCurso,
+      codigoCursoCorrequisito: codigoCursoCorrequisito,
+      tipoModalidadCorrequisito: tipoModalidadCorrequisito,
+    );
 
-      // if there is a message is because something went wrong
-      if (msg != null) {
-        if (!mounted) return; // widget was disposed, stop here
-        SnackbarHelper.showCustomSnackbar(
-          context: context,
-          message: msg,
-          type: SnackbarType.warning,
-        );
-        return;
-      }
+    // if there is a message is because something went wrong
+    if (msg != null) {
+      return msg;
+    }
 
-      //update state on provider
+    //update state on provider
+    //only if is not correquisito materia
+    if (esDeCorrequisito == false) {
       await ref
           .read(matriculaProvider.notifier)
           .addOrRemoveClaseFromStudent(
             matricula,
             accion,
-            selectedModalidad,
+            modalidad,
             matricula.esHibrida,
           );
-    } catch (e) {
-      if (!mounted) return; // widget was disposed, stop here
-      SnackbarHelper.showCustomSnackbar(
-        context: context,
-        message: "Ocurrio un error al ${accion.name} la clase",
-        type: SnackbarType.warning,
-      );
-      return;
     }
 
+    return null;
+  }
+
+  void onSuccess(int index, Matricula matricula, AccionClase accion) {
     //update the state if nothing went wrong
     setState(() {
       if (_selectedIndexes.contains(index)) {
@@ -190,6 +205,148 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
         type: SnackbarType.success,
       );
     });
+  }
+
+  Future<void> _onTap(
+    Matricula matricula,
+    int index,
+    AccionClase accion,
+  ) async {
+    try {
+      //load student
+      final student = await ref.read(studentProvider.future);
+      final selectedModalidad = await askForTipoModalidadMateriaBase(
+        matricula,
+        index,
+      );
+
+      // si la materia no tiene correquisito solo agregamos la materia base
+      // o si la accion es quitar solo quitamos la materia base y la correquisito
+      // se quita automaticamente
+      if (matricula.tieneCorrequisito == false ||
+          accion == AccionClase.quitar) {
+        // si la materia es hibrida y no se selecciono modalidad
+        if (matricula.esHibrida && selectedModalidad == null) {
+          return;
+        }
+
+        if (!mounted) return;
+        //validate cupos on base materia
+        if (accion == AccionClase.agregar &&
+            !_validateCupos(context, matricula, selectedModalidad)) {
+          return;
+        }
+        final msg = await _addOrRemoveMateria(
+          matricula,
+          student,
+          accion,
+          selectedModalidad,
+          false,
+        );
+
+        // if there is a message is because something went wrong
+        if (msg != null) {
+          if (!mounted) return;
+          SnackbarHelper.showCustomSnackbar(
+            context: context,
+            message: msg,
+            type: SnackbarType.warning,
+          );
+          return;
+        }
+
+        onSuccess(index, matricula, accion);
+        return;
+      }
+
+      // if matricula have correquisito show correrquisito screen
+      if (!mounted) return;
+      //validate cupos on base materia
+      if (accion == AccionClase.agregar &&
+          !_validateCupos(context, matricula, selectedModalidad)) {
+        return;
+      }
+      final matriculaCorrequisito = await Navigator.push<Matricula>(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return MateriasCorrequisitoScreen(
+              matricula: matricula,
+              codigoAlumno: student.user.id,
+            );
+          },
+        ),
+      );
+
+      if (matriculaCorrequisito == null) return;
+
+      // ask for modalidad of correquisito materia
+      final selectedModalidadCorrequisito =
+          await askForTipoModalidadMateriaCorrequisito(matriculaCorrequisito);
+
+      // si la materia correquisito es hibrida y no se selecciono modalidad
+      if (matriculaCorrequisito.esHibrida &&
+          selectedModalidadCorrequisito == null) {
+        return;
+      }
+
+      if (!mounted) return;
+      //validate cupos on materia correquisito
+      if (accion == AccionClase.agregar &&
+          !_validateCupos(
+            context,
+            matriculaCorrequisito,
+            selectedModalidadCorrequisito,
+          )) {
+        return;
+      }
+      // intenta agregar la correquisito primero
+      final msg = await _addOrRemoveMateria(
+        matriculaCorrequisito,
+        student,
+        accion,
+        selectedModalidad,
+        true,
+        idSeccion: matricula.idSeccion.toString(),
+        idSeccionCorrequisito: matriculaCorrequisito.idSeccion.toString(),
+        codigoCurso: matricula.codigoCurso,
+        codigoCursoCorrequisito: matriculaCorrequisito.codigoCurso,
+        tipoModalidadCorrequisito: selectedModalidadCorrequisito,
+      );
+
+      // if there is a message is because something went wrong
+      if (msg != null) {
+        if (!mounted) return;
+        SnackbarHelper.showCustomSnackbar(
+          context: context,
+          message: msg,
+          type: SnackbarType.warning,
+        );
+        return;
+      }
+
+      await _addOrRemoveMateria(
+        matricula,
+        student,
+        accion,
+        selectedModalidad,
+        false,
+        idSeccion: matricula.idSeccion.toString(),
+        idSeccionCorrequisito: matriculaCorrequisito.idSeccion.toString(),
+        codigoCurso: matricula.codigoCurso,
+        codigoCursoCorrequisito: matriculaCorrequisito.codigoCurso,
+        tipoModalidadCorrequisito: selectedModalidadCorrequisito,
+      );
+
+      onSuccess(index, matricula, accion);
+    } catch (e) {
+      if (!mounted) return; // widget was disposed, stop here
+      SnackbarHelper.showCustomSnackbar(
+        context: context,
+        message: "Ocurrio un error al ${accion.name} la clase",
+        type: SnackbarType.warning,
+      );
+    }
   }
 
   bool _validateCupos(
@@ -318,9 +475,10 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
                         return MateriaCard(
                           matricula: matricula,
                           isSelected: _selectedIndexes.contains(index),
+                          esDeCorrequisito: false,
                           readOnlyMode: widget.readOnlyMode,
                           estaPagada: estaPagada,
-                          onTap: () async {
+                          onTap: (Matricula matricula) async {
                             // an item is already selected, and it is not the selected item
                             if (_selectedIndexes.isNotEmpty &&
                                 !_selectedIndexes.contains(index)) {
@@ -331,6 +489,7 @@ class _MateriasDetailScreenState extends ConsumerState<MateriasDetailScreen> {
                               );
                               return;
                             }
+
                             final AccionClase accion =
                                 _selectedIndexes.contains(index)
                                 ? AccionClase.quitar
