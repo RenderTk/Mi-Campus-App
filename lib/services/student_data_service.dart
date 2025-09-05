@@ -201,7 +201,7 @@ class StudentDataService {
     final response = await dio.get<List<dynamic>>(url);
     final data = response.data;
 
-    data?.removeWhere((e) => e['ESTATUS'] == "Equivalencia");
+    // data?.removeWhere((e) => e['ESTATUS'] == "Equivalencia");
 
     if (data != null) {
       final calificaciones = data

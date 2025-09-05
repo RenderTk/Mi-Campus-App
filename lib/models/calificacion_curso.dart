@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'calificacion_curso.g.dart';
 
-enum EstatusCalificacion { aprobada, reprobada, cursando, retiro }
+enum EstatusCalificacion { aprobada, reprobada, cursando, retiro, equivalencia }
 
 @CopyWith()
 @JsonSerializable()
@@ -100,6 +100,8 @@ class CalificacionCurso {
         return EstatusCalificacion.cursando;
       case 'retiro':
         return EstatusCalificacion.retiro;
+      case 'equivalencia':
+        return EstatusCalificacion.equivalencia;
       default:
         return EstatusCalificacion.cursando;
     }
@@ -148,10 +150,10 @@ class CalificacionCurso {
       final anioCompare = b.anio.compareTo(a.anio);
       if (anioCompare != 0) return anioCompare;
 
-      final periodoCompare = int.parse(
+      final periodoCompare = int.tryParse(
         b.periodo,
-      ).compareTo(int.parse(a.periodo));
-      if (periodoCompare != 0) return periodoCompare;
+      )?.compareTo(int.parse(a.periodo));
+      if (periodoCompare != 0) return periodoCompare ?? 0;
 
       final aNota = a.nota;
       final bNota = b.nota;

@@ -18,6 +18,8 @@ class CalificacionCard extends StatelessWidget {
           return Colors.blue;
         case EstatusCalificacion.retiro:
           return Colors.orange;
+        case EstatusCalificacion.equivalencia:
+          return Colors.grey;
       }
     }
 
@@ -111,8 +113,8 @@ class CalificacionCard extends StatelessWidget {
         context,
       ).colorScheme.secondaryFixed.withValues(alpha: 0.1),
       child: Container(
+        width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border(

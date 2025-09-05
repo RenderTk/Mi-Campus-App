@@ -215,4 +215,5 @@ const _$EstatusCalificacionEnumMap = {
   EstatusCalificacion.reprobada: 'reprobada',
   EstatusCalificacion.cursando: 'cursando',
   EstatusCalificacion.retiro: 'retiro',
+  EstatusCalificacion.equivalencia: 'equivalencia',
 };

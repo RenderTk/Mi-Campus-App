@@ -41,6 +41,12 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
     }
     String periodo = calificaciones.first.periodo;
 
+    //equivalencias calificaciones get group together by default so
+    //if 1 equivalencia is found all of them are equivalencias
+    final isEquivalencias = calificaciones.any(
+      (c) => c.estatus == EstatusCalificacion.equivalencia,
+    );
+
     return ListTile(
       leading: _buildLeadingIconForTile(context, Icons.date_range),
       title: Text(
@@ -57,8 +63,10 @@ class _CalificacionesScreenState extends ConsumerState<CalificacionesScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                CalificacionesDetailScreen(calificaciones: calificaciones),
+            builder: (context) => CalificacionesDetailScreen(
+              calificaciones: calificaciones,
+              isEquivalencias: isEquivalencias,
+            ),
           ),
         );
       },

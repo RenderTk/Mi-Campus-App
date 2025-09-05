@@ -4,8 +4,13 @@ import 'package:usap_mobile/screens/calificaciones_screen/widgets/calificacion_c
 import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
 
 class CalificacionesDetailScreen extends StatefulWidget {
-  const CalificacionesDetailScreen({super.key, required this.calificaciones});
+  const CalificacionesDetailScreen({
+    super.key,
+    required this.calificaciones,
+    required this.isEquivalencias,
+  });
   final List<CalificacionCurso> calificaciones;
+  final bool isEquivalencias;
 
   @override
   State<CalificacionesDetailScreen> createState() =>
@@ -26,6 +31,8 @@ class _CalificacionesDetailScreenState
         return "Cursando";
       case EstatusCalificacion.retiro:
         return "Retiradas";
+      case EstatusCalificacion.equivalencia:
+        return "Equivalencia";
     }
   }
 
@@ -46,6 +53,11 @@ class _CalificacionesDetailScreenState
   }
 
   Widget buildCalificacionEstatusFilter() {
+    //dont show filter for equivalencias
+    if (widget.isEquivalencias) {
+      return const SizedBox.shrink();
+    }
+
     return ScrollableSegmentedButtons(
       options: [
         "Todas",
