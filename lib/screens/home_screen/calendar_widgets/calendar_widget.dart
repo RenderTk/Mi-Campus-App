@@ -130,7 +130,9 @@ class _CalendarWidgetState extends ConsumerState<CalendarWidget> {
       // Get events for selected day
       List<CalendarEvent> selectedDayEvents = _selectedDay != null
           ? calendarEvents
-                .where((event) => isSameDay(event.dtend, _selectedDay!))
+                .where(
+                  (event) => isSameDay(event.dtstart.toLocal(), _selectedDay!),
+                )
                 .toList()
           : [];
 
@@ -148,7 +150,9 @@ class _CalendarWidgetState extends ConsumerState<CalendarWidget> {
                   },
                   eventLoader: (day) {
                     return calendarEvents
-                        .where((event) => isSameDay(event.dtend, day))
+                        .where(
+                          (event) => isSameDay(event.dtstart.toLocal(), day),
+                        )
                         .toList();
                   },
                   onDaySelected: (selectedDay, focusedDay) {
