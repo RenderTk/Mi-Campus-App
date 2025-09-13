@@ -58,6 +58,7 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter_local_notifications: ^19.4.1
   timezone: ^0.10.1
+  diacritic: ^0.1.6
   
 
 dev_dependencies:

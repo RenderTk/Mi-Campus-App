@@ -1,3 +1,4 @@
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
@@ -19,6 +20,10 @@ class HorariosScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final student = ref.watch(studentProvider);
 
+    String normalizeText(String input) {
+      return removeDiacritics(input.trim().toLowerCase());
+    }
+
     List<SeccionCurso> filtrarSeccionesPorDia(
       List<SeccionCurso> secciones,
       DayOfTheWeek day,
@@ -28,12 +33,13 @@ class HorariosScreen extends ConsumerWidget {
         return secciones;
       }
 
+      final normalizedDay = normalizeText(day.name);
       // Obtener códigos de cursos del día seleccionado
       Set<String> codigosCursosDelDia = secciones
           .where(
             (seccion) =>
-                seccion.dia?.trim().toLowerCase() ==
-                day.name.trim().toLowerCase(),
+                normalizeText(seccion.dia?.trim().toLowerCase() ?? '') ==
+                normalizedDay,
           )
           .map((seccion) => seccion.codigoCurso)
           .where((codigo) => codigo != null)
