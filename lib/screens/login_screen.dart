@@ -175,10 +175,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               key: _globalKey,
               child: Column(
                 children: [
-                  Image.asset("assets/usap_logo_big.png"),
+                  Image.asset("assets/app_logo.png", fit: BoxFit.cover),
                   const SizedBox(height: 30),
                   Text(
-                    "¡Bienvenido a USAP móvil!",
+                    "¡Bienvenido a Mi Campus!",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 35),
@@ -190,10 +190,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 30),
                   if (showBiometricButton) _buildBiometricLoginButton(),
                   const SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text("¿Olvidaste tu contraseña?"),
-                  ),
+                  // TextButton(
+                  //   onPressed: () {},
+                  //   child: const Text("¿Olvidaste tu contraseña?"),
+                  // ),
                 ],
               ),
             ),

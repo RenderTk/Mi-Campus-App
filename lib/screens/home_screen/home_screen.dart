@@ -8,6 +8,7 @@ import 'package:usap_mobile/providers/calendar_navigation_provider.dart';
 import 'package:usap_mobile/providers/matricula_provider.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/providers/user_provider.dart';
+import 'package:usap_mobile/screens/home_screen/home_widgets/profile_picture_widget.dart';
 import 'package:usap_mobile/widgets/error_state_widget.dart';
 import 'package:usap_mobile/screens/home_screen/home_widgets/dashboard_widget.dart';
 import 'package:usap_mobile/screens/home_screen/calendar_widgets/moodle_calendar_url_widget.dart';
@@ -85,15 +86,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final student = ref.watch(studentProvider);
 
     Widget buildSuccessState(Student student) {
-      final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+      final studentNames = student.user.name.split(" ");
+      final firstName = studentNames[0];
+      final lastName = studentNames[studentNames.length - 1];
 
       return Scaffold(
         appBar: AppBar(
-          title: Image.asset(
-            isDarkMode
-                ? "assets/usap_logo_small_dark.webp"
-                : "assets/usap_logo_small_light.webp",
+          title: SizedBox(
             height: 50,
+            width: 50,
+            child: ProfilePictureWidget(
+              fotoAsBase64: student.fotoBase64,
+              firstName: firstName,
+              lastName: lastName,
+            ),
           ),
           actions: [
             IconButton(

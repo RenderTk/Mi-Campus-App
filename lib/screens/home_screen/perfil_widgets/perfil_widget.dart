@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:usap_mobile/providers/student_provider.dart';
 import 'package:usap_mobile/screens/home_screen/home_widgets/degree_progress_widget.dart';
 import 'package:usap_mobile/screens/home_screen/perfil_widgets/upcoming_class_widget.dart';
 import 'package:usap_mobile/screens/home_screen/perfil_widgets/configuration_card.dart';
 import 'package:usap_mobile/screens/home_screen/perfil_widgets/student_card.dart';
+import 'package:usap_mobile/utils/notification_helper.dart';
 
 class PerfilWidget extends ConsumerWidget {
   const PerfilWidget({super.key});
@@ -23,6 +24,12 @@ class PerfilWidget extends ConsumerWidget {
               DegreeProgressWidget(student: student),
               UpcomingClassWidget(student: student),
               const ConfigurationCard(),
+              ElevatedButton(
+                onPressed: () {
+                  NotificationHelper.showNotification(1, "Título", "Cuerpo");
+                },
+                child: const Text("Enviar notificaciones"),
+              ),
             ],
           ),
         ),

@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <application
-        android:label="USAP Móvil"
+        android:label="Mi Campus"
         android:name="${applicationName}"
-        android:icon="@mipmap/usap_icon">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
