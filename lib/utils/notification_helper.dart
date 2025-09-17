@@ -1,6 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mi_campus_app/main.dart';
 import 'package:timezone/timezone.dart';
-import 'package:usap_mobile/main.dart';
 
 class NotificationHelper {
   static Future<void> showNotification(

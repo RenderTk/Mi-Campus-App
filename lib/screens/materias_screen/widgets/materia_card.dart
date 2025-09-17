@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/matricula.dart';
-import 'package:usap_mobile/widgets/labeled_badge.dart';
+import 'package:mi_campus_app/models/matricula.dart';
+import 'package:mi_campus_app/widgets/labeled_badge.dart';
 
 class MateriaCard extends StatefulWidget {
   const MateriaCard({

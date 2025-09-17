@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/screens/home_screen/home_screen.dart';
+import 'package:mi_campus_app/screens/login_screen.dart';
+import 'package:mi_campus_app/themes/app_theme.dart';
+import 'package:mi_campus_app/utils/app_providers.dart';
 import 'package:timezone/data/latest_10y.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/home_screen/home_screen.dart';
-import 'package:usap_mobile/screens/login_screen.dart';
-import 'package:usap_mobile/themes/app_theme.dart';
-import 'package:usap_mobile/utils/app_providers.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart';
@@ -68,7 +68,7 @@ class MyApp extends ConsumerWidget {
     final isLoggedIn = ref.watch(isLoggedInProvider);
 
     return MaterialApp(
-      title: 'Usap mobile',
+      title: 'Mi Campus app',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

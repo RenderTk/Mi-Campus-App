@@ -1,7 +1,7 @@
-import 'package:usap_mobile/services/db_service.dart';
-import 'package:usap_mobile/services/secure_credential_storage_service.dart';
-import 'package:usap_mobile/services/student_data_service.dart';
-import 'package:usap_mobile/utils/ics_parser.dart';
+import 'package:mi_campus_app/services/db_service.dart';
+import 'package:mi_campus_app/services/secure_credential_storage_service.dart';
+import 'package:mi_campus_app/services/student_data_service.dart';
+import 'package:mi_campus_app/utils/ics_parser.dart';
 
 class CalendarSyncService {
   final _dbService = DbService();

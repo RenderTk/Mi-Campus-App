@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/providers/auth_provider.dart';
-import 'package:usap_mobile/services/local_auth_service.dart';
-import 'package:usap_mobile/utils/email_validator.dart';
-import 'package:usap_mobile/utils/error_helper.dart';
-import 'package:usap_mobile/utils/snackbar_helper.dart';
+import 'package:mi_campus_app/providers/auth_provider.dart';
+import 'package:mi_campus_app/services/local_auth_service.dart';
+import 'package:mi_campus_app/utils/email_validator.dart';
+import 'package:mi_campus_app/utils/error_helper.dart';
+import 'package:mi_campus_app/utils/snackbar_helper.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
-import 'package:usap_mobile/models/student.dart';
-import 'package:usap_mobile/providers/calendar_events_provider.dart';
-import 'package:usap_mobile/providers/calendar_navigation_provider.dart';
-import 'package:usap_mobile/providers/matricula_provider.dart';
-import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/home_screen/home_widgets/profile_picture_widget.dart';
-import 'package:usap_mobile/widgets/error_state_widget.dart';
-import 'package:usap_mobile/screens/home_screen/home_widgets/dashboard_widget.dart';
-import 'package:usap_mobile/screens/home_screen/calendar_widgets/moodle_calendar_url_widget.dart';
-import 'package:usap_mobile/screens/home_screen/perfil_widgets/perfil_widget.dart';
-import 'package:usap_mobile/widgets/loading_state_widget.dart';
-import 'package:usap_mobile/widgets/session_expired_widget.dart';
+import 'package:mi_campus_app/exceptions/token_refresh_failed_exception.dart';
+import 'package:mi_campus_app/models/student.dart';
+import 'package:mi_campus_app/providers/calendar_events_provider.dart';
+import 'package:mi_campus_app/providers/calendar_navigation_provider.dart';
+import 'package:mi_campus_app/providers/matricula_provider.dart';
+import 'package:mi_campus_app/providers/student_provider.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/screens/home_screen/calendar_widgets/moodle_calendar_url_widget.dart';
+import 'package:mi_campus_app/screens/home_screen/home_widgets/dashboard_widget.dart';
+import 'package:mi_campus_app/screens/home_screen/home_widgets/profile_picture_widget.dart';
+import 'package:mi_campus_app/screens/home_screen/perfil_widgets/perfil_widget.dart';
+import 'package:mi_campus_app/widgets/error_state_widget.dart';
+import 'package:mi_campus_app/widgets/loading_state_widget.dart';
+import 'package:mi_campus_app/widgets/session_expired_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

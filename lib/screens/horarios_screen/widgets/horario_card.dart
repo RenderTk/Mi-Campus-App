@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mi_campus_app/models/seccion_curso.dart';
+import 'package:mi_campus_app/utils/helper_functions.dart';
+import 'package:mi_campus_app/widgets/labeled_badge.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:usap_mobile/models/seccion_curso.dart';
-import 'package:usap_mobile/utils/helper_functions.dart';
-import 'package:usap_mobile/widgets/labeled_badge.dart';
 
 class HorarioCard extends StatelessWidget {
   const HorarioCard({

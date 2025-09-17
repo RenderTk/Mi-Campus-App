@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/student.dart';
+import 'package:mi_campus_app/models/student.dart';
 
 String toTitleCase(String text) {
   if (text.isEmpty) return text;
@@ -52,27 +52,36 @@ class StudentCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "${studentNames[0]} ${studentNames[studentNames.length - 1]}",
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 5),
-                    Text(student.user.email),
-                    const SizedBox(height: 2),
                     Row(
                       children: [
                         Icon(
-                          Icons.school_outlined,
-                          size: 15,
+                          Icons.person,
                           color: Theme.of(context).colorScheme.tertiary,
                         ),
-                        const SizedBox(width: 5),
+                        const SizedBox(width: 10),
                         Text(
-                          "Universidad de San Pedro Sula",
-                          style: Theme.of(context).textTheme.bodySmall,
+                          "${studentNames[0]} ${studentNames[studentNames.length - 1]}",
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ],
                     ),
+                    // const SizedBox(height: 5),
+                    // Text(student.user.email),
+                    // const SizedBox(height: 2),
+                    // Row(
+                    //   children: [
+                    //     Icon(
+                    //       Icons.school_outlined,
+                    //       size: 15,
+                    //       color: Theme.of(context).colorScheme.tertiary,
+                    //     ),
+                    //     const SizedBox(width: 5),
+                    //     Text(
+                    //       "Universidad de San Pedro Sula",
+                    //       style: Theme.of(context).textTheme.bodySmall,
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ],

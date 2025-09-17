@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/calificacion_curso.dart';
-import 'package:usap_mobile/widgets/labeled_badge.dart';
+import 'package:mi_campus_app/models/calificacion_curso.dart';
+import 'package:mi_campus_app/widgets/labeled_badge.dart';
 
 class CalificacionCard extends StatelessWidget {
   const CalificacionCard({super.key, required this.calificacion});

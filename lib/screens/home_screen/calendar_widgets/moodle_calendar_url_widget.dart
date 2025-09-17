@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
-import 'package:usap_mobile/models/calendar_event.dart';
-import 'package:usap_mobile/providers/calendar_events_provider.dart';
-import 'package:usap_mobile/providers/calendar_navigation_provider.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/student_data_service.dart';
-import 'package:usap_mobile/utils/ics_parser.dart';
-import 'package:usap_mobile/utils/snackbar_helper.dart';
-import 'package:usap_mobile/widgets/error_state_widget.dart';
-import 'package:usap_mobile/screens/home_screen/calendar_widgets/calendar_widget.dart';
-import 'package:usap_mobile/widgets/loading_state_widget.dart';
-import 'package:usap_mobile/widgets/session_expired_widget.dart';
+import 'package:mi_campus_app/exceptions/token_refresh_failed_exception.dart';
+import 'package:mi_campus_app/models/calendar_event.dart';
+import 'package:mi_campus_app/providers/calendar_events_provider.dart';
+import 'package:mi_campus_app/providers/calendar_navigation_provider.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/screens/home_screen/calendar_widgets/calendar_widget.dart';
+import 'package:mi_campus_app/services/student_data_service.dart';
+import 'package:mi_campus_app/utils/ics_parser.dart';
+import 'package:mi_campus_app/utils/snackbar_helper.dart';
+import 'package:mi_campus_app/widgets/error_state_widget.dart';
+import 'package:mi_campus_app/widgets/loading_state_widget.dart';
+import 'package:mi_campus_app/widgets/session_expired_widget.dart';
 
 class MoodleCalendarUrlWidget extends ConsumerStatefulWidget {
   const MoodleCalendarUrlWidget({super.key});

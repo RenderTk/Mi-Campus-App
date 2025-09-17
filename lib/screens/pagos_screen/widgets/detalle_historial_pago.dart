@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/historial_pago.dart';
-import 'package:usap_mobile/utils/helper_functions.dart';
+import 'package:mi_campus_app/models/historial_pago.dart';
+import 'package:mi_campus_app/utils/helper_functions.dart';
 
 class DetalleHistorialPago extends StatelessWidget {
   const DetalleHistorialPago({super.key, required this.historialPago});

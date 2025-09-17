@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/pago_pendiente.dart';
-import 'package:usap_mobile/screens/pagos_screen/widgets/detalle_pago_pendiente.dart';
-import 'package:usap_mobile/widgets/labeled_badge.dart';
+import 'package:mi_campus_app/models/pago_pendiente.dart';
+import 'package:mi_campus_app/screens/pagos_screen/widgets/detalle_pago_pendiente.dart';
+import 'package:mi_campus_app/widgets/labeled_badge.dart';
 
 String getMsgEstatusPago(PagoPendiente pagoPendiente) {
   if (pagoPendiente.venceHoy) {

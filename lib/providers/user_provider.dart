@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
-import 'package:usap_mobile/models/user.dart';
-import 'package:usap_mobile/services/secure_credential_storage_service.dart';
+import 'package:mi_campus_app/exceptions/token_refresh_failed_exception.dart';
+import 'package:mi_campus_app/models/user.dart';
+import 'package:mi_campus_app/services/secure_credential_storage_service.dart';
 
 class UserNotifier extends AsyncNotifier<User?> {
   @override

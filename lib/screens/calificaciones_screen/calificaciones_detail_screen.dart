@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/calificacion_curso.dart';
-import 'package:usap_mobile/screens/calificaciones_screen/widgets/calificacion_card.dart';
-import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
+import 'package:mi_campus_app/models/calificacion_curso.dart';
+import 'package:mi_campus_app/screens/calificaciones_screen/widgets/calificacion_card.dart';
+import 'package:mi_campus_app/widgets/scrollable_segmented_buttons.dart';
 
 class CalificacionesDetailScreen extends StatefulWidget {
   const CalificacionesDetailScreen({

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:usap_mobile/models/token.dart';
+import 'package:mi_campus_app/models/token.dart';
 
 const String tokenUrl = "generar_token";
 const String renovarTokenUrl = "renovar_token";

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/models/matricula.dart';
-import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/matricula_data_service.dart';
+import 'package:mi_campus_app/models/matricula.dart';
+import 'package:mi_campus_app/providers/student_provider.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/services/matricula_data_service.dart';
 
 class MatriculaNotifier extends AsyncNotifier<List<Matricula>> {
   final MatriculaDataService _matriculaDataService = MatriculaDataService();

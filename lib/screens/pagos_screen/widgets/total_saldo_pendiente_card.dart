@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mi_campus_app/providers/pagos_pendientes_provider.dart';
+import 'package:mi_campus_app/utils/helper_functions.dart';
+import 'package:mi_campus_app/widgets/cards/warning_card.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:usap_mobile/providers/pagos_pendientes_provider.dart';
-import 'package:usap_mobile/widgets/cards/warning_card.dart';
-import 'package:usap_mobile/utils/helper_functions.dart';
 
 Future<void> _launchSigaUrl() async {
   await launchUrl(

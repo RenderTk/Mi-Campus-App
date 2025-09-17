@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:usap_mobile/models/token.dart';
+import 'package:mi_campus_app/models/token.dart';
 
 class SecureCredentialStorageService {
   static const _storage = FlutterSecureStorage(

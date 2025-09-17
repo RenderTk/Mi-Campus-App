@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/providers/historial_pago_provider.dart';
-import 'package:usap_mobile/screens/pagos_screen/widgets/dropdown_buttons_periodo_and_year.dart';
-import 'package:usap_mobile/utils/helper_functions.dart';
+import 'package:mi_campus_app/providers/historial_pago_provider.dart';
+import 'package:mi_campus_app/screens/pagos_screen/widgets/dropdown_buttons_periodo_and_year.dart';
+import 'package:mi_campus_app/utils/helper_functions.dart';
 
 class HistorialPagosFilters extends ConsumerStatefulWidget {
   const HistorialPagosFilters({super.key});

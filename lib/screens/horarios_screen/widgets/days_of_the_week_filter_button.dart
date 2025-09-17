@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:usap_mobile/providers/selected_day_of_the_week_provider.dart';
+import 'package:mi_campus_app/providers/selected_day_of_the_week_provider.dart';
 
 class DaysOfTheWeekFilterButton extends ConsumerWidget {
   const DaysOfTheWeekFilterButton({super.key});

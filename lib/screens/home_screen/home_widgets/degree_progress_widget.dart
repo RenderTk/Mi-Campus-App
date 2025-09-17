@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/student.dart';
+import 'package:mi_campus_app/models/student.dart';
 
 class DegreeProgressWidget extends StatelessWidget {
   const DegreeProgressWidget({super.key, required this.student});

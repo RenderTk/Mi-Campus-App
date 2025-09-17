@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/models/matricula.dart';
-import 'package:usap_mobile/models/student.dart';
-import 'package:usap_mobile/providers/matricula_provider.dart';
-import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/screens/materias_correquisito_screen/materias_correquisito_screen.dart';
-import 'package:usap_mobile/services/matricula_data_service.dart';
-import 'package:usap_mobile/utils/snackbar_helper.dart';
-import 'package:usap_mobile/screens/materias_screen/widgets/materia_card.dart';
-import 'package:usap_mobile/widgets/scrollable_segmented_buttons.dart';
+import 'package:mi_campus_app/models/matricula.dart';
+import 'package:mi_campus_app/models/student.dart';
+import 'package:mi_campus_app/providers/matricula_provider.dart';
+import 'package:mi_campus_app/providers/student_provider.dart';
+import 'package:mi_campus_app/screens/materias_correquisito_screen/materias_correquisito_screen.dart';
+import 'package:mi_campus_app/screens/materias_screen/widgets/materia_card.dart';
+import 'package:mi_campus_app/services/matricula_data_service.dart';
+import 'package:mi_campus_app/utils/snackbar_helper.dart';
+import 'package:mi_campus_app/widgets/scrollable_segmented_buttons.dart';
 
 class MateriasDetailScreen extends ConsumerStatefulWidget {
   const MateriasDetailScreen({

@@ -1,7 +1,7 @@
 import 'package:logger/web.dart';
+import 'package:mi_campus_app/models/calendar_event.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:usap_mobile/models/calendar_event.dart';
 
 class DbService {
   static Database? _db;

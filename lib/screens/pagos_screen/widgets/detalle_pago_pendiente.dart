@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/pago_pendiente.dart';
-import 'package:usap_mobile/utils/helper_functions.dart';
+import 'package:mi_campus_app/models/pago_pendiente.dart';
+import 'package:mi_campus_app/utils/helper_functions.dart';
 
 class DetallePagoPendiente extends StatelessWidget {
   const DetallePagoPendiente({super.key, required this.pagoPendiente});

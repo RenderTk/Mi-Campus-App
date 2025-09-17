@@ -1,7 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:usap_mobile/models/pago_pendiente_detalle.dart';
+import 'package:mi_campus_app/models/pago_pendiente_detalle.dart';
 
 part 'pago_pendiente.g.dart';
 

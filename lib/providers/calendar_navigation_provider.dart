@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/providers/calendar_events_provider.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/db_service.dart';
+import 'package:mi_campus_app/providers/calendar_events_provider.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/services/db_service.dart';
 
 class CalendarNavigationProvider extends AsyncNotifier<bool> {
   final dbService = DbService();

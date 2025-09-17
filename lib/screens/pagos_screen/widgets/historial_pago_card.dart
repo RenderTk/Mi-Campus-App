@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/historial_pago.dart';
-import 'package:usap_mobile/screens/pagos_screen/widgets/detalle_historial_pago.dart';
-import 'package:usap_mobile/utils/helper_functions.dart';
-import 'package:usap_mobile/widgets/labeled_badge.dart';
+import 'package:mi_campus_app/models/historial_pago.dart';
+import 'package:mi_campus_app/screens/pagos_screen/widgets/detalle_historial_pago.dart';
+import 'package:mi_campus_app/utils/helper_functions.dart';
+import 'package:mi_campus_app/widgets/labeled_badge.dart';
 
 class HistorialPagoCard extends StatelessWidget {
   const HistorialPagoCard({super.key, required this.historialPago});

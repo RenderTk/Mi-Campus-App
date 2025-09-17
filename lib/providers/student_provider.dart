@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/models/calificacion_curso.dart';
-import 'package:usap_mobile/models/carrera.dart';
-import 'package:usap_mobile/models/seccion_curso.dart';
-import 'package:usap_mobile/models/student.dart';
-import 'package:usap_mobile/models/user.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/student_data_service.dart';
+import 'package:mi_campus_app/models/calificacion_curso.dart';
+import 'package:mi_campus_app/models/carrera.dart';
+import 'package:mi_campus_app/models/seccion_curso.dart';
+import 'package:mi_campus_app/models/student.dart';
+import 'package:mi_campus_app/models/user.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/services/student_data_service.dart';
 
 class StudentNotifier extends AsyncNotifier<Student> {
   final studentDataService = StudentDataService();

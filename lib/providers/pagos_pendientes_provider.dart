@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/models/pago_pendiente.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/payments_data_service.dart';
+import 'package:mi_campus_app/models/pago_pendiente.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/services/payments_data_service.dart';
 
 class PagosPendientesNotifier extends AsyncNotifier<List<PagoPendiente>> {
   final _paymentsService = PaymentsDataService();

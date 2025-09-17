@@ -1,5 +1,5 @@
 import 'package:icalendar_parser/icalendar_parser.dart';
-import 'package:usap_mobile/models/calendar_event.dart';
+import 'package:mi_campus_app/models/calendar_event.dart';
 
 class IcsParser {
   static final IcsParser _instance = IcsParser._internal();

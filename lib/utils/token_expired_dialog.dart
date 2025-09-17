@@ -2,8 +2,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' show WidgetRef;
-import 'package:usap_mobile/providers/user_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
 
 void showTokenExpiredDialog(BuildContext context, WidgetRef ref) {
   showDialog(

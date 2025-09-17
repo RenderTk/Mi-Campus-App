@@ -1,5 +1,5 @@
-import 'package:usap_mobile/models/matricula.dart';
-import 'package:usap_mobile/services/dio_service.dart';
+import 'package:mi_campus_app/models/matricula.dart';
+import 'package:mi_campus_app/services/dio_service.dart';
 
 const String ofertaMatriculaUrl =
     "matricula/oferta/{codigo_alumno1}/{codigo_alumno2}/1";

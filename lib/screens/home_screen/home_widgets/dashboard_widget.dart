@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/home_screen/home_widgets/quick_access_widget.dart';
-import 'package:usap_mobile/screens/home_screen/home_widgets/rendimiento_academico_card.dart';
-import 'package:usap_mobile/screens/home_screen/perfil_widgets/degree_progress_plus_widget.dart';
+import 'package:mi_campus_app/providers/student_provider.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/screens/home_screen/home_widgets/quick_access_widget.dart';
+import 'package:mi_campus_app/screens/home_screen/home_widgets/rendimiento_academico_card.dart';
+import 'package:mi_campus_app/screens/home_screen/perfil_widgets/degree_progress_plus_widget.dart';
 
 class DashboardWidget extends ConsumerWidget {
   const DashboardWidget({super.key});

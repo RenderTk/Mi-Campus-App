@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
-import 'package:usap_mobile/providers/student_provider.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/services/auth_service.dart';
-import 'package:usap_mobile/services/dio_service.dart';
-import 'package:usap_mobile/services/secure_credential_storage_service.dart';
+import 'package:mi_campus_app/exceptions/token_refresh_failed_exception.dart';
+import 'package:mi_campus_app/providers/student_provider.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/services/auth_service.dart';
+import 'package:mi_campus_app/services/dio_service.dart';
+import 'package:mi_campus_app/services/secure_credential_storage_service.dart';
 
 class ChangePasswordDialog extends ConsumerStatefulWidget {
   const ChangePasswordDialog({super.key});

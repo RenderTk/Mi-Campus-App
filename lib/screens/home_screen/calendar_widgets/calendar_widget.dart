@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mi_campus_app/exceptions/token_refresh_failed_exception.dart';
+import 'package:mi_campus_app/models/calendar_event.dart';
+import 'package:mi_campus_app/providers/calendar_events_provider.dart';
+import 'package:mi_campus_app/providers/calendar_navigation_provider.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/screens/home_screen/calendar_widgets/event_card.dart';
+import 'package:mi_campus_app/widgets/error_state_widget.dart';
+import 'package:mi_campus_app/widgets/loading_state_widget.dart';
+import 'package:mi_campus_app/widgets/session_expired_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
-import 'package:usap_mobile/models/calendar_event.dart';
-import 'package:usap_mobile/providers/calendar_events_provider.dart';
-import 'package:usap_mobile/providers/calendar_navigation_provider.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/home_screen/calendar_widgets/event_card.dart';
-import 'package:usap_mobile/widgets/error_state_widget.dart';
-import 'package:usap_mobile/widgets/loading_state_widget.dart';
-import 'package:usap_mobile/widgets/session_expired_widget.dart';
 
 class CalendarWidget extends ConsumerStatefulWidget {
   const CalendarWidget({super.key});

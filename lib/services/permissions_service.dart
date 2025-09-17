@@ -1,5 +1,5 @@
-import 'package:usap_mobile/models/pantalla_bloqueada.dart';
-import 'package:usap_mobile/services/dio_service.dart';
+import 'package:mi_campus_app/models/pantalla_bloqueada.dart';
+import 'package:mi_campus_app/services/dio_service.dart';
 
 String pantallasBloqueadasUrl = 'Obtener_paginas_bloqueo/{codigo_alumno}/2';
 

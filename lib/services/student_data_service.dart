@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:usap_mobile/models/calificacion_curso.dart';
-import 'package:usap_mobile/models/carrera.dart';
-import 'package:usap_mobile/models/seccion_curso.dart';
-import 'package:usap_mobile/services/dio_service.dart';
-import 'package:usap_mobile/services/secure_credential_storage_service.dart';
+import 'package:mi_campus_app/models/calificacion_curso.dart';
+import 'package:mi_campus_app/models/carrera.dart';
+import 'package:mi_campus_app/models/seccion_curso.dart';
+import 'package:mi_campus_app/services/dio_service.dart';
+import 'package:mi_campus_app/services/secure_credential_storage_service.dart';
 
 final DateFormat formatter = DateFormat('yyyy-MM-dd');
 

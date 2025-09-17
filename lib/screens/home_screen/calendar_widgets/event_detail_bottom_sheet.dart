@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/calendar_event.dart';
+import 'package:mi_campus_app/models/calendar_event.dart';
 
 class EventDetailBottomSheet extends StatelessWidget {
   const EventDetailBottomSheet({super.key, required this.event});

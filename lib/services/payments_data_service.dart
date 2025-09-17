@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
-import 'package:usap_mobile/models/historial_pago.dart';
-import 'package:usap_mobile/models/pago_pendiente.dart';
-import 'package:usap_mobile/models/pago_pendiente_detalle.dart';
-import 'package:usap_mobile/services/dio_service.dart';
+import 'package:mi_campus_app/models/historial_pago.dart';
+import 'package:mi_campus_app/models/pago_pendiente.dart';
+import 'package:mi_campus_app/models/pago_pendiente_detalle.dart';
+import 'package:mi_campus_app/services/dio_service.dart';
 
 const String historialPagosUrl =
     "HistoricoPago_Alumno/obtener_historico_pago/{fecha_inicio}/{fecha_final}/{codigo_alumno}";

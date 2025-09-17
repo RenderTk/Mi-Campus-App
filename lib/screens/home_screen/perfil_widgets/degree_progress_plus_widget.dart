@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:usap_mobile/models/student.dart';
+import 'package:mi_campus_app/models/student.dart';
 
 class DegreeProgressPlusWidget extends StatelessWidget {
   const DegreeProgressPlusWidget({super.key, required this.student});

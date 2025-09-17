@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:usap_mobile/models/matricula.dart';
-import 'package:usap_mobile/services/matricula_data_service.dart';
+import 'package:mi_campus_app/models/matricula.dart';
+import 'package:mi_campus_app/services/matricula_data_service.dart';
 
 // Create a record type to hold the parameters
 typedef MatriculaCorrequisitoParams = ({

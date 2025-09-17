@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:usap_mobile/exceptions/token_refresh_failed_exception.dart';
-import 'package:usap_mobile/providers/historial_pago_provider.dart';
-import 'package:usap_mobile/providers/pagos_pendientes_provider.dart';
-import 'package:usap_mobile/providers/user_provider.dart';
-import 'package:usap_mobile/screens/pagos_screen/widgets/historial_pagos_filter.dart';
-import 'package:usap_mobile/screens/pagos_screen/widgets/historial_pagos_widegt.dart';
-import 'package:usap_mobile/screens/pagos_screen/widgets/pagos_buttons.dart';
-import 'package:usap_mobile/screens/pagos_screen/widgets/pagos_pendientes_widget.dart';
-import 'package:usap_mobile/screens/pagos_screen/widgets/total_saldo_pendiente_card.dart';
-import 'package:usap_mobile/widgets/session_expired_widget.dart';
+import 'package:mi_campus_app/exceptions/token_refresh_failed_exception.dart';
+import 'package:mi_campus_app/providers/historial_pago_provider.dart';
+import 'package:mi_campus_app/providers/pagos_pendientes_provider.dart';
+import 'package:mi_campus_app/providers/user_provider.dart';
+import 'package:mi_campus_app/screens/pagos_screen/widgets/historial_pagos_filter.dart';
+import 'package:mi_campus_app/screens/pagos_screen/widgets/historial_pagos_widegt.dart';
+import 'package:mi_campus_app/screens/pagos_screen/widgets/pagos_buttons.dart';
+import 'package:mi_campus_app/screens/pagos_screen/widgets/pagos_pendientes_widget.dart';
+import 'package:mi_campus_app/screens/pagos_screen/widgets/total_saldo_pendiente_card.dart';
+import 'package:mi_campus_app/widgets/session_expired_widget.dart';
 
 class PagosScreen extends ConsumerStatefulWidget {
   const PagosScreen({super.key});
