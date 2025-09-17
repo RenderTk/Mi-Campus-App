@@ -5,6 +5,7 @@ import 'package:mi_campus_app/services/local_auth_service.dart';
 import 'package:mi_campus_app/utils/email_validator.dart';
 import 'package:mi_campus_app/utils/error_helper.dart';
 import 'package:mi_campus_app/utils/snackbar_helper.dart';
+import 'package:mi_campus_app/widgets/cards/warning_card.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -190,10 +191,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 30),
                   if (showBiometricButton) _buildBiometricLoginButton(),
                   const SizedBox(height: 20),
-                  // TextButton(
-                  //   onPressed: () {},
-                  //   child: const Text("¿Olvidaste tu contraseña?"),
-                  // ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    child: WarningCard(
+                      title: "Aviso Importante",
+                      message:
+                          "Esta app es NO OFICIAL. No está afiliada ni respaldada por la Universidad de San Pedro Sula. Fue creada de manera independiente por estudiantes con fines academicos y educativos.",
+                    ),
+                  ),
                 ],
               ),
             ),
