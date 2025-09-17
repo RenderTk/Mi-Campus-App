@@ -188,9 +188,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   _buildPasswordTextFormField(),
                   const SizedBox(height: 30),
                   _buildLoginButton(),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 10),
                   if (showBiometricButton) _buildBiometricLoginButton(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     child: WarningCard(
